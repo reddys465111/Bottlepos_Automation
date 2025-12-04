@@ -1,0 +1,207 @@
+import { Locator, Page } from "@playwright/test";
+import { InfoBox } from "../../../objects/infobox";
+import { Dropdown } from "../../../objects/dropdown";
+import { Button } from "../../../objects/button";
+
+export class Dashboard {
+  private _locator: Locator;
+  private _body: Locator;
+  public Todays_Takings: {
+    Sales: InfoBox;
+    Refunds: InfoBox;
+    Voids: InfoBox;
+    NetSales: InfoBox;
+    Cost: InfoBox;
+    Profit: InfoBox;
+  };
+  public Stats: {
+    InventoryGrade: InfoBox;
+    MonthlyProjectedSales: InfoBox;
+    AverageMargin: InfoBox;
+    AverageTicketAmount: InfoBox;
+    AverageCustomers: InfoBox;
+    AverageRatings: InfoBox;
+  };
+  public DateFilter: {
+    Open: Locator;
+    Display: Locator;
+    Picker: Locator;
+    Option: (label: string) => Locator;
+  };
+
+  public TopRankItems:{
+    RankButton: Button
+    RankDropdown: Dropdown
+  }
+  public SalesGraph : {
+    RangeButton: Button
+    RangeDropdown: Dropdown
+  }
+  public SalesStats : {
+    PieRange: Button
+    PieRank: Button
+    PieRankDropdown: Dropdown
+    PieRangeDropdown: Dropdown
+  }
+  public InventroryStats:{
+    PieInRank: Button
+    PieInRankDropdown: Dropdown
+  }
+  public RankDropdown: {
+    Open: Locator;
+    Option: (rank: string) => Locator;
+  };
+
+  public PopularItems: {
+    TableBody: Locator;
+    Rows: Locator;
+    Headers: Locator;
+    HasData: () => Promise<boolean>;
+    GetHeaders: () => Promise<string[]>;
+    GetRows: () => Promise<
+      Array<{ name: string; quantity: string; value: string }>
+    >;
+    GetTitles: () => Promise<string[]>;
+  };
+
+  constructor(page: Page) {
+    this._locator = page.locator("#maincontent");
+    this._body = page.locator("body");
+    this.Todays_Takings = {
+      Sales: new InfoBox(this._locator.locator(".infobox-sales")),
+      Refunds: new InfoBox(this._locator.locator(".infobox-refunds")),
+      Voids: new InfoBox(this._locator.locator(".infobox-voids")),
+      NetSales: new InfoBox(this._locator.locator(".infobox-takings")),
+      Cost: new InfoBox(this._locator.locator("#cost")),
+      Profit: new InfoBox(this._locator.locator("#profit")),
+    };
+    this.TopRankItems = {
+        RankButton: new Button(this._locator.locator('#rank')),
+        RankDropdown: new Dropdown(this._locator.locator('#rankvalues'))
+    };
+   this.SalesGraph = {
+    RangeButton: new Button(this._locator.locator('button:has(span#grange)')),
+    RangeDropdown: new Dropdown(this._locator.locator('button:has(span#grange)'))
+    
+};
+
+this.SalesStats = {
+    // PieRange: new Button(this._locator.locator('button:has(span#pierange)')),
+    PieRange: new Button(this._locator.locator('button:has(#pierange)')),
+
+    PieRank: new Button(this._locator.locator('button:has(span#pietype)')),
+
+    // FIXED ↓ DROP-DOWNS
+    PieRangeDropdown: new Dropdown(this._locator.locator('#pierangevalues')),
+    PieRankDropdown: new Dropdown(this._locator.locator('#pietypevalues')),
+};
+
+this.InventroryStats = {
+    PieInRank: new Button(this._locator.locator('button:has(span#pietypeIn)')),
+    PieInRankDropdown: new Dropdown(this._locator.locator('#pietypevaluesIn'))
+};
+
+
+    this.Stats = {
+      InventoryGrade: new InfoBox(this._locator.locator("#inventoryscore")),
+      MonthlyProjectedSales: new InfoBox(
+        this._locator.locator("#monthlyprojection")
+      ),
+      AverageMargin: new InfoBox(this._locator.locator("#averagemargin")),
+      AverageTicketAmount: new InfoBox(
+        this._locator.locator("#averageticketamount")
+      ),
+      AverageCustomers: new InfoBox(this._locator.locator("#averagecustomers")),
+      AverageRatings: new InfoBox(
+        this._locator.locator("#averageawesomerating")
+      ),
+    };
+
+    this.DateFilter = {
+      Open: this._locator.locator("button:has(span#pierange)"),
+      Display: this._body.locator("#pierange"),
+      Picker: this._body.locator(".daterangepicker:visible"),
+      Option: (label: string) =>
+        this._body.locator(
+          `.daterangepicker:visible li[data-range-key="${label}"]`
+        ),
+    };
+    this.RankDropdown = {
+      Open: this._locator.locator("button:has(span#rank)"),
+      Option: (rank: string) =>
+        this._locator.locator(`#rankvalues li[value="${rank}"]`),
+    };
+
+    this.PopularItems = {
+      TableBody: this._locator.locator("tbody#popularitems"),
+      Rows: this._locator.locator("tbody#popularitems tr"),
+      Headers: this._locator.locator("table thead th"),
+
+      HasData: async () => {
+        try {
+          await this.PopularItems.TableBody.waitFor({
+            state: "visible",
+            timeout: 5000,
+          });
+          await this.PopularItems.Rows.first().waitFor({ timeout: 5000 });
+          return (await this.PopularItems.Rows.count()) > 0;
+        } catch {
+          return false;
+        }
+      },
+
+      GetHeaders: async () => {
+        const headers = await this.PopularItems.Headers.allInnerTexts();
+        return headers.map((h) => h.trim());
+      },
+
+      GetRows: async () => {
+        const count = await this.PopularItems.Rows.count();
+        const data = [];
+
+        for (let i = 0; i < count; i++) {
+          const cols = this.PopularItems.Rows.nth(i).locator("td b");
+          data.push({
+            name: await cols.nth(0).innerText(),
+            quantity: await cols.nth(1).innerText(),
+            value: await cols.nth(2).innerText(),
+          });
+        }
+
+        return data;
+      },
+
+      GetTitles: async () => {
+        return await this._locator
+          .locator("#popularitems tr td:first-child b")
+          .allInnerTexts();
+      },
+    };
+  }
+
+  public async getHeader(): Promise<string> {
+    return (await this._locator.locator(".page-header").textContent()) ?? "";
+  }
+
+  public async SelectRank(rank: string): Promise<void> {
+    await this.RankDropdown.Open.click();
+    await this.RankDropdown.Option(rank).click();
+    await this.PopularItems.Rows.first().waitFor({
+      state: "visible",
+      timeout: 5000,
+    });
+  }
+
+  public async SelectDateRange(label: string): Promise<void> {
+    await this.DateFilter.Open.click();
+    await this.DateFilter.Picker.waitFor({ state: "visible", timeout: 5000 });
+    const option = this.DateFilter.Option(label);
+    await option.waitFor({ state: "visible", timeout: 3000 });
+    await option.click();
+    await this._body.page().waitForTimeout(500);
+  }
+  
+ 
+
+ 
+}

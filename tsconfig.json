@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "ES2021", // Target ECMAScript version
+        "module": "commonjs", // Module system
+        "outDir": "./dist", // Output directory for compiled JavaScript files
+        "sourceMap": true, // Generate source maps for debugging
+        "esModuleInterop": true, // Enable interoperability with CommonJS modules
+        "forceConsistentCasingInFileNames": true, // Enforce consistent casing in file names
+        "strict": true, // Enable strict type checking
+        "skipLibCheck": true, // Skip type checking for library declarations
+    }
+}

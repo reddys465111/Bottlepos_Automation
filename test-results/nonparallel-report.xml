@@ -1,0 +1,1040 @@
+<testsuites id="" name="" tests="83" failures="0" skipped="3" errors="0" time="1825.027957">
+<testsuite name="desktop\regression\ADMIN\admin_additionalFees.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="3" failures="0" skipped="0" time="64.724" errors="0">
+<testcase name="ADMIN - Additional Fees › [C8251] Create a new additional fee" classname="desktop\regression\ADMIN\admin_additionalFees.spec.ts" time="22.738">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="ADMIN - Additional Fees › [C8245] Verify Additional Fees edit functionality" classname="desktop\regression\ADMIN\admin_additionalFees.spec.ts" time="23.702">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[Session cookie set: PHPSESSID=5i657h9ggralj7f7bvi97akham
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="ADMIN - Additional Fees › [C8246] Verify Additional Fees delete functionality" classname="desktop\regression\ADMIN\admin_additionalFees.spec.ts" time="18.284">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\ADMIN\admin_bottleDeposit.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="8" failures="0" skipped="0" time="197.825" errors="0">
+<testcase name="ADMIN - Bottle Deposit › [C8236] Verify Bottle Deposit table Edit/Delete functionality" classname="desktop\regression\ADMIN\admin_bottleDeposit.spec.ts" time="10.549">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[Creating Bottle Deposit item: "489PK"
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="ADMIN - Bottle Deposit › [C8238] Verify Bottle Deposit Delete functionality" classname="desktop\regression\ADMIN\admin_bottleDeposit.spec.ts" time="45.818">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="ADMIN - Bottle Deposit › [C8239] Verify Bottle Deposit Table sorting" classname="desktop\regression\ADMIN\admin_bottleDeposit.spec.ts" time="70.434">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="ADMIN - Bottle Deposit › [C8240] Verify Bottle Deposit Table search" classname="desktop\regression\ADMIN\admin_bottleDeposit.spec.ts" time="10.508">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="ADMIN - Bottle Deposit › [C8241] Verify Bottle Deposit Table pagination" classname="desktop\regression\ADMIN\admin_bottleDeposit.spec.ts" time="16.265">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="ADMIN - Bottle Deposit › [C8243] Verify Add Bottle Deposit functionality in Admin portal" classname="desktop\regression\ADMIN\admin_bottleDeposit.spec.ts" time="22.327">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="ADMIN - Bottle Deposit › [C8237] Verify Edit Bottle Deposit functionality in Admin portal" classname="desktop\regression\ADMIN\admin_bottleDeposit.spec.ts" time="11.215">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Bootle deposit Item adding to search field "415PK"
+]]>
+</system-out>
+</testcase>
+<testcase name="ADMIN - Bottle Deposit › [C8261] Verify Bottle Deposit Return Amount field accepts input" classname="desktop\regression\ADMIN\admin_bottleDeposit.spec.ts" time="10.709">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\ADMIN\admin_dualPricing_nca.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="1" failures="0" skipped="0" time="10.181" errors="0">
+<testcase name="Admin Test Cases Dual Pricing and nca › [C8262 Verify NCA/Dual Pricing settings]" classname="desktop\regression\ADMIN\admin_dualPricing_nca.spec.ts" time="10.181">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\ADMIN\admin_invoice.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="3" failures="0" skipped="0" time="56.936" errors="0">
+<testcase name="Admin Section - Receive › Edit Non-Finalized Invoice › [C5998] Verify item quantity update after finalize" classname="desktop\regression\ADMIN\admin_invoice.spec.ts" time="17.901">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="Admin Section - Receive › Edit Non-Finalized Invoice › [C6005] Verify Units Per Case update" classname="desktop\regression\ADMIN\admin_invoice.spec.ts" time="19.706">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="Admin Section - Receive › Edit Non-Finalized Invoice › [C6006] Verify item cost updates correctly" classname="desktop\regression\ADMIN\admin_invoice.spec.ts" time="19.329">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\ADMIN\admin_taxItems.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="3" failures="0" skipped="0" time="75.704" errors="0">
+<testcase name="Admin Section - Tax Items › [C8235] Add new Tax Items in admin portal" classname="desktop\regression\ADMIN\admin_taxItems.spec.ts" time="22.275">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="Admin Section - Tax Items › [C8232] Edit Tax Items in admin portal" classname="desktop\regression\ADMIN\admin_taxItems.spec.ts" time="22.99">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="Admin Section - Tax Items › [C8233] Delete Tax Items in admin portal" classname="desktop\regression\ADMIN\admin_taxItems.spec.ts" time="30.439">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\ADMIN\admin_taxRules.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="3" failures="0" skipped="1" time="53.842" errors="0">
+<testcase name="ADMIN - Accounting Settings - Tax Rules › [C8229] Create a new tax rule" classname="desktop\regression\ADMIN\admin_taxRules.spec.ts" time="22.989">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="ADMIN - Accounting Settings - Tax Rules › [C8230] Edit an existing tax rule" classname="desktop\regression\ADMIN\admin_taxRules.spec.ts" time="0">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="ADMIN - Accounting Settings - Tax Rules › [C8226] Verify tax rule is deleted" classname="desktop\regression\ADMIN\admin_taxRules.spec.ts" time="30.853">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\POS\bottleDeposit.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="1" failures="0" skipped="0" time="46.986" errors="0">
+<testcase name="POS- Bottle Deposit › [C4175] Verify Bottle Deposit amount in Reports" classname="desktop\regression\POS\bottleDeposit.spec.ts" time="46.986">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|desktop-regression-POS-bot-2789f-e-Deposit-amount-in-Reports-chromium\error-context.md]]
+
+[[ATTACHMENT|desktop-regression-POS-bot-2789f-e-Deposit-amount-in-Reports-chromium-retry1\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\POS\cash_Offline.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="2" failures="0" skipped="0" time="67.946" errors="0">
+<testcase name="Tests related to offline cash sales › [CNAN-5]Verify transaction status in offline mode" classname="desktop\regression\POS\cash_Offline.spec.ts" time="24.134">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[Session cookie set: PHPSESSID=r301dkh2324jien4q4pucfdguk
+Loading Accounting Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="Tests related to offline cash sales › [CNAN]Verify Suspend and Recall with offline transactions" classname="desktop\regression\POS\cash_Offline.spec.ts" time="43.812">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading POS Settings
+No new session cookie - likely reusing existing session
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\POS\CustomerScreen.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="2" failures="0" skipped="0" time="19.304" errors="0">
+<testcase name="CustomerScreen Workflow › [C4570] Verify Customer Screen displays correct grand total and item count" classname="desktop\regression\POS\CustomerScreen.spec.ts" time="9.721">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="CustomerScreen Workflow › [RP-1602] Verify customer Screen updated tax correctly with regsiter Screen" classname="desktop\regression\POS\CustomerScreen.spec.ts" time="9.583">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\POS\discount_promotions.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="2" failures="0" skipped="0" time="44.524" errors="0">
+<testcase name="TestRail POS Test Cases Discount, Promotions and coupons › [C4028] Verify coupon correctly applies without additional tax in Day Report" classname="desktop\regression\POS\discount_promotions.spec.ts" time="17.784">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="TestRail POS Test Cases Discount, Promotions and coupons › [C4013] Net Sales calculation to accurately deduct coupon discounts, so that the Report generates accurate tender amount in real time" classname="desktop\regression\POS\discount_promotions.spec.ts" time="26.74">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\POS\dualPricing_nca.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="7" failures="0" skipped="0" time="245.618" errors="0">
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4037] Verify checkout Dual price calculation" classname="desktop\regression\POS\dualPricing_nca.spec.ts" time="12.801">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4149] Verify Dual Pricing amounts are reflected in Summary Report for Card Sales" classname="desktop\regression\POS\dualPricing_nca.spec.ts" time="72.276">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4185] Verify Dual Pricing amount is included in Card Sales" classname="desktop\regression\POS\dualPricing_nca.spec.ts" time="23.582">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4186] Verify DP amount is included in Additional Card Fee on Summary Report" classname="desktop\regression\POS\dualPricing_nca.spec.ts" time="22.719">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4187] Verify Dual Price Total Tendered matches in Day Report" classname="desktop\regression\POS\dualPricing_nca.spec.ts" time="39.294">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4568] Verify DP amount is excluded from Hourly Sales in Day Report" classname="desktop\regression\POS\dualPricing_nca.spec.ts" time="23.748">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4188] Verify refund of completed sale includes Dual Pricing amount" classname="desktop\regression\POS\dualPricing_nca.spec.ts" time="51.198">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\POS\nonCashAdjust.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="6" failures="0" skipped="1" time="186.042" errors="0">
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4189] Verify Gross Sales excludes NCA amount when sale is made with card using NCA" classname="desktop\regression\POS\nonCashAdjust.spec.ts" time="55.967">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4190] Verify Card Sales exclude NCA amount when sale is made with card using NCA" classname="desktop\regression\POS\nonCashAdjust.spec.ts" time="22.778">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4204] Verify NCA Total Tendered matches in Day Report" classname="desktop\regression\POS\nonCashAdjust.spec.ts" time="33.325">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4567] Verify NCA amount is excluded from Hourly Sales in Day Report" classname="desktop\regression\POS\nonCashAdjust.spec.ts" time="23.494">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4148] Verify NCA exclusion by Admin category" classname="desktop\regression\POS\nonCashAdjust.spec.ts" time="0">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="TestRail POS Test Cases Dual Pricing and nca › [C4191] Verify refunded sale with NCA includes full NCA amount" classname="desktop\regression\POS\nonCashAdjust.spec.ts" time="50.478">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\POS\pos_EBT.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="18" failures="0" skipped="1" time="217.043" errors="0">
+<testcase name="TestRail POS EBT SALES › [C2066] Verify EBT Sale disabled when not enabled" classname="desktop\regression\POS\pos_EBT.spec.ts" time="8.791">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2064] Verify EBT Sale Balance option is visible when EBT Sales is enabled" classname="desktop\regression\POS\pos_EBT.spec.ts" time="8.92">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2082] Verify EBT Balance buttons are not visible when EBT options are disabled on Mobile Register" classname="desktop\regression\POS\pos_EBT.spec.ts" time="9.203">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2085] Verify EBT Sale remains enabled after partial EBT Cash payment" classname="desktop\regression\POS\pos_EBT.spec.ts" time="0">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2087] Verify EBT Sale partial payment completion" classname="desktop\regression\POS\pos_EBT.spec.ts" time="15.808">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2170] Verify EBT Sale full payment" classname="desktop\regression\POS\pos_EBT.spec.ts" time="13.65">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2171] Verify EBT item with Card payment applies Dual Pricing" classname="desktop\regression\POS\pos_EBT.spec.ts" time="13.359">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2172] Verify EBT item with Cash payment applies Dual Pricing" classname="desktop\regression\POS\pos_EBT.spec.ts" time="10.902">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2162] Verify partial EBT Sale payment followed by Card payment applies Dual Pricing correctly" classname="desktop\regression\POS\pos_EBT.spec.ts" time="19.532">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+First payment method: ebt
+Second payment method: card
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2163] Verify EBT Sale payment does not apply Dual Pricing" classname="desktop\regression\POS\pos_EBT.spec.ts" time="13.666">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2164] Verify partial EBT Sale + Cash payment does NOT apply Dual Pricing" classname="desktop\regression\POS\pos_EBT.spec.ts" time="13.84">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+Payment Method Text: ebt
+Second Payment Method Text: cash
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2166] Verify EBT Sale payment applies Dual Pricing when enabled" classname="desktop\regression\POS\pos_EBT.spec.ts" time="13.525">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2167] Verify EBT Sale Balance deduction after transaction" classname="desktop\regression\POS\pos_EBT.spec.ts" time="13.381">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2173] Verify EBT Sale does not apply NCA" classname="desktop\regression\POS\pos_EBT.spec.ts" time="14.275">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2174] Verify EBT Sale apply NCA" classname="desktop\regression\POS\pos_EBT.spec.ts" time="14.498">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2086]Verify EBT Cash full payment" classname="desktop\regression\POS\pos_EBT.spec.ts" time="15.05">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2065]Verify EBT Cash balance check" classname="desktop\regression\POS\pos_EBT.spec.ts" time="9.488">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS EBT SALES › [C2067 Verify EBT Cash button not present on Others if diasbled in genral Settings" classname="desktop\regression\POS\pos_EBT.spec.ts" time="9.155">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\POS\tax_items.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="5" failures="0" skipped="0" time="91.613" errors="0">
+<testcase name="Tax Items › [C4176] Verify taxable additional fees in reports" classname="desktop\regression\POS\tax_items.spec.ts" time="45.583">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+
+[[ATTACHMENT|desktop-regression-POS-tax-def02--additional-fees-in-reports-chromium\error-context.md]]
+Session cookie set: PHPSESSID=83bpk08dq581cc0efn93akd02l
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+
+[[ATTACHMENT|desktop-regression-POS-tax-def02--additional-fees-in-reports-chromium-retry1\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Tax Items › [C8256-1] Verify Item with default EBT Taxes" classname="desktop\regression\POS\tax_items.spec.ts" time="10.268">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="Tax Items › [C8256-2] Verify Item with EBT category Tax" classname="desktop\regression\POS\tax_items.spec.ts" time="10.574">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="Tax Items › [C8256-3] Verify multiple EBT items and regular items" classname="desktop\regression\POS\tax_items.spec.ts" time="13.187">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="Tax Items › [C8256-4] Verify Item with EBT and dual pricing" classname="desktop\regression\POS\tax_items.spec.ts" time="12.001">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+No new session cookie - likely reusing existing session
+Loading Accounting Settings
+Loading General Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\POS\tax_reports.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="12" failures="0" skipped="0" time="316.881" errors="0">
+<testcase name="TestRail POS Test Cases Tax Reports › [C4173] verify that tax amounts are calculated and displayed correctly in reports" classname="desktop\regression\POS\tax_reports.spec.ts" time="27.614">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports › [C6172] Verify multiple exclusive taxes are applied and reported correctly in Summary Report" classname="desktop\regression\POS\tax_reports.spec.ts" time="27.566">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports › [C6173] Transaction details including the tax details to be accurate when multiple exclusive taxes are applied " classname="desktop\regression\POS\tax_reports.spec.ts" time="25.241">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports › [C6223] Verify card transaction with multiple exclusive tax reflected correctly in Reports" classname="desktop\regression\POS\tax_reports.spec.ts" time="51.869">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+
+[[ATTACHMENT|desktop-regression-POS-tax-65260-lected-correctly-in-Reports-chromium\error-context.md]]
+Session cookie set: PHPSESSID=bjrlgq0k0tnks082df1c719n3u
+Loading General Settings
+Loading POS Settings
+
+[[ATTACHMENT|desktop-regression-POS-tax-65260-lected-correctly-in-Reports-chromium-retry1\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports ›  [C6225] Verify transaction details show accurate tax (0) when No Tax is applied and payment is made in cash" classname="desktop\regression\POS\tax_reports.spec.ts" time="22.079">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+registerSubtotal [33m25.99[39m
+registerTotal [33m26.49[39m
+registerTax [33m0[39m
+reportSubtotal [33m25.99[39m
+reportTaxValues [ [32m'$0.00'[39m ]
+reportTax [33m0[39m
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports › [C6226] Verify card transaction with No Tax reflected correctly in Reports" classname="desktop\regression\POS\tax_reports.spec.ts" time="24.532">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports › [C6227] Verify transaction details show accurate tax breakdown when multiple inclusive taxes are applied and payment is made in cash." classname="desktop\regression\POS\tax_reports.spec.ts" time="21.505">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports › [C6241] Verify card transaction with multiple inclusive taxes reflected correctly in Reports" classname="desktop\regression\POS\tax_reports.spec.ts" time="24.669">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports › [C6242] Verify cash transaction with single inclusive tax reflected correctly in Reports" classname="desktop\regression\POS\tax_reports.spec.ts" time="21.362">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports › [C6243] Verify card transaction with single inclusive tax reflected correctly in Reports" classname="desktop\regression\POS\tax_reports.spec.ts" time="24.543">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports › [C6244] Verify cash transaction with single exclusive tax reflected correctly in Reports" classname="desktop\regression\POS\tax_reports.spec.ts" time="22.031">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+<testcase name="TestRail POS Test Cases Tax Reports › [C6245] Verify card transaction with single exclusive tax reflected correctly in Reports" classname="desktop\regression\POS\tax_reports.spec.ts" time="23.87">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\POS\tax_restrictions.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="1" failures="0" skipped="0" time="9.295" errors="0">
+<testcase name="Price Control › [C8215] Verify stored item tax changes" classname="desktop\regression\POS\tax_restrictions.spec.ts" time="9.295">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading POS Settings
+No new session cookie - likely reusing existing session
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\regression\uncategorized\testrail_POSTestcaseDump.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="1" failures="0" skipped="0" time="19.387" errors="0">
+<testcase name="TestRail POS Test Cases › [C1426] Verify if the suspended sale can be deleted/removed" classname="desktop\regression\uncategorized\testrail_POSTestcaseDump.spec.ts" time="19.387">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading General Settings
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\smoke\ADMIN\admin_dashboard.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="1" failures="0" skipped="0" time="10.199" errors="0">
+<testcase name="Admin Section - Dashboard › [T10728] Admin: Realtime dashboard elements are fully functional" classname="desktop\smoke\ADMIN\admin_dashboard.spec.ts" time="10.199">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[Void  Dialog  not found.No Void Sales present for today.
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="desktop\smoke\POS\cash_Reports.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="1" failures="0" skipped="0" time="20.707" errors="0">
+<testcase name="POS Section - Reports › [C4456] Cross-verify Today&apos;s Takings Summary with One Sale, One Void, One Refund]" classname="desktop\smoke\POS\cash_Reports.spec.ts" time="20.707">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+</testsuite>
+<testsuite name="desktop\smoke\POS\item_Search.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="1" failures="0" skipped="0" time="13.864" errors="0">
+<testcase name="POS Section - Item Search › [C4205] As a Cashier, I want to scan and add an item using the stock code field so that I can quickly process sales " classname="desktop\smoke\POS\item_Search.spec.ts" time="13.864">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+</testcase>
+</testsuite>
+<testsuite name="desktop\smoke\POS\suspend_recall_sales.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="1" failures="0" skipped="0" time="27.92" errors="0">
+<testcase name="Suspend and Recall Sales › [C1424] Recall suspended order items" classname="desktop\smoke\POS\suspend_recall_sales.spec.ts" time="27.92">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading Accounting Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="mobile\smoke\POS\mobileCash_Refund.spec.ts" timestamp="2025-12-04T06:00:46.647Z" hostname="chromium" tests="1" failures="0" skipped="0" time="13.133" errors="0">
+<testcase name="Scenarios related to Refund › [C294-1] Verify Refund process from sales " classname="mobile\smoke\POS\mobileCash_Refund.spec.ts" time="13.133">
+<properties>
+<property name="slow" value="">
+</property>
+</properties>
+<system-out>
+<![CDATA[No new session cookie - likely reusing existing session
+Loading POS Settings
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

@@ -5,7 +5,7 @@ import { Dropdown } from "../../../objects/dropdown";
 import { TextField } from "../../../objects/textField";
 import { Legacy_BaseDialog } from "../../../base/legacy/legacy_BaseDialog";
 
-export class Dialog_AddReward extends Legacy_BaseDialog {
+export class Dialog_EditReward extends Legacy_BaseDialog {
 
     public Name: TextField;
     public Amount: TextField;
@@ -15,7 +15,7 @@ export class Dialog_AddReward extends Legacy_BaseDialog {
     public Cancel: Button;
 
     constructor(page: Page) {
-        super(page, "Add Reward");
+        super(page, "Edit Reward");
         this.Name = new TextField(this._locator.locator("#custoffername"));
         this.Amount = new TextField(this._locator.locator("#custoffervalue"));
         this.OfferType = new Dropdown(this._locator.locator("#custoffertype"));

@@ -1,1 +1,7 @@
 node_modules
+test-results
+dist
+.env    
+.vscode
+.DS_Store   
+reports

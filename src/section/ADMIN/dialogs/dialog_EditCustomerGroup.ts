@@ -9,7 +9,7 @@ import { Table_Pagination } from "../tables/table_Pagination";
 import { Legacy_BaseDialog } from "../../../base/legacy/legacy_BaseDialog";
 import { LabelField } from "../../../objects/labelField";
 
-export class Dialog_AddCustomerGroup extends Legacy_BaseDialog {
+export class Dialog_EditCustomerGroup extends Legacy_BaseDialog {
     public GroupName: TextField;
     public Save: Button;
     public Cancel: Button;
@@ -23,7 +23,7 @@ export class Dialog_AddCustomerGroup extends Legacy_BaseDialog {
     public Customercount: LabelField
 
     constructor(page: Page) {
-        super(page, "Add Customer Group");
+        super(page, "Edit Cutomer Group");
 
         this.Search = new TextField(this._locator.locator('.dataTables_filter'))
         this.AdvanceSearch = new Button(this._locator.locator('#groupadvance_search_cross'))

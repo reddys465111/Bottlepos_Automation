@@ -8,7 +8,9 @@ export class Dialog_Confirmation extends Legacy_BaseDialog {
     public No : Button;
 
     constructor(page: Page){ 
+       const dialogLocator = page.locator(`.ui-dialog:has(.ui-dialog-title:has-text("Confirm"))`);
         super(page, 'Confirmation');
+        this._locator = dialogLocator;
         this.Yes = new Button(this._locator.getByRole('button', {name: "Yes"}));
         this.No = new Button(this._locator.getByRole('button', {name: "No"}));
 

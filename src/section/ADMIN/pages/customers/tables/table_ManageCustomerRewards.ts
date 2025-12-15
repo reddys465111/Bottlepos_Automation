@@ -1,5 +1,6 @@
 import { type Locator } from "@playwright/test";
-import { BaseTable } from "../../../../../base";
+import { BaseTable } from "../../../../../base/baseTable";
+
 
 
 export type ColumnTitles = "ID" | "Name" | "Amount" | "Offer Type" | "Points";
@@ -23,18 +24,40 @@ export class Table_ManageCustomerRewards extends BaseTable<ColumnTitles> {
      * @param option Row index to edit.
      * @example await this.editGroup({rowIndex: 1});
      */
-    public async editReward(option: { rowIndex: number }): Promise<void> {
-        const rowLocator = this.getRowByIndex({ rowIndex: option.rowIndex });
-        await rowLocator.locator('a[title="Edit"]').click();
-    }
+   
+    public async editReward(): Promise<void> {
+    const rows = this._locator.locator("tr");
 
+    await rows.first().waitFor({ state: 'visible', timeout: 5000 });
+
+    const rowCount = await rows.count();
+    if (rowCount === 0)
+        throw new Error("No rows found in rewards table.");
+
+    // click edit icon in last row
+    const lastRow = rows.nth(rowCount - 1);
+    await lastRow.locator('i[title="Edit"]').click();
+}
     /**
      * Click the Delete button for a specific row.
      * @param option Row index to delete.
      * @example await this.deleteGroup({rowIndex: 1});
      */
-    public async deleteRewards(option: { rowIndex: number }): Promise<void> {
-        const rowLocator = this.getRowByIndex({ rowIndex: option.rowIndex });
-        await rowLocator.locator('a[title="Delete"]').click();
+
+    public async deleteReward(): Promise<void> {
+    const rows = this._locator.locator("tr");
+
+    // wait until table has at least one visible row
+    await rows.first().waitFor({ state: "visible", timeout: 5000 });
+
+    const rowCount = await rows.count();
+    if (rowCount === 0) {
+        throw new Error("No rows found in rewards table.");
     }
+
+    const lastRow = rows.nth(rowCount - 1);
+    await lastRow.locator("i[title='Delete']").click();
+}
+
+
 }

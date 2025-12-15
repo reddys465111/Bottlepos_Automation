@@ -28,6 +28,16 @@ import { dialog_EditOrderItem } from "./dialog_EditOrderItems";
 import { Dialog_AdvanceSearch } from "./dialog_AdvanceSearch";
 import { Dialog_OrderAdvanceSearch } from "./dialog_OrderAdvanceSearch";
 import { Dialog_OrderStockHistory } from "./dialog_OrderStockHistory";
+import { Dialog_ManageCustomerRewards } from "./dialog_ManageCustomerRewards";  
+import { Dialog_AddReward } from "./dialog_AddReward";
+import { Dialog_EditReward } from "./dialog_EditReward";
+import { Dialog_ManageCustomerGroups } from "./dialog_ManageCustomerGroups";
+import { Dialog_AddCustomerGroup } from "./dialog_AddCustomerGroup";
+import { Dialog_EditCustomerGroup } from "./dialog_EditCustomerGroup";
+import { Dialog_EditCustomer } from "./dialog_EditCustomer";
+import { Dialog_CustomerHistory } from "./dialog_CustomerHistory";
+
+
 
 export class Dialog {
     private _page: Page;
@@ -70,6 +80,17 @@ export class Dialog {
     public EnterPassword: LegacyDialog_EnterPassword;
     public AdvanceSearch:Dialog_AdvanceSearch;
     public OrderAdvanceSearch:Dialog_OrderAdvanceSearch
+    public ManageCustomerRewards: Dialog_ManageCustomerRewards ;
+    public AddReward: Dialog_AddReward;
+    public EditReward: Dialog_EditReward;
+    public ManageCustomerGroups: Dialog_ManageCustomerGroups;
+    public AddCustomerGroup: Dialog_AddCustomerGroup;
+    public EditCustomerGroup: Dialog_EditCustomerGroup;
+    public  EditCustomer!:Dialog_EditCustomer;
+    public  CustomerHistory!:Dialog_CustomerHistory;
+
+
+
     constructor(page: Page) { 
         this._page = page;
       
@@ -79,7 +100,6 @@ export class Dialog {
         this.EditTaxItem = new Dialog_AddTaxItem(this._page, "Edit Tax Item");
         this.AddAdditionalFees = new Dialog_AddAdditionalFees(this._page);
         this.EditAdditionalFees = new Dialog_AddAdditionalFees(this._page, "Edit Additional Fee");
-        
         this.AddItem = new Dialog_AddItem(this._page);
 
         /* LEGACY DIALOGS */
@@ -114,5 +134,13 @@ export class Dialog {
         this.Success = new Dialog_Success(page);
         this.Confirm = new LegacyDialog_Confirm(page);
         this.EnterPassword = new LegacyDialog_EnterPassword(page);
+        this.ManageCustomerRewards = new Dialog_ManageCustomerRewards(page);
+        this.AddReward = new Dialog_AddReward(page);
+        this.EditReward = new Dialog_EditReward(page);
+        this.ManageCustomerGroups = new Dialog_ManageCustomerGroups(page);
+        this.AddCustomerGroup = new Dialog_AddCustomerGroup(page);
+        this.EditCustomerGroup = new Dialog_EditCustomerGroup(page);
+        this.EditCustomer = new Dialog_EditCustomer(page);
+        this.CustomerHistory = new Dialog_CustomerHistory(page);
     }
 }

@@ -46,4 +46,12 @@ export class Table_Customers extends Legacy_BaseTable<ColumnTitles> {
         const rowLocator = this.GetRowBy({ rowIndex: option.rowIndex });
         await rowLocator.locator('a.grey [title="Customer History"]').click();
     }
+    /**
+ * Check if a customer exists in the table by any dynamic text (mobile, email, name, etc.)
+ */
+    public async isCustomerVisible(option: { text: string }): Promise<boolean> {
+        const row = this._locator.locator("tbody tr").filter({ hasText: option.text });
+        return await row.isVisible();
+    }
+
 }

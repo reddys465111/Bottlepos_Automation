@@ -6,7 +6,7 @@ export class Dialog_Success extends Legacy_BaseDialog  {
     public Ok: Button;
 
     constructor(page: Page) {
-        super(page, page.locator('[aria-describedby="ok-dialog-box"]'));
+        super(page, 'Success');
         this.Ok = new Button(this._locator.getByRole('button', { name: 'OK' }));
     }
 }

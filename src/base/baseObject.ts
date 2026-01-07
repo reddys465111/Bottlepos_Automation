@@ -72,32 +72,38 @@ export class BaseObject{
     /**
      * Perfom a click in the current object
      */
-    // public async Click( option? : {timeout?: number, beforeEvent?: Function|void, afterEvent?: Function| void; force?: boolean} ) : Promise<void>{
-    //     const before = option?.beforeEvent ?? this._beforeEvent ?? undefined;
-    //     const after = option?.afterEvent ?? this._afterEvent ?? undefined;
-
-    //     typeof before === 'function' && before && await before.call(this); 
-
-    //     await this._locator.waitFor();
-    //     await this._locator.hover();
-    //     await this._locator.click({ force: option?.force ?? false, timeout: option?.timeout });
-
-    //     typeof after === 'function' && after && await after.call(this);
-    // }
-    public async Click(option?: { timeout?: number, beforeEvent?: Function | void, afterEvent?: Function | void, force?: boolean }): Promise<void> {
+    public async Click(option?: { timeout?: number, beforeEvent?: Function | void, afterEvent?: Function | void, force?: boolean; }): Promise<void> {
     const before = option?.beforeEvent ?? this._beforeEvent ?? undefined;
     const after = option?.afterEvent ?? this._afterEvent ?? undefined;
     // Before event
     typeof before === 'function' && before && await before.call(this);
-    // Wait for locator to appear
-    await this._locator.waitFor();
+    
+    // Check if page is closed before proceeding
+    const page = this._locator.page();
+    if (page && page.isClosed()) {
+        throw new Error('Target page, context or browser has been closed');
+    }
+    
+    // Wait for locator to appear (bounded). Use provided timeout or default 5s to avoid test-wide hangs.
+    const waitTimeout = option?.timeout ?? 10000;
+    try {
+        await this._locator.waitFor({ state: 'visible', timeout: waitTimeout });
+    } catch (err) {
+        // Check again if page was closed during wait
+        if (page && page.isClosed()) {
+            throw new Error('Target page, context or browser has been closed during wait');
+        }
+        // If force requested, continue and attempt to click regardless; otherwise surface a clearer error.
+        if (!(option?.force)) {
+            throw new Error(`Locator not visible after ${waitTimeout}ms: ${err}`);
+        }
+    }
     try {
         await this._locator.hover({ trial: true });
         await this._locator.hover();
     } catch {
         
     }
-    const page = this._locator.page();
     if (page.isClosed()) {
         return; 
     }
@@ -107,7 +113,7 @@ export class BaseObject{
         force: option?.force ?? false,
         timeout: option?.timeout
     });
-
+   
     // After event
     typeof after === 'function' && after && await after.call(this);
 }
@@ -120,4 +126,6 @@ export class BaseObject{
      public async GetLabel(): Promise<string> {
         return (await this._locator.innerText());
     }
+
+
 }

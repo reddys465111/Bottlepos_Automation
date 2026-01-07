@@ -19,13 +19,13 @@ test.describe("ADMIN - Bottle Deposit", {tag: ['@admin', '@bottleDeposit','@nonp
         console.log(`Creating Bottle Deposit item: "${bottleDeposit}"`);
  
         await Initializer.LoadScenario({
-        Admin: {
-            Settings: {
-            AccountingSettings: {
-                BottleDeposit: [{ Name: bottleDeposit, Amount: 1 }],
+            Admin: {
+                Settings: {
+                AccountingSettings: {
+                    BottleDeposit: [{ Name: bottleDeposit, Amount: 1 }],
+                },
+                },
             },
-            },
-        },
         });
  
         // --- Step 2: Login to Admin ---

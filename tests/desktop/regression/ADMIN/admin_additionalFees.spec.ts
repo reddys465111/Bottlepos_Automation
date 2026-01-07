@@ -4,7 +4,7 @@ import { ADMIN } from "../../../../src/section/ADMIN";
 import { TAXITEMS, TAXRULES } from "../../../../src/utils/data/data.taxes";
 
 test.beforeEach(async ({ page }) => {
-    await Initializer.Init(page, {Admin: true});
+    await Initializer.Init(page, {Admin: true, device: {view: 'desktop'}});
 
 });
 
@@ -13,7 +13,7 @@ test.afterEach(async ({ page }, testInfo) => {
 });
 
 test.describe("ADMIN - Additional Fees", {tag: ['@admin', '@additionalfees','@nonparallelizable']}, () => {
-    test("[C8251] Create a new additional fee", { tag: ['@add'] }, async ({}) => {
+    test("[C8251] Create a new additional fee", { tag: ['@debug', '@add'] }, async ({}) => {
         const additionalFee = 'AddFee'+ new Date().getTime();
         // 1). Login into Admin with admin credentials
         await ADMIN.Login.In();

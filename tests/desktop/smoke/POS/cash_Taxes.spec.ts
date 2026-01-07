@@ -26,19 +26,8 @@ test.afterEach(async ({ page }, testInfo) => {
 
 test.describe("Scenarios related to cash and taxes", { tag: ['@cash', '@tax', '@smoke'] }, () => {
   
-  test('[C31] Verify Sale of Item with No Tax', { tag: ['@notax'] }, async ({}) => {
-    await Initializer.LoadScenario({
-      Admin: {
-        Settings: {
-          POSSettings: {
-            SaleOptions: {
-              AllowChangingStoredItemTax: 'Yes',
-              AllowChangingStoredItemPrices: 'Always'
-            }
-          }
-        },
-      },
-    });
+  test('[C31] Verify Sale of Item with No Tax', { tag: ['@notax', '@nonparallelizable'] }, async ({}) => {
+    //Login to the POS application
     await POS.Login.In();
     //Click add item button
     await POS.Register.AddItem.Click();

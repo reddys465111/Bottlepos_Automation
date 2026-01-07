@@ -108,7 +108,7 @@ test.describe("TestRail POS Test Cases", { tag: ['@uncategorized', '@regression'
         expect(await POS.Sales.transactions.Table.GetCellValue({getValueFrom: "Status"}, {rowIndex: 1} ),'Transaction was not Suspended').toEqual('Order');
     });
 
-    test('[C1424] Verify if a items in an order can be recalled and finally completed', { tag: ['@recall', '@complete'] }, async ({page}) => {
+    test('[C1424] Verify if a items in an order can be recalled and finally completed', { tag: ['@recall', '@complete', '@nonparallelizable'] }, async ({page}) => {
         //Login to the POS application
         await POS.Login.In();
         //Ring an Item

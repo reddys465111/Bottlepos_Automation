@@ -5,20 +5,7 @@ import { Initializer, ITEMS, getDateDaysAgo } from '../../../../src/utils';
 
 //This block runs before each test
 test.beforeEach(async ({ page }) => {
-    await Initializer.Init(page, { 
-        device: { view: 'mobile' },
-        Scenario: {
-            Admin: {
-                Settings: {
-                    POSSettings: {
-                        SaleOptions: {
-                            AllowChangingStoredItemPrices: 'Always',
-                        }
-                    }
-                }
-            }
-        }
-    });
+    await Initializer.Init(page, { device: { view: 'mobile' } });
 });
 
 //This block runs after each test
@@ -30,6 +17,17 @@ test.describe("Scenarios related to suspend and recall orders ", { tag: ['@mobil
 
     test('[C82-1] Verify Functionality of Suspending and Complete Orders', { tag: ['@recall'] }, async ({page}) => {
         //Login to the POS application
+        await Initializer.LoadScenario({
+            Admin: {
+                Settings: {
+                    POSSettings: {
+                        SaleOptions: {
+                            AllowChangingStoredItemPrices: 'Always',
+                        }
+                    }
+                }
+            }
+        })
         await POS.Login.In();
         //Enter the barcode of an item and hit enter, item will be ringed up
         //In this case the item category has age verification enabled

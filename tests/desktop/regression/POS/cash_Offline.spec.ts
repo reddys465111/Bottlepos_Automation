@@ -8,8 +8,12 @@ test.beforeEach(async ({ page }) => {
         Scenario: {
             Admin: {
                 Settings: {
-                    AccountingSettings: {
-                        DefaultEBTTax_Enable: false,
+                    GeneralSettings: {
+                        CreditCard: {
+                            PayFac: {
+                                Enable: true,
+                            }
+                        }
                     },
                     POSSettings: {
                         SaleOptions: {
@@ -29,51 +33,37 @@ test.afterEach(async ({ page }, testInfo) => {
 
 test.describe('Tests related to offline cash sales', { tag: ['@cash', '@offline', '@regression'] }, () => {
 
-   test('[C3811] Verify offline cash sales', { tag: ['@reconect'] }, async ({ page }) => {
+    test('[C3811] Verify offline cash sales', { tag: ['@reconect',] }, async ({ }) => {
+        //Login to the POS application
+        await POS.Login.In();
+        //Enter the barcode of an item and hit enter, item will be ringed up
+        //In this case the item category has age verification enabled
+        await Offline(true);
+        expect(await isOffline(), 'The POS is still online').toBe(true);
+        await POS.Register.AddItemByStockcode({ stockCode: ITEMS.CROWN.BARCODE });
+        //Click yes
+        await POS.Dialog.AgeVerification.Yes.Click();
 
-    // Login
-    await POS.Login.In();
+        //Click on the Pay button on register screen
+        await POS.Register.PayButton.Click();
+        //Select the exact change cash value
+        await POS.Dialog.Checkout.ClickCashPaymentButton({ index: 1 });
+        //Do not print the receipt
+        await POS.Dialog.CheckoutComplete.No.Click();
 
-    // Enable offline mode
-    await Offline(true);
-    await POS.waitForTimeout(8000);
-    expect(await isOffline(), 'The POS is still online').toBe(true);
+        await POS.Sales.Click();
+        await POS.Register.Click();
+        await POS.Sales.Click();
+        // Verify the transaction is offline
+        expect(await POS.Sales.transactions.Table.GetCellValue({ getValueFrom: 'GID' }, { rowIndex: 1 })).toBe('Offline');
+        //Verify the POS is online
+        await Offline(false);
+        expect(await isOnline(), 'The POS is still offline').toBe(true);
+        await POS.Sales.transactions.Table.ViewTransactionDetail({ byIndex: 1 });
 
-    // Add item with Age Verification
-    await POS.Register.AddItemByStockcode({ stockCode: ITEMS.CROWN.BARCODE });
-    await POS.Dialog.AgeVerification.Yes.Click();
-
-    // Checkout with cash
-    await POS.Register.PayButton.Click();
-    await POS.Dialog.Checkout.ClickCashPaymentButton({ index: 1 });
-    await POS.Dialog.CheckoutComplete.No.Click();
-
-    // Navigate to sales
-    await POS.Sales.Click();
-    await POS.Register.Click();
-    await POS.Sales.Click();
-
-    // Verify transaction is offline
-    const gidValue = await POS.Sales.transactions.Table.GetCellValue(
-        { getValueFrom: 'GID' },
-        { rowIndex: 1 }
-    );
-    expect(gidValue).toBe('Offline');
-
-    // Reconnect POS
-    await Offline(false);
-    await POS.waitForTimeout(2000);
-
-    // Verify POS is online
-    expect(await isOnline(), 'The POS is still offline').toBe(true);
-
-    // Open transaction details
-    await POS.Sales.transactions.Table.ViewTransactionDetail({ byIndex: 1 });
-
-    // Verify transaction is complete
-    expect(await POS.Dialog.TransactionDetails.Status.getText()).toBe('Complete');
-});
-
+        //Verify the transaction is complete
+        expect(await POS.Dialog.TransactionDetails.Status.getText()).toBe('Complete');
+    });
 
     test('[CNAN-5]Verify transaction status in offline mode', { tag: ['@status','@nonparallelizable'] }, async ({ }) => {
         //Login to the POS application
@@ -115,24 +105,11 @@ test.describe('Tests related to offline cash sales', { tag: ['@cash', '@offline'
     });
 
     test('[CNAN]Verify Suspend and Recall with offline transactions', { tag: ['@suspend','@nonparallelizable'] }, async ({ }) => {
-         await Initializer.LoadScenario({
-            Admin: {
-                Settings: {
-                    POSSettings: {
-                        SaleOptions: {
-                            AllowChangingStoredItemPrices: 'Always',
-                            AllowChangingStoredItemTax:'Yes',
-                        }
-                    }
-                    },
-                },
-        });
         //Login to the POS application
         await POS.Login.In();
         //Enter the barcode of an item and hit enter, item will be ringed up
         //In this case the item category has age verification enabled
         await Offline(true);
-        await POS.waitForTimeout(10000);
         expect(await isOffline(), 'The POS is still online').toBe(true);
         await POS.Register.AddItemByStockcode({ stockCode: ITEMS.CROWN.BARCODE });
         //Click yes
@@ -141,7 +118,6 @@ test.describe('Tests related to offline cash sales', { tag: ['@cash', '@offline'
 
         await POS.Register.AddItemByStockcode({ stockCode: ITEMS.BUDLIGHT.BARCODE });
         await POS.Register.ItemLines.EditPrice({ row: 1, price: 10 });
-        
         await POS.Register.PayButton.Click();
         await POS.Dialog.Checkout.ClickCashPaymentButton({ index: 1 });
         await POS.Dialog.CheckoutComplete.No.Click();

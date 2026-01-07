@@ -5,7 +5,7 @@ import { CUSTOMER } from '../../../../src/utils/data/data.customer';
 
 //This block runs before each test
 test.beforeEach(async ({ page }) => {
-    await Initializer.Init(page);
+    await Initializer.Init(page, {device: {view: 'desktop'}});
 });
 
 //This block runs after each test

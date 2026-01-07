@@ -19,7 +19,7 @@ test.afterEach(async ({ page }, testInfo) => {
 
 test.describe('CustomerScreen Workflow', { tag: ['@CustomerScreen', '@regression', '@nonparallelizable','@pos'] }, () => {
 
-    test.only('[C4570] Verify Customer Screen displays correct grand total and item count', { tag: ['@CustomerScreen', '@regression','@nonparallelizable'] }, async ({}) => {
+    test('[C4570] Verify Customer Screen displays correct grand total and item count', { tag: ['@CustomerScreen', '@regression','@nonparallelizable'] }, async ({}) => {
         //Step1: Login to POS
         await POS.Login.In();
         await POS.Settings.Click();
@@ -37,7 +37,6 @@ test.describe('CustomerScreen Workflow', { tag: ['@CustomerScreen', '@regression
         const customerScreenPage = await POS._page.context().waitForEvent("page");
         const customerScreen  = new CustomerScreen(customerScreenPage);
         await customerScreen.WaitForFirstItem();
-        await POS.waitForTimeout(3000); 
         // Verify that the grand total and total Item count on customer screen matches with the registered total
         const customerscreenitemtext=await customerScreen.TotalItems.getText();
         const customerscreenitemcount = customerscreenitemtext.replace(/[^0-9]/g, "");
@@ -63,13 +62,11 @@ test.describe('CustomerScreen Workflow', { tag: ['@CustomerScreen', '@regression
         const customerScreenPage = await POS._page.context().waitForEvent("page");
         const customerScreen  = new CustomerScreen(customerScreenPage);
         await customerScreen.WaitForFirstItem();
-        await POS.waitForTimeout(3000); 
         //Verify that the tax on customer screen matches with the registered tax
         const customerScreenTaxtext = await customerScreen.Tax.getText();
         const customerScreenTax = customerScreenTaxtext.replace(/Tax:\s*/i, "").trim();``
         expect(customerScreenTax, 'Tax on Customer Screen does not match Registered tax').toEqual(registeredTax);
        
     });
-
 
 });

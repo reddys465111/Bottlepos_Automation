@@ -1,7 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { ADMIN } from "../../../../src/section/ADMIN";
 import { Initializer, ITEMS } from "../../../../src/utils";
-import { Console } from "console";
 
 
 test.beforeEach(async ({ page }) => {
@@ -22,7 +21,7 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     await ADMIN.Order.CreateOrder.Click();
     //Step 4: Verify Create Order dialog is opened
     expect(await ADMIN.Dialog.OrderItems._locator.isVisible()).toBeTruthy();
-    console.log("Create Order dialog is opened successfully");
+    
 
   });
 
@@ -35,11 +34,8 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     await ADMIN.Order.CreateOrder.Click();
     //Step: 4 Select the Supplier from the Dropdown
     const Supplierlist = await ADMIN.Dialog.OrderItems.getAllSuppliers();
-
-
   });
 
- 
   test('[C8104]Verify search and select by product name functionality in Create Order dialog', { tag: ["@regression", "@Order"] }, async ({ }) => {
     //Step: 1 Login to Admin panel
     await ADMIN.Login.In();
@@ -51,9 +47,8 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     const productName = await ADMIN.Dialog.OrderItems.orderproductsuggestion("BUD");
     //Step 5: Verify selected product name in the dialog
     expect(await ADMIN.Dialog.OrderItemDetails.readName.getText()).toBe('BUD LIGHT 30PK');
-    console.log("Selected Product Name: ", productName);
-
   });
+
   test('[C8105]Verify Reorder Case box value addition functionality in Create Order dialog', { tag: ["@regression", "@Order"] }, async ({ }) => {
     //Step: 1 Login to Admin
     await ADMIN.Login.In();
@@ -68,8 +63,6 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     await ADMIN.Dialog.OrderItemDetails.Save.Click();
     //Step 6: Verify total cost  is added to order items dialog
     expect(await ADMIN.Dialog.OrderItems.Total.getText()).not.toBeNull();
-
-
   });
 
   test('[C8107] Verify duplicate item prevention in order', async ({ }) => {
@@ -97,7 +90,6 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
 
     const itemType = await ADMIN.Dialog.OrderItems.orderproductsuggestion(ITEMS.JACK.TITLE);
 
-
     await ADMIN.Dialog.OrderItemDetails.ReorderCase.setText({ value: "10" });
     await ADMIN.Dialog.OrderItemDetails.Save.Click();
 
@@ -112,9 +104,6 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     expect(deleteitem, 'Item row should be removed from the table').toBeFalsy();
   });
 
-
-
-
   test('[C8108] Verify order item can be saved and new order is created successfully', async ({ }) => {
     await ADMIN.Login.In();
     await ADMIN.Menu.Order.GoTo();
@@ -125,8 +114,6 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
 
     await ADMIN.Dialog.OrderItemDetails.ReorderCase.setText({ value: "10" });
     await ADMIN.Dialog.OrderItemDetails.Save.Click();
-
-
     // Save the full order
     await ADMIN.Dialog.OrderItems.Save.Click();
 
@@ -138,11 +125,10 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
       { getValueFrom: 'Order Number' },
       { rowIndex: 1 }
     );
-    console.log('Ordernumber', newOrderNumber);
-    expect(newOrderNumber).not.toBeNull();
-    expect(newOrderNumber).not.toBe('');
+    
+    expect(newOrderNumber, "Order number is not null").not.toBeNull();
+    expect(newOrderNumber, "Order number is not empty").not.toBe('');
   });
-
 
   test('[C8109] Verify order item cancel Button functionality in Create Order dialog', async ({ }) => {
     //Step: 1 Login to Admin
@@ -156,12 +142,10 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     //Step 5: Click on Yes button in confirmation dialog
     await ADMIN.Dialog.Confirmation.Yes.Click();
     //Step 6: Verify Create Order dialog is closed
-    expect(await ADMIN.Dialog.OrderItems.IsNotVisible()).toBeTruthy();
-    console.log("Create Order dialog is closed successfully after clicking Cancel button");
-
+    expect(await ADMIN.Dialog.OrderItems.IsNotVisible(), "Create Order dialog is not closed").toBeTruthy();
   });
 
-  test('[C8110] Verify order creation and edit with new items and update', async ({ }) => {
+  test('[C8110] Verify order creation and edit with new items and update', { tag: ["@review"] }, async ({ }) => {
     //Step: 1 Login to Admin
     await ADMIN.Login.In();
     //Step:2 navigate to Order Page
@@ -173,19 +157,15 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     //Step 5: Add reorderCase value  and Click Save in orderitem details dialog
     await ADMIN.Dialog.OrderItemDetails.ReorderCase.setText({ value: "10" });
     await ADMIN.Dialog.OrderItemDetails.Save.Click();
-    const firstitemcost = await ADMIN.Dialog.OrderItemDetails.TotalCost.getText();
-    console.log('Display First itemtotal', firstitemcost);
-    //Delay for 2 seconds
-    await ADMIN.Page.waitForTimeout(2000);
     //Step 6: Save the Order
     await ADMIN.Dialog.OrderItems.Save.Click();
     //Click Edit button for the created order
-    const newOrderNumber = await ADMIN.Order.OrderTable.GetCellValue(
+     const newOrderNumber = await ADMIN.Order.OrderTable.GetCellValue(
       { getValueFrom: 'Order Number' },
       { rowIndex: 1 }
     );
     //Search Ordernumber
-    await ADMIN.Order.Search.setText({ value: newOrderNumber });
+    await ADMIN.Order.Search.setText({ value: newOrderNumber});
     await ADMIN.Order.OrderTable.Edit();
 
     // Step 7: Add another item to the existing order
@@ -193,18 +173,12 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     await ADMIN.Dialog.OrderItemDetails.ReorderCase.setText({ value: "5" });
     //Click Save button
     await ADMIN.Dialog.OrderItemDetails.Save.Click();
-    const seconditemcost = await ADMIN.Dialog.OrderItemDetails.TotalCost.getText();
-    console.log('Display SecondItemtotal', seconditemcost)
-    //Delay for 2 seconds
-    await ADMIN.Page.waitForTimeout(2000);
+   
     //Step 6: Save the Order
     await ADMIN.Dialog.EditorderItems.Update.Click();
-    console.log("Order successfully Edited");
-
-
   });
 
-  test('[C8111] Verify Order Deletion in Orderpage', async ({ }) => {
+  test('[C8111] Verify Order Deletion in Orderpage', { tag: ["@review"] }, async ({ }) => {
     //Step:1 Login to Admin
     await ADMIN.Login.In();
     //Step:2 Navigate to Order Page
@@ -215,20 +189,19 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     //Step 4: Add reorderCase value  and Click Save in orderitem details dialog
     await ADMIN.Dialog.OrderItemDetails.ReorderCase.setText({ value: "10" });
     await ADMIN.Dialog.OrderItemDetails.Save.Click();
-    //Delay for 2 seconds
-    await ADMIN.Page.waitForTimeout(2000);
     //Step 5: Save the Order
     await ADMIN.Dialog.OrderItems.Save.Click();
-    console.log("Order is created successfully");
+    
     //Step:6 Select an Order to delete
     await ADMIN.Order.OrderTable.Delete();
     //Step:7 Click on Yes button in confirmation dialog
     await ADMIN.Dialog.Confirmation.Yes.Click();
     //Step:8 Verify order is deleted successfully
-    console.log("Order is deleted successfully");
+    
 
   });
-  test('[C8118]Verify Generate Order button functionality in Order page', async ({ }) => {
+
+  test('[C8118]Verify Generate Order button functionality in Order page', { tag: ["@review"] }, async({ }) => {
     //Step:1 Login to Admin
     await ADMIN.Login.In();
     //Step:2 Navigate to Order Page
@@ -238,12 +211,11 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     await ADMIN.Dialog.OrderItems.Supplier.SelectOption({ byIndex: 2 });
     //Click Generate Order button
     await ADMIN.Dialog.OrderItems.GenerateOrder.Click();
-    expect(await ADMIN.Dialog.OrderItems.Total).not.toBeNull();
-
+    expect(ADMIN.Dialog.OrderItems.Total).not.toBeNull(); //ADD ASSERTION MESSAGE
 
   });
 
-  test('[C8119]Verify Advance Search button functional in Order page', async ({ }) => {
+  test('[C8119]Verify Advance Search button functional in Order page', { tag: ["@review"] }, async({ }) => {
     //Step:1 Login to Admin
     await ADMIN.Login.In();
     //Step:2 Navigate to Order Page
@@ -252,11 +224,13 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     //Click Advance Search button
     await ADMIN.Dialog.OrderItems.AdvanceSearch.Click();
     //New Window should appear
-    expect(await ADMIN.Dialog.AdvanceSearch.IsVisible());
-
+    expect(await ADMIN.Dialog.AdvanceSearch.IsVisible());// ADD ASSERTION MESSAGE
+   
   });
 
-  test('[C8120] Verify item name matching in Advance Search Dialog', async () => {
+
+  test('[C8120] Verif item name matching in Advance Search Dialog', { tag: ["@review"] }, async({ }) =>{ 
+    //Step 1 : login the Admin 
     await ADMIN.Login.In();
     await ADMIN.Menu.Order.GoTo();
     await ADMIN.Order.CreateOrder.Click();
@@ -272,9 +246,7 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
       { getValueFrom: 'Name' },
       { rowIndex: 1 }
     );
-
     expect(itemCellText).toContain("BUD LIGHT");
-
     expect(itemCellText, "Expected item 'BUD LIGHT 30PK' to appear after advanced search").toBeTruthy();
   });
 
@@ -294,9 +266,7 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
       { getValueFrom: 'Name' },
       { rowIndex: 1 }
     );
-
     expect(itemCellText).toContain("BUD LIGHT");
-
     expect(itemCellText, "Expected item 'BUD LIGHT 30PK' to appear after advanced search").toBeTruthy();
   });
 
@@ -324,10 +294,7 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
       { getValueFrom: 'Name' },
       { rowIndex: 1 }
     );
-
     expect(itemCellText).toContain(tmpname.name);
-
-
     expect(itemCellText, "Expected item to appear after Item Cretaed Successfully").toBeTruthy();
   });
 
@@ -342,8 +309,8 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     //Step 4: Alert should prompt with Empty Adding Deatils
     await ADMIN.Dialog.Error.GetMessage();
     expect(await ADMIN.Dialog.Error.GetMessage()).toBeTruthy();
-
   });
+
   test('[C8126] Verify Bottle/Case toggle button', { tag: ['@order'] }, async ({ }) => {
     //Step 1: Login the Admin
     await ADMIN.Login.In();
@@ -358,17 +325,14 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     const caseb = await ADMIN.Dialog.OrderItems.Table.GetCellValue(
       { getValueFrom: 'Qty OnHand' },
       { rowIndex: 1 });
-    console.log(caseb);
+    
     await ADMIN.Dialog.OrderItems.ViewByBottle.Click();
     const bottlec = await ADMIN.Dialog.OrderItems.Table.GetCellValue(
       { getValueFrom: 'Qty OnHand' },
       { rowIndex: 1 });
-    console.log(bottlec);
-    await expect.soft(caseb).toEqual(bottlec);
-
+    
+    expect.soft(caseb).toEqual(bottlec);
   });
-
-
 
   test('[C8127]Verify Item History icon in Order table', { tag: ['@order'] }, async ({ }) => {
     //Step 1: Login the Admin
@@ -385,6 +349,7 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     //Step 6: Stock Histyr dialog vaidate
     expect(await ADMIN.Dialog.OrderStockHistory.IsVisible).toBeTruthy();
   });
+
   test('[C8128] Verify Stock History dialog tabs in order Stock History', { tag: ['@Order'] }, async ({ }) => {
         //Step 1: Login the Admin
     await ADMIN.Login.In();
@@ -411,9 +376,8 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
 
     await ADMIN.Dialog.OrderStockHistory.ItemSales.Click();
     await ADMIN.Dialog.OrderStockHistory.ExpectTabActive("itemssalesdetail");
-
-
   });
+
   test('[C8129]Verify reorder case value edit in Order table',{tag:['@Orders']},async({})=>{
     //Step 1: Login the Admin
     await ADMIN.Login.In();
@@ -431,8 +395,6 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     const newtotal=await ADMIN.Dialog.OrderItems.Total.getText();
     //Step 7: Total Amount changed
     expect(Number(newtotal)).toBeGreaterThan(Number(prevtotal));
-
-
   });
   test('[C4000]Verify # of Days Supply auto-update',{tag:['@order']},async({})=>{
     //Step 1: Login the Admin
@@ -448,6 +410,4 @@ test.describe("Admin Section - Order Invoice ", { tag: ["@regression", "@Admin"]
     expect(await ADMIN.Dialog.OrderItems.Table.GetDaysSupply('GIFT CARD')).toBeTruthy();
     //Change the Ordercase value
   });
-
-
 });

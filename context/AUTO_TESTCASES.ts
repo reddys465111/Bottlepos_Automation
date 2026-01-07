@@ -676,30 +676,30 @@ export const INVENTORY_TESTS = [
   // 'C5954', // Verify Receive page opens - priority 2
   // 'C5956', // Verify Receive Item dialog - priority 2
   // 'C5957', // Verify new invoice addition - priority 2
-  'C5958', // Verify non-finalized invoice edit - priority 2
-  'C5959', // Verify invoice calculations - priority 2
-  'C5960', // Verify finalized invoice edit prevention - priority 2
-  'C5961', // Verify finalized invoice details view - priority 2
-  'C5962', // Verify duplicate invoice prevention - priority 2
-  'C5978', // Verify barcode scan existing item - priority 2
-  'C5980', // Verify same invoice alert dialog - priority 2
-  'C5982', // Verify multiple invoice merge - priority 2
-  'C5990', // Verify invoice CSV export - priority 2
-  'C5998', // Verify item quantity update after finalize - priority 2
-  'C6005', // Verify Units Per Case update - priority 2
-  'C6006', // Verify item cost update - priority 2
-  'C6009', // Verify new item creation by barcode - priority 2
-  'C6166', // Verify Receive table sorting - priority 2
-  'C6167', // Verify invoice history - priority 2
-  'C6168', // Verify finalized invoice delete disabled - priority 2
-  'C6169', // Verify non-finalized invoice deletion - priority 2
-  'C6174', // Verify item data unchanged after delete - priority 2
-  'C6175', // Verify negative values in Receive Bottles - priority 2
-  'C8130', // Verify search by supplier name - priority 2
-  'C8131', // Verify search by Invoice Number - priority 2
-  'C8132', // Verify received items grouped by supplier - priority 2
-  'C3396', // Verify import CSV tool for invoices - priority 2
-  'C4031', // Verify Receive Items dialog disabled during search - priority 2
+  'C5958', // Verify non-finalized invoice edit - priority 2 - done
+  'C5959', // Verify invoice calculations - priority 2 - done
+  'C5960', // Verify finalized invoice edit prevention - priority 2 - done
+  'C5961', // Verify finalized invoice details view - priority 2 - done
+  'C5962', // Verify duplicate invoice prevention - priority 2 - done
+  'C5978', // Verify barcode scan existing item - priority 2 - done
+  'C5980', // Verify same invoice alert dialog - priority 2 - done
+  'C5982', // Verify multiple invoice merge - priority 2 - done
+  'C5990', // Verify invoice CSV export - priority 2 - done
+  'C5998', // Verify item quantity update after finalize - priority 2 - done
+  'C6005', // Verify Units Per Case update - priority 2 - done
+  'C6006', // Verify item cost update - priority 2 - done
+  'C6009', // Verify new item creation by barcode - priority 2 - done
+  'C6166', // Verify Receive table sorting - priority 2 - done
+  'C6167', // Verify invoice history - priority 2 - done
+  'C6168', // Verify finalized invoice delete disabled - priority 2 - done
+  'C6169', // Verify non-finalized invoice deletion - priority 2 - done
+  'C6174', // Verify item data unchanged after delete - priority 2 - done
+  'C6175', // Verify negative values in Receive Bottles - priority 2 - done
+  'C8130', // Verify search by supplier name - priority 2 - done
+  'C8131', // Verify search by Invoice Number - priority 2 - done
+  'C8132', // Verify received items grouped by supplier - priority 2 - done
+  'C3396', // Verify import CSV tool for invoices - priority 2 - done
+  'C4031', // Verify Receive Items dialog disabled during search - priority 2 - done
   
   // Item Detail Management - priority 2
   'C6075', // Verify stock code auto-populate - priority 2

@@ -25,7 +25,7 @@ test.afterEach(async ({ page }, testInfo) => {
 
 test.describe('Suspend and Recall Sales', { tag: ['@smoke', '@register', '@nonparallelizable'] }, () => {
     
-    test('[C1424] Recall suspended order items', { tag: ['@recall', '@suspend'] }, async ({}) => {
+    test('[C1424] Recall suspended order items', { tag: ['@recall', '@suspend', '@nonparallelizable'] }, async ({}) => {
         // Login to POS system
         await POS.Login.In();
         
@@ -66,7 +66,6 @@ test.describe('Suspend and Recall Sales', { tag: ['@smoke', '@register', '@nonpa
         
         // Step 4: Click on the recall button to bring back the transaction
         await POS.Register.Recall.Click();
-        await POS.waitForTimeout(3000);
         
         // Transaction Details Modal appears with suspended transaction information
         await POS.Dialog.TransactionDetails.IsVisible();

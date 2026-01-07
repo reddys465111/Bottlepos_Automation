@@ -32,7 +32,7 @@ test.describe.serial("Admin Test Cases General settings", { tag: ['@creditCard',
     });
 
     
-    test('[C3317] Verify Admin can configure Credit Card settings to Pax', { tag: ['@CreditCard', '@Admin', '@Settings'] }, async ({ page }) => {
+    test('[C3317] Verify Admin can configure Credit Card settings to Pax', { tag: ['@CreditCard', '@Admin', '@Settings', '@nonparallelizable'] }, async ({ page }) => {
 
         // --- Step 1: Login to Admin ---
         await ADMIN.Login.In();
@@ -61,7 +61,7 @@ test.describe.serial("Admin Test Cases General settings", { tag: ['@creditCard',
 
     });
 
-    test('[C3318] Verify Admin can configure Credit Card settings to TriposDirect', { tag: ['@CreditCard', '@Admin', '@Settings'] }, async ({ page }) => {
+    test('[C3318] Verify Admin can configure Credit Card settings to TriposDirect', { tag: ['@CreditCard', '@Admin', '@Settings', '@nonparallelizable'] }, async ({ page }) => {
 
         // --- Step 1: Login to Admin ---
         await ADMIN.Login.In();

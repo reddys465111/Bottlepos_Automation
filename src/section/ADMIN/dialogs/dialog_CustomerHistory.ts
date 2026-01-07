@@ -3,6 +3,7 @@ import { Button } from "../../../objects/button";
 import { Legacy_BaseDialog } from "../../../base/legacy/legacy_BaseDialog";
 import { TextField } from "../../../objects/textField";
 import { table_CustomerTransaction } from "../pages/customers/tables/table_CustomerTranscation";
+import { table_CustomerItemHistory } from "../pages/customers/tables/table_CustomerItemHistory";
 
 
 
@@ -26,6 +27,7 @@ export class Dialog_CustomerHistory extends Legacy_BaseDialog {
 
   }
   public ItemHistory: {
+    itemsoldtable: table_CustomerItemHistory;
     
     
     Click: () => Promise<void>;
@@ -60,7 +62,8 @@ export class Dialog_CustomerHistory extends Legacy_BaseDialog {
     this.ItemHistory = {
       Click: async () => {
         await this._locator.getByRole('link', { name: ' Items History' }).click();
-      }
+      },
+      itemsoldtable: new table_CustomerItemHistory(this._locator.locator('#itemhistorytable'))
     }
     
     

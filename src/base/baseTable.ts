@@ -1,6 +1,8 @@
 import { Locator } from "@playwright/test";
 import { Processing } from "../objects/processing";
 
+
+
 export type RowQuery<T> = {
     rowColumn: T | number,
     rowValue: string
@@ -291,4 +293,60 @@ export class BaseTable<T extends string> {
         return (await cell.first().innerText()).trim();
     }
 
+    /*
+    // Sort the table by a specific column index
+  */
+    public async SortBytableColumn(options: {
+    columnIndex: number;
+    sortOrder?: 'ascending' | 'descending';
+    strict?: boolean; // ✅ NEW (optional)
+}): Promise<boolean | void> {
+
+    const targetOrder: 'ascending' | 'descending' =
+        options.sortOrder ?? 'ascending';
+
+    const strict = options.strict === true;
+
+    const tableId = await this._locator.getAttribute('id');
+    if (!tableId) {
+        return strict ? false : undefined;
+    }
+
+    const header = this._locator.page().locator(
+        `.dataTables_scrollHead th[aria-controls="${tableId}"]:nth-of-type(${options.columnIndex})`
+    );
+
+    try {
+        await header.waitFor({ state: 'visible', timeout: 15000 });
+    } catch {
+        return strict ? false : undefined;
+    }
+
+    const getCurrentOrder = async (): Promise<'ascending' | 'descending' | null> => {
+        const cls = (await header.getAttribute('class')) ?? '';
+        if (cls.includes('sorting_asc')) return 'ascending';
+        if (cls.includes('sorting_desc')) return 'descending';
+        return null;
+    };
+
+    let currentOrder = await getCurrentOrder();
+
+    // ✅ Try max 2 clicks — no waiting
+    for (let i = 0; i < 2 && currentOrder !== targetOrder; i++) {
+        await header.click();
+        await this._locator.page().waitForTimeout(200);
+        currentOrder = await getCurrentOrder();
+    }
+
+    if (!strict) {
+        return;
+    }
+
+    // ✅ STRICT MODE RESULT
+    return currentOrder === targetOrder;
 }
+
+
+
+}
+

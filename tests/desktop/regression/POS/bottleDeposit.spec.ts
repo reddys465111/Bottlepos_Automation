@@ -2,12 +2,21 @@ import { test, expect } from '@playwright/test';
 import { POS } from '../../../../src/section/POS';
 import { Initializer, ITEMS, KEY, payfac, Session } from '../../../../src/utils';
 import { Reports } from '../../../../src/section/POS/pages/reports/reports';
-
-
  
 test.beforeEach(async ({ page }) => {
-  await Initializer.Init(page);
-  await payfac.Init(page);
+  await Initializer.Init(page, {Scenario: {
+    Admin: {
+        Settings: {
+            GeneralSettings: {
+                CreditCard: {
+                    PayFac: {
+                        Enable: true,
+                    }
+                }
+            }
+        }
+    }
+  }});
 });
  
 test.afterEach(async ({ page }, testInfo) => {
@@ -44,17 +53,16 @@ test.describe("POS- Bottle Deposit", {tag: ['@pos', '@bottleDeposit']}, () => {
         .toEqual(subtotal + tax + deposit);
     });
 
-    test('[C4175] Verify Bottle Deposit amount in Reports',{ tag: ['@bottle', '@nonparallelizable','@deposit', '@reports'] },async () => {
+    test('[C4175] Verify Bottle Deposit amount in Reports',{ tag: ['@bottle', '@deposit', '@reports','@nonparallelizable'] },async () => {
         // --- Step 1: Login to POS Application ---
         await POS.Login.In();
-        
-        
+
         // --- Step 2: Capture current Bottle Deposit value from Register Report ---
         await POS.Reports.Click();
-        
-       
         await POS.Reports.RegisterReport.Click();
         const oldBottleDeposit = await POS.Reports.RegisterReport.Table.GetCellValueByRowLabel("Bottle Deposit", 3);
+        console.log('Old Bottle Deposit in Register Report:', oldBottleDeposit);
+
         // --- Step 3: Ring an item and add Bottle Deposit ---
         await POS.Register.Click();
         await POS.Register.AddItemByStockcode({ stockCode: ITEMS.JACK.BARCODE });
@@ -74,7 +82,6 @@ test.describe("POS- Bottle Deposit", {tag: ['@pos', '@bottleDeposit']}, () => {
 
         // --- Step 5: Re-check Bottle Deposit value in Register Report ---
         await POS.Reports.Click();
-      
         await POS.Reports.RegisterReport.Click();
         await POS.waitForTimeout(1000);
 

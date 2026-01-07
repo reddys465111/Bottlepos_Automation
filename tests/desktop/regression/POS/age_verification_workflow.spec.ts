@@ -4,7 +4,19 @@ import { getDateDaysAgo, Initializer, ITEMS } from '../../../../src/utils';
 
 //This block runs before each test
 test.beforeEach(async ({ page }) => {
-    await Initializer.Init(page);
+    await Initializer.Init(page, {Scenario: {
+        Admin: {
+            Settings: {
+                GeneralSettings: {
+                    CreditCard: {
+                        PayFac: {
+                            Enable: true,
+                        }
+                    }
+                }
+            }
+        }
+    }});
 });
 
 //This block runs after each test

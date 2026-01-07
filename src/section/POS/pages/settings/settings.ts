@@ -19,11 +19,13 @@ export class Settings {
 
     public async Click(): Promise<void> {
         if(IsMobile()){
-            await this._page.locator('[aria-label="Toggle menu"]').click();
+            await this._page.locator('[aria-label="Toggle menu"]').waitFor({ state: 'visible', timeout: 10000 });
+            await this._page.locator('[aria-label="Toggle menu"]').click({ timeout: 10000 });
         }
         await this._page.getByRole('link', {name: 'Settings'}).click();
+      
     }
-    // ⭐ Get business name in standard style
+    // business name in standard style
     public async getStoreName(): Promise<string> {
         return (await this.StoreName.innerText()).trim();
     }

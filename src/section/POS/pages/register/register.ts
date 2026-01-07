@@ -143,7 +143,15 @@ export class Register {
 
     public async Click(): Promise<void>{
         if(IsMobile()){
-            await this._locator.locator('[aria-label="Toggle menu"]').click();
+            // Only try to click the toggle if it exists; use a short timeout and ignore failures
+            const toggleMenu = this._locator.locator('[aria-label="Toggle menu"]');
+            try {
+                if (await toggleMenu.count() > 0) {
+                    await toggleMenu.click({ timeout: 3000 });
+                }
+            } catch (error) {
+                
+            }
         }
         await this._locator.getByRole('link', { name: 'Register' }).click();
     }

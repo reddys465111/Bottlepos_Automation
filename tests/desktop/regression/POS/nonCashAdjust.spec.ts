@@ -95,7 +95,7 @@ test.describe("TestRail POS Test Cases Dual Pricing and nca", { tag: ['@DualPric
         expect(AdminGrossTotal, `Gross Sales delta (${AdminGrossTotal}) should not equal full NCA sale total (${ncaSaleTotal})`).not.toEqual(ncaSaleTotal);
     });
 
-    test('[C4190] Verify Card Sales exclude NCA amount when sale is made with card using NCA', { tag: ['@NCA', '@Reports', '@SummaryReport'] }, async ({ page }) => {
+    test('[C4190] Verify Card Sales exclude NCA amount when sale is made with card using NCA', { tag: ['@NCA', '@Reports', '@SummaryReport', '@nonparallelizable'] }, async ({ page }) => {
         
         await API.Init();
         const summaryReport = await API.Reports.SummaryReport();
@@ -173,7 +173,7 @@ test.describe("TestRail POS Test Cases Dual Pricing and nca", { tag: ['@DualPric
             .toEqual(deltaRegister);
     });
 
-    test('[C4567] Verify NCA amount is excluded from Hourly Sales in Day Report', { tag: ['@NCA', '@Reports', '@DayReport'] }, async ({ page }) => {
+    test('[C4567] Verify NCA amount is excluded from Hourly Sales in Day Report', { tag: ['@NCA', '@Reports', '@DayReport', '@nonparallelizable'] }, async ({ page }) => {
 
 
         await API.Init();

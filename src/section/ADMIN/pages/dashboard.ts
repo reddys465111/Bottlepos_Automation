@@ -117,14 +117,19 @@ this.InventroryStats = {
       ),
     };
 
+    // DateFilter is for the Sales Stats section date range picker
     this.DateFilter = {
       Open: this._locator.locator("button:has(span#pierange)"),
       Display: this._body.locator("#pierange"),
       Picker: this._body.locator(".daterangepicker:visible"),
-      Option: (label: string) =>
-        this._body.locator(
-          `.daterangepicker:visible li[data-range-key="${label}"]`
-        ),
+      Option: (label: string) => {
+        // Try multiple selectors to find the option:
+        // 1. By data-range-key attribute (case-insensitive)
+        // 2. By text content with :has-text
+        return this._body.locator(
+          `.daterangepicker:visible li[data-range-key="${label}"], .daterangepicker:visible li:has-text("${label}")`
+        );
+      }
     };
     this.RankDropdown = {
       Open: this._locator.locator("button:has(span#rank)"),
@@ -186,18 +191,64 @@ this.InventroryStats = {
   public async SelectRank(rank: string): Promise<void> {
     await this.RankDropdown.Open.click();
     await this.RankDropdown.Option(rank).click();
-    await this.PopularItems.Rows.first().waitFor({
-      state: "visible",
-      timeout: 5000,
-    });
+     // Wait for the first row to be visible
+     await this.PopularItems.Rows.first().waitFor({
+       state: "visible",
+       timeout: 5000,
+     });
+   
+     // Add an additional wait to ensure the data has been fetched and updated
+     // This prevents race conditions where old data is still displayed
+     await this._body.page().waitForTimeout(500);
   }
 
   public async SelectDateRange(label: string): Promise<void> {
-    await this.DateFilter.Open.click();
+    // Find and click the button that opens the date range picker
+    // Try multiple possible selectors for the date range button
+    let openButton = null;
+    
+    try {
+      // First try the SalesStats PieRange button
+      openButton = this._locator.locator("button:has(span#pierange)");
+      await openButton.first().waitFor({ state: "visible", timeout: 3000 });
+    } catch {
+      try {
+        // Fallback: look for any button with date-related text or ID
+        openButton = this._body.locator("button:has-text('Date'), button[id*='date'], button[class*='date']").first();
+        await openButton.waitFor({ state: "visible", timeout: 3000 });
+      } catch {
+        throw new Error("Could not find date range filter button");
+      }
+    }
+    
+    // Click the button to open the picker
+    await openButton.click();
+    
+    // Wait for the date picker to appear
     await this.DateFilter.Picker.waitFor({ state: "visible", timeout: 5000 });
+    
+    // Wait a moment for the picker to fully render
+    await this._body.page().waitForTimeout(500);
+    
+    // Get the option locator
     const option = this.DateFilter.Option(label);
-    await option.waitFor({ state: "visible", timeout: 3000 });
-    await option.click();
+    
+    // Ensure the specific option is visible before clicking
+    await option.first().waitFor({ state: "visible", timeout: 3000 });
+    
+    // Scroll the option into view if needed
+    await option.first().scrollIntoViewIfNeeded();
+    
+    // Click the option
+    await option.first().click();
+    
+    // Wait for the picker to close and any loading to complete
+    try {
+      await this.DateFilter.Picker.waitFor({ state: "hidden", timeout: 3000 });
+    } catch {
+      // Picker might close quickly, that's fine
+    }
+    
     await this._body.page().waitForTimeout(500);
   }
   

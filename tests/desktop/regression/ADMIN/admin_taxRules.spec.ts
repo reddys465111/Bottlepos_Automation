@@ -69,7 +69,6 @@ test.describe("ADMIN - Accounting Settings - Tax Rules", {tag: ['@admin', '@taxr
     // no dialog is visible when the edit button is clicked
     test.skip("[C8230] Edit an existing tax rule", { tag: ['@bug','@taxrule', '@edit'] }, async ({ page }) => {
         const taxRuleName = "Test TaxRule "+ new Date().getTime();
-        console.log(taxRuleName);
         const baseTax1= TAXITEMS['NewTaxItem'];
         const baseTax2= TAXITEMS['Tax'];
 
@@ -89,7 +88,6 @@ test.describe("ADMIN - Accounting Settings - Tax Rules", {tag: ['@admin', '@taxr
                 }
             }
         })
-        
         // 2). Login into Admin with admin credentials
         await ADMIN.Login.In();
         // 3). Navigate to Accounting Settings

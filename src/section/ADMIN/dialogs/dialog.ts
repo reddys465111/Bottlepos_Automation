@@ -36,6 +36,22 @@ import { Dialog_AddCustomerGroup } from "./dialog_AddCustomerGroup";
 import { Dialog_EditCustomerGroup } from "./dialog_EditCustomerGroup";
 import { Dialog_EditCustomer } from "./dialog_EditCustomer";
 import { Dialog_CustomerHistory } from "./dialog_CustomerHistory";
+import { Dialog_EditTaskList } from "./dialog_EditTaskList";
+import { Dialog_TaskListHistory } from "./dialog_TaskListHistory";
+import { Dialog_AddExpenseTypes } from "./dialog_AddExpenseType";
+import { Dialog_EditExpenseType } from "./dialog_EditExpenseType";
+import { dialog_AddExpenseVendor } from "./dialog_AddExpenseVendor";
+import { Dialog_EditExpenseVendor } from "./dialog_EditExpenseVendor";
+import { Dialog_ExpenseManageVendor } from "./dialog_ExpenseManageVendor";
+import { Dialog_ExpenseManageTypes } from "./dialog_ExpenseManageTypes";
+import { Dialog_ExpenseManageCategory } from "./dialog_ExpenseManageCategory";
+import { Dialog_EditExpenseCategory } from "./dialog_EditExpenseCategory";
+import { dialog_AddExpenseCategory } from "./dialog_AddExpenseCategory";
+import { Dialog_AddExpense } from "./dialog_AddExpense";
+import { Dialog_EditExpense } from "./dialog_EditExpense";
+import { Dialog_InventoryEditStock } from "./dialog_InventoryEditStock";
+import { Dialog_InventoryStockHistory } from "./dialog_InventoryStockHistory";
+import { Dialog_InventoryTransferStock } from "./dialog_InventoryTransferStock";
 
 
 
@@ -86,8 +102,25 @@ export class Dialog {
     public ManageCustomerGroups: Dialog_ManageCustomerGroups;
     public AddCustomerGroup: Dialog_AddCustomerGroup;
     public EditCustomerGroup: Dialog_EditCustomerGroup;
-    public  EditCustomer!:Dialog_EditCustomer;
-    public  CustomerHistory!:Dialog_CustomerHistory;
+    public EditCustomer!:Dialog_EditCustomer;
+    public CustomerHistory!:Dialog_CustomerHistory;
+    public EditTaskList!:Dialog_EditTaskList;
+    public TaskListHistory!:Dialog_TaskListHistory
+
+    public ManageExpenseTypes!:Dialog_ExpenseManageTypes;
+    public AddExpenseTypes!:Dialog_AddExpenseTypes;
+    public EditExpenseType!:Dialog_EditExpenseType;
+    public ManageVendor!:Dialog_ExpenseManageVendor;
+    public ExpenseAddVendor!:dialog_AddExpenseVendor;
+    public EditExpenseVendor!:Dialog_EditExpenseVendor;
+    public ManageCategory!:Dialog_ExpenseManageCategory;
+    public EditExpensecategory!:Dialog_EditExpenseCategory;
+    public AddExpensecategory!:dialog_AddExpenseCategory
+    public AddExpense!:Dialog_AddExpense;
+    public EditExpense!:Dialog_EditExpense;
+    public EditStock!:Dialog_InventoryEditStock;
+    public InventoryStockHistory!:Dialog_InventoryStockHistory;
+    public TransferStock!:Dialog_InventoryTransferStock;
 
 
 
@@ -142,5 +175,21 @@ export class Dialog {
         this.EditCustomerGroup = new Dialog_EditCustomerGroup(page);
         this.EditCustomer = new Dialog_EditCustomer(page);
         this.CustomerHistory = new Dialog_CustomerHistory(page);
-    }
+        this.EditTaskList = new Dialog_EditTaskList(page);
+        this.TaskListHistory = new Dialog_TaskListHistory(page);
+        this.ManageExpenseTypes=new Dialog_ExpenseManageTypes(page);
+        this.AddExpenseTypes=new Dialog_AddExpenseTypes(page);
+        this.EditExpenseType=new Dialog_EditExpenseType(page);
+        this.ManageVendor=new Dialog_ExpenseManageVendor(page);
+        this.ExpenseAddVendor=new dialog_AddExpenseVendor(page);
+        this.EditExpenseVendor=new Dialog_EditExpenseVendor(page)  
+        this.ManageCategory=new Dialog_ExpenseManageCategory(page);
+        this.EditExpensecategory=new Dialog_EditExpenseCategory(page);
+        this.AddExpensecategory=new dialog_AddExpenseCategory(page);
+        this.AddExpense=new Dialog_AddExpense(page);
+        this.EditExpense=new Dialog_EditExpense(page);
+        this.EditStock=new Dialog_InventoryEditStock(page);
+        this.InventoryStockHistory=new Dialog_InventoryStockHistory(page);
+        this.TransferStock=new Dialog_InventoryTransferStock(page);
+     }
 }

@@ -11,8 +11,23 @@ export class Dialog_CheckoutComplete extends BaseDialog {
 
     constructor(page: Page){ 
         super(page, 'Checkout Complete');
-        this.Yes = new Button(this._locator.getByRole('button', {name: 'Yes'}));
-        this.No = new Button(this._locator.getByRole('button', {name: 'No'}));
+        this.Yes = new Button(
+        this._locator.getByRole('button', { name: 'Yes' }),
+        {
+          afterEvent: async () => {
+            await this.Yes._locator.page().waitForTimeout(3000);
+          }
+        }
+      );
+        this.No = new Button(
+        this._locator.getByRole('button', { name: 'No' }),
+        {
+          afterEvent: async () => {
+            await this.No._locator.page().waitForTimeout(3000);
+          }
+        }
+      );
+
         this.Change = new LabelField(this._locator.getByText('Change: $'));
     }
 }

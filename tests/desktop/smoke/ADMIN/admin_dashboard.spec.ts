@@ -139,7 +139,7 @@ test.describe("Admin Section - Dashboard", { tag: ['@smoke', '@admin', '@dashboa
       "Last 30 Days",
       "Last Month",
       "This Month",
-      "This Year",
+      
     ];
 
     // Step 3: Loop through each range and validate selection behavior

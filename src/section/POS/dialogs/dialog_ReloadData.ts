@@ -10,7 +10,14 @@ export class Dialog_ReloadData extends Legacy_BaseDialog {
     public No: Button;
     constructor(page: Page) { 
         super(page, 'Reload Data');
-        this.Yes = new Button(this._locator.getByRole('button', { name: 'Yes' }));
+        this.Yes = new Button(
+        this._locator.getByRole('button', { name: 'Yes' }),
+        {
+          afterEvent: async () => {
+            await this.Yes._locator.page().waitForTimeout(3000);
+          }
+        }
+      );
         this.No = new Button(this._locator.getByRole('button', { name: 'No' }));
 
        

@@ -225,25 +225,16 @@ export const Offline = async (enable: boolean) => {
     
     await Initializer.GetPage().waitForTimeout(2500);
     await Initializer.GetContext().setOffline(enable);
-    await Initializer.GetPage().waitForTimeout(2500);
+    await Initializer.GetPage().waitForTimeout(8000);
 }
 
-
-
-
-
-// /**
-//  * Checks if the POS is offline
-//  * @returns {Promise<boolean>} True if the POS is offline, false otherwise
-//  */
+/**
+ * Checks if the POS is offline
+ * @returns {Promise<boolean>} True if the POS is offline, false otherwise
+ */
 export const isOffline = async (): Promise<boolean> => {
     return await Initializer.GetPage().getByTestId('status-indicator-text').innerHTML() === 'POS is Offline';
 }
-
-
-
-
-
 
 /**
  * Checks if the POS is online

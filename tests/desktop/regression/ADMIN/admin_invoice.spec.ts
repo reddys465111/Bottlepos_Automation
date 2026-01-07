@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { ADMIN } from "../../../../src/section/ADMIN";
-import { Initializer, ITEMS } from "../../../../src/utils";
+import { CATEGORIES, Initializer, ITEMS } from "../../../../src/utils";
+import { IItemType } from "../../../../src/API/useCases/ADMIN/items/items";
 
 
 test.beforeEach(async ({ page }) => {
@@ -476,7 +477,45 @@ test.describe("Admin Section - Receive › Edit Non-Finalized Invoice", { tag: [
   });
 
   test('[C5959] Verify Finalized Invoice calculations', { tag: ['@regression', '@invoice'] }, async ({ page }) => {
-  
+      const item = await ADMIN.FakeData.getItemName();
+      const itemPrice = await ADMIN.FakeData.getItemPrice();
+      await Initializer.LoadScenario({
+        Admin: {
+          Items: {
+            Items: [
+              { // ExcludeDualPruce Item in category.
+                Name: item.name,
+                Tax: 'Tax',
+                ItemType: IItemType["Inventory Item"],
+                StockCodes: [
+                    {
+                        Stockcode: item.barcode,
+                        Cases: 1000,
+                        QtyOnHand: 1000,
+                    }
+                ],
+                Options: {
+                    
+                    AddToShortCutKeys: {
+                        ItemShortCutName: item.name
+                    }
+                },
+                Category: CATEGORIES.LIQUOR.Name,
+                Modifiers: [
+                    {
+                        Price: Number(itemPrice),
+                        AvgCost: 5,
+                        Margin: 5,
+                        Markup: 5, 
+                        Qty: 1,
+                        LatestCost: 0
+                    }
+                ]
+              }
+            ]
+          }
+        }
+      });
       // Step 1: Login to the Admin portal
       await ADMIN.Login.In();
   
@@ -491,7 +530,7 @@ test.describe("Admin Section - Receive › Edit Non-Finalized Invoice", { tag: [
       await ADMIN.Dialog.AddReciveItems.InvoiceNumber.setText({ value: InvoiceNumber });
   
       // Step 6: Search for an existing item and select it
-      await ADMIN.Dialog.AddReciveItems.SelectProductFromSuggestion("JACK");
+      await ADMIN.Dialog.AddReciveItems.SelectProductFromSuggestion(item.name);
   
       // Step 7: Update the Total Cost in the Item Details dialog
       await ADMIN.Dialog.AddItemDetails.TotalCost.setText({ value: "600.50" });
@@ -526,10 +565,10 @@ test.describe("Admin Section - Receive › Edit Non-Finalized Invoice", { tag: [
       //Steep-14: Calculate total as per test case formuala { TOTAL = RECEIVED BOTTLES * COST PER BOTTLE }
   
       const tablereceiveBottles = await ADMIN.Dialog.EditReciveItems.Table_EditReceiveItems.GetCellValue(
-        { getValueFrom: 'Received Bottles' }, { rowQuery: [{ rowColumn: 'Name', rowValue: 'JACK 750ML' }] });
+        { getValueFrom: 'Received Bottles' }, { rowQuery: [{ rowColumn: 'Name', rowValue: item.name }] });
   
       const costperbottle = await ADMIN.Dialog.EditReciveItems.Table_EditReceiveItems.GetCellValue(
-        { getValueFrom: 'Cost Per Bottle' }, { rowQuery: [{ rowColumn: 'Name', rowValue: 'JACK 750ML' }] });
+        { getValueFrom: 'Cost Per Bottle' }, { rowQuery: [{ rowColumn: 'Name', rowValue: item.name }] });
   
       const total = parseFloat(tablereceiveBottles) * parseFloat(costperbottle);
       const invoicetotal = Number(await ADMIN.Dialog.EditReciveItems.InvoiceTotal.getText());
@@ -537,7 +576,7 @@ test.describe("Admin Section - Receive › Edit Non-Finalized Invoice", { tag: [
   
       //Step 15: Calculate MARGIN % = ((TOTAL PRICE - TOTAL)/TOTAL PRICE) * 100
       const totalprice = await ADMIN.Dialog.EditReciveItems.Table_EditReceiveItems.GetCellValue(
-        { getValueFrom: 'Price' }, { rowQuery: [{ rowColumn: 'Name', rowValue: 'JACK 750ML' }] });
+        { getValueFrom: 'Price' }, { rowQuery: [{ rowColumn: 'Name', rowValue: item.name }] });
   
       const marginPercentage = ((parseFloat(totalprice) - parseFloat(costperbottle)) / parseFloat(totalprice)) * 100;
   

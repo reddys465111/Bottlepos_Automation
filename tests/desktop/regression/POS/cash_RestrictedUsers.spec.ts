@@ -29,16 +29,13 @@ test.afterEach(async ({ page }, testInfo) => {
 
 test.describe("Scenarios related to user permissions", {tag: ['@cash', '@permission', '@regression'] }, () => {
 
-  test.skip('[C727] Verify Discount Application Restrictions Based on User Permissions', { tag: ['@user', '@restricted', '@smoke'] }, async ({page}) => {
+  test('[C727] Verify Discount Application Restrictions Based on User Permissions', { tag: ['@user', '@restricted', '@smoke'] }, async ({page}) => {
     //Login to the POS application as Admin for initial device setup
     await POS.Login.In();
-    // Dismiss any Pax Initialization Error using the latest dialog
-    if (await POS.Dialog.Legacy_PaxInitializationError.IsVisible()) {
-          await POS.Dialog.Legacy_PaxInitializationError.Ok.Click();
-    }
     await POS.Logout.Click();
     //Logout as Admin after device registration
     await POS.Dialog.Logout.Yes.Click();
+    await page.waitForTimeout(5000);
     //Login as a Cashier with no Admin rights
     await POS.Login.In({user: 'register', reloadURL: true});
     //Enter the barcode of an item and hit enter, item will be ringed up

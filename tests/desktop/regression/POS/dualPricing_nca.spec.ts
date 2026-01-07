@@ -158,7 +158,7 @@ test.describe("TestRail POS Test Cases Dual Pricing and nca", { tag: ['@DualPric
 
     });
 
-    test('[C4185] Verify Dual Pricing amount is included in Card Sales', { tag: ['@DualPrice', '@Reports', '@SummaryReport'] }, async ({ page }) => {
+    test('[C4185] Verify Dual Pricing amount is included in Card Sales', { tag: ['@DualPrice', '@Reports', '@SummaryReport', '@nonparallelizable'] }, async ({ page }) => {
 
         await API.Init();
         const summaryReport = await API.Reports.SummaryReport();
@@ -200,7 +200,7 @@ test.describe("TestRail POS Test Cases Dual Pricing and nca", { tag: ['@DualPric
 
     });
 
-    test('[C4186] Verify DP amount is included in Additional Card Fee on Summary Report', { tag: ['@DualPrice', '@Reports', '@SummaryReport'] }, async ({ page }) => {
+    test('[C4186] Verify DP amount is included in Additional Card Fee on Summary Report', { tag: ['@DualPrice', '@Reports', '@SummaryReport', '@nonparallelizable'] }, async ({ page }) => {
         await API.Init();
         const summaryReport = await API.Reports.SummaryReport();
         const oldCardFee = Number(summaryReport.CardFee?.Total ?? 0);
@@ -283,7 +283,7 @@ test.describe("TestRail POS Test Cases Dual Pricing and nca", { tag: ['@DualPric
         ).toEqual(deltaRegister);
     });
 
-    test('[C4568] Verify DP amount is excluded from Hourly Sales in Day Report', { tag: ['@DualPrice', '@Reports', '@DayReport'] }, async ({ page }) => {
+    test('[C4568] Verify DP amount is excluded from Hourly Sales in Day Report', { tag: ['@DualPrice', '@Reports', '@DayReport', '@nonparallelizable'] }, async ({ page }) => {
         await API.Init();
         const dayReport = await API.Reports.DayReport();
         const oldHourlySales = Number(dayReport.Total_Hourly_Sales ?? 0);
@@ -314,7 +314,7 @@ test.describe("TestRail POS Test Cases Dual Pricing and nca", { tag: ['@DualPric
 
     });
 
-    test('[C4188] Verify refund of completed sale includes Dual Pricing amount', { tag: ['@DualPrice', '@Refund', '@Reports', '@SummaryReport'] }, async ({ page }) => {
+    test('[C4188] Verify refund of completed sale includes Dual Pricing amount', { tag: ['@DualPrice', '@Refund', '@Reports', '@SummaryReport', '@nonparallelizable'] }, async ({ page }) => {
 
         // --- Step 1: Login ---
         await POS.Login.In();

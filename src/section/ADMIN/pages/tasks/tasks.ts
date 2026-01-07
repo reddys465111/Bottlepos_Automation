@@ -3,7 +3,11 @@ import { Button } from "../../../../objects/button";
 import { BaseTable } from "../../../../base/baseTable";
 import { Dialog_AddTaskList } from "../../dialogs/dialog_AddTaskList";
 import { Legacy_BaseTable } from "../../../../base/legacy/legacy_BaseTable";
-export type taskHeader = 'Check'|'ID'|'Name'|'Type'|'Schedule Date'|'Time'|'Task Notify'|'Total Tasks #'|'Incompleted Tasklists #'|'Status'|'Actions';
+import { th } from "@faker-js/faker";
+import { TextField } from "../../../../objects/textField";
+import { Table_TasksList } from "../../tables/table_TasksList";
+
+
 
 export class Tasks {
     private _page: Page;
@@ -12,7 +16,8 @@ export class Tasks {
     public AddTasks!: Button;
     public ExportCSV!: Button;
     public ImportCSV!: Button;
-    public Table!: Legacy_BaseTable<taskHeader>;
+    public Tasktable!:Table_TasksList
+    public Search!: TextField;
     
     // Add Task Dialog
     public AddTaskList!: Dialog_AddTaskList;
@@ -27,12 +32,9 @@ export class Tasks {
         this.AddTasks = new Button(this._page.getByRole('button', { name: ' Add Tasks' }));
         this.ExportCSV = new Button(this._page.getByRole('button', { name: ' Export CSV' }));
         this.ImportCSV = new Button(this._page.getByRole('button', { name: ' Import CSV' }));
+        this.Search = new TextField(this._page.getByRole('searchbox', { name: 'Search:' }));
+        this.Tasktable=new Table_TasksList(this._page.locator('#taskliststable'));
         
-        // Table
-        // this.Table = new Legacy_BaseTable(this._page.locator('table'));
-        const tableLocator = this._page.locator('.dataTables_scroll');
-        this.Table = new Legacy_BaseTable(tableLocator, tableLocator.locator('.dataTables_scrollBody'), tableLocator.locator('.dataTables_scrollHead'));
-        this.Table.setTextCase('upper');
         // Add Task Dialog
         this.AddTaskList = new Dialog_AddTaskList(this._page);
     }
@@ -67,5 +69,5 @@ export class Tasks {
         const period = now.getHours() >= 12 ? 'PM' : 'AM';
         return {hour, minute, period};
     }
-    
+        
 }

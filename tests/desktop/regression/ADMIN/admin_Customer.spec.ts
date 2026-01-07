@@ -186,12 +186,11 @@ test.describe('Admin Section - Customers', { tag: ['@regression'] }, () => {
         //Step 6: The new customer should be added successfully and appear in the Manage Your Customer Base list
         await ADMIN.Customers.Search.setText({ value: customerDetails.mobile });
 
-        const isVisible = await ADMIN.Customers.Table.isCustomerVisible({ text: customerDetails.mobile });
-        expect(isVisible).toBeTruthy();
+       const isVisible = await ADMIN.Customers.Table.isCustomerVisible({ text: customerDetails.mobile });
+       expect(isVisible).toBeTruthy();
 
     });
 
-    //////12-15-2025
     test('[C6098]  Advanced Search option can access additional search filters', { tag: ['@CustomerSearch', '@Admin'] }, async ({ }) => {
         //Step 1: Login to Admin
         await ADMIN.Login.In();
@@ -201,7 +200,7 @@ test.describe('Admin Section - Customers', { tag: ['@regression'] }, () => {
         await ADMIN.Customers.AdvanceSearch.Click();
         //Step 4: Additional search filters should be displayed
         expect(await ADMIN.Customers.AdvanceSearch.Exists()).toBeTruthy();
-
+ 
     });
     test('[C6105] edit customer details update and save changes to the customer information successfully. ', { tag: ['@CustomerEdit', '@Admin'] }, async ({ }) => {
         //Step 1: Login to Admin
@@ -281,7 +280,7 @@ test.describe('Admin Section - Customers', { tag: ['@regression'] }, () => {
         await ADMIN.Dialog.ManageCustomerGroups.ManageCustomerGroupsTable.deleteGroup({ rowIndex: 1 });
         //Step13: Confirm the deletion with Yes  
         await ADMIN.Dialog.Confirmation.Yes.Click();    
-
+ 
     });
     test('[C6108]access the sale stats of a customer in the history section to track their sales performance over time', { tag: ['@CustomerHistory'] }, async ({ }) => {
         //Step 1 : Login to Admin
@@ -296,11 +295,11 @@ test.describe('Admin Section - Customers', { tag: ['@regression'] }, () => {
         await ADMIN.Dialog.CustomerHistory.Stats.Click();
         //Step 6: Sales statistics should be displayed
         expect(await ADMIN.Dialog.CustomerHistory.IsVisible()).toBeTruthy();
-
+ 
     });
     test('[C6110]Open the transaction history of a customer to verify the transaction details', { tag: ['@CustomerTransactionHistory'] }, async ({ }) => {
         //Step 1 : Login to Admin
-        await ADMIN.Login.In(); 
+        await ADMIN.Login.In();
         //Step 2: Go to Customers page
         await ADMIN.Menu.Customers.GoTo();
         //Step 3: Click the History tab to access the customer's sales history
@@ -316,4 +315,23 @@ test.describe('Admin Section - Customers', { tag: ['@regression'] }, () => {
        expect(await ADMIN.Dialog.CustomerHistory.Transactions.table.isColumnVisible({ column: 'Time' })).toBeTruthy();
        expect(await ADMIN.Dialog.CustomerHistory.Transactions.table.isColumnVisible({ column: 'Total' })).toBeTruthy();
     });
+ 
+    
+    test('[C6111] Items history of a customer to verify information along with quantity purchased', { tag: ['@CustomerItemsHistory'] }, async ({ }) => {
+    //Step 1 : Login to Admin
+    await ADMIN.Login.In();
+    //Step 2: Go to Customers page
+    await ADMIN.Menu.Customers.GoTo();
+    //Step 3: Click the History tab to access the customer's sales history
+    await ADMIN.Customers.Table.CustomerHistory({ rowIndex: 1 });
+    //Step 4: The Customer History page should appear
+    expect(await ADMIN.Dialog.CustomerHistory.IsVisible()).toBeTruthy();
+    //Step 5:Navigate to the Items  History tab in the Customer History dialog
+    await ADMIN.Dialog.CustomerHistory.ItemHistory.Click();
+    //Step 6: Items history should be displayed
+    expect(await ADMIN.Dialog.CustomerHistory.IsVisible()).toBeTruthy();
+    //Step 7: Validate item hsitory table has Sold data
+    expect(await ADMIN.Dialog.CustomerHistory.ItemHistory.itemsoldtable.ItemExist()).toBeTruthy();
+    });
+
 });

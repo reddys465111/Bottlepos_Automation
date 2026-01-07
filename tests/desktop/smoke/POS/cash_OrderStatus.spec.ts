@@ -6,15 +6,7 @@ import { Initializer, ITEMS, getDateDaysAgo } from '../../../../src/utils';
 test.beforeEach(async ({ page }) => {
     await Initializer.Init(page, {
         Scenario: {
-            Admin: {
-                Settings: {
-                    POSSettings: {
-                        SaleOptions: {
-                            AllowChangingStoredItemPrices: 'Always'
-                        }
-                    }
-                }
-            }
+            
         }
     });
 });
@@ -27,6 +19,17 @@ test.afterEach(async ({ page }, testInfo) => {
 test.describe("Scenarios related to suspend and recall orders ", { tag: ['@cash', '@status', '@smoke'] }, () => {
 
     test('[C82] Verify Functionality of Suspending and Complete Orders', { tag: ['@suspend', '@recall'] }, async ({page}) => {
+        await Initializer.LoadScenario({
+            Admin: {
+                Settings: {
+                    POSSettings: {
+                        SaleOptions: {
+                            AllowChangingStoredItemPrices: 'Always'
+                        }
+                    }
+                }
+            }
+        });
         //Login to the POS application
         await POS.Login.In();
         //Enter the barcode of an item and hit enter, item will be ringed up

@@ -50,7 +50,7 @@ test.describe("Scenarios related to Discounts", { tag: ['@cash', '@discount', '@
         expect(await POS.Register.ItemLines.GetDiscountTotal({ row: 1 }), 'Discount not applied correctly').toEqual('1.00');
     });
 
-    test('[C350] Verify Applied Percentage Discounts to Items with Cash Payment', { tag: ['@percentage', '@smoke'] }, async ({}) => {
+    test('[C350] Verify Applied Percentage Discounts to Items with Cash Payment', { tag: ['@percentage', '@smoke', '@nonparallelizable'] }, async ({}) => {
         //Login to the POS application
         await POS.Login.In();
         //Enter the barcode of an item and hit enter, item will be ringed up

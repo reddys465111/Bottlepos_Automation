@@ -83,9 +83,9 @@ export class Table_Sales extends BaseTable<ColumnTitles>{
         return await viewLocator.innerText();
     }
     public async GetRefNumber(rowIndex: number): Promise<string> {
-  const ref = this._locator
-    .locator(`tbody tr:nth-child(${rowIndex}) td:nth-child(2)`);  // 2 = Ref column
+        const ref = this._locator
+            .locator(`tbody tr:nth-child(${rowIndex}) td:nth-child(2)`);  // 2 = Ref column
 
-  return (await ref.innerText()).trim();
-}
+        return (await ref.innerText()).trim();
+    }
 }

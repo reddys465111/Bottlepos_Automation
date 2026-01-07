@@ -19,6 +19,8 @@ import { AccountingSettings } from "./ADMIN/pages/settings/accountingSetting";
 import { GeneralSettings } from "./ADMIN/pages/generalSettings/generalSettings";
 import { Admin_Recieve } from "./ADMIN/pages/Items/admin_Receive";
 import { Admin_Order } from "./ADMIN/pages/Items/admin_Order";
+import { Expense } from "./ADMIN/pages/accounting/expense";
+import { Admin_Inventory } from "./ADMIN/pages/Items/admin_Inventory";
 
 export class AdminPortal {
     public Menu!: Menu;
@@ -39,6 +41,8 @@ export class AdminPortal {
     public FakeData!: FakeData;
     private _device!: string;
     public Loader!: Loader;
+    public Expense!: Expense
+    public Inventory!: Admin_Inventory;
 
     public Settings!: {
         AccountingSettings: AccountingSettings;
@@ -71,7 +75,9 @@ export class AdminPortal {
         this.Suppliers = new Admin_Suppliers(page);
         this.Customers = new Customers(page);
         this.Tasks = new Tasks(page);
+        this.Expense = new Expense(page);
         this.FakeData = new FakeData(page);
+        this.Inventory = new Admin_Inventory(page);
         this.Settings = {
             AccountingSettings: new AccountingSettings(page),
             GeneralSettings:new GeneralSettings(page)

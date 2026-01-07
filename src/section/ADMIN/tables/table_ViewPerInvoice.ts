@@ -11,17 +11,12 @@ export class Table_ViewPerInvoice extends Legacy_BaseTable<Titles> {
     super(locator);
   }
 
-  // Edit function for editing an invoice row
-  // public async Edit(...rowQuery: RowQuery<Titles>[]): Promise<void> {
-  //   const rowLocator: Locator = await this.GetRow(...rowQuery);
-  //   await rowLocator.locator(".action-buttons a.blue").first().click();  // Blue edit button
-  
-  // }
+ 
  public async Edit(...rowQuery: RowQuery<Titles>[]): Promise<void> {
   const rowLocator: Locator = await this.GetRow(...rowQuery);
   await rowLocator.locator(".action-buttons a.blue").first().click();  
 
-  // ✅ FIX: Wait for any VISIBLE dialog content (no strict mode error)
+  // FIX: Wait for any VISIBLE dialog content (no strict mode error)
   await this._locator.page()
     .locator("div.ui-dialog-content:visible")
     .first()

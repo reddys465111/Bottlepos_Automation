@@ -17,7 +17,7 @@ test.afterEach(async ({ page }, testInfo) => {
 
 test.describe("Scenarios related to Day Report", { tag: ['@dayreport', '@smoke'] }, () => {
 
- test('[C7096] Verify Day Report - Lotto Payout', { tag: ['@lottopayout'] }, async ({ }) => {
+ test('[C7096] Verify Day Report - Lotto Payout', { tag: ['@lottopayout', '@nonparallelizable'] }, async ({ }) => {
     const customerDetails = {
       name: await POS.FakeData.getName(),
       mobile: (await POS.FakeData.getMobile()).toString(),
@@ -27,7 +27,7 @@ test.describe("Scenarios related to Day Report", { tag: ['@dayreport', '@smoke']
       zipcode: await POS.FakeData.getZipcode(),
     }
     await POS.Login.In();
-     await POS.Settings.Click();
+    await POS.Settings.Click();
     //Enbale Customer Settings
     await POS.Settings.General.ShowCustomerNumber.Check();
     await POS.Register.Click();

@@ -8,7 +8,19 @@ import { Reports } from '../../../../src/section/POS/pages/reports/reports';
 
 //This block runs before each test
 test.beforeEach(async ({ page }) => {
-  await Initializer.Init(page);
+  await Initializer.Init(page, {Scenario: {
+    Admin: {
+        Settings: {
+            GeneralSettings: {
+                CreditCard: {
+                    PayFac: {
+                        Enable: true,
+                    }
+                }
+            }
+        }
+    }
+  }});
   await payfac.Init(page);
 });
 
@@ -23,7 +35,6 @@ test.describe("TestRail POS Test Cases Discount, Promotions and coupons", { tag:
         await POS.Login.In();
         // Step 1: Ring up an item
         await POS.Register.AddItemByStockcode({ stockCode: ITEMS.NO_DISCOUNT.BARCODE });
-        await POS.waitForTimeout(2000);
         expect(await POS.Register.ItemLines.GetItemName({ row: 1 })).toEqual(ITEMS.NO_DISCOUNT.TITLE);
  
         // Step 2: Open Options tab (opens Edit Item dialog)

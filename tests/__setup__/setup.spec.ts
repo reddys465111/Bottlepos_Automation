@@ -5,6 +5,29 @@ import { Authenticate } from "../../src/API/useCases/auth/useCase.Auth";
 import { ScenarioItems } from "./scenarios/scenario.items";
 import { ScenarioPromotions } from "./scenarios/scenario.promotions";
 
+/*
+This function creates slices of items to avoid timeout errors
+*/
+function createItemSlices(n: number, totalItems: number): Array<{ start: number; end: number; part: number }> {
+    const slices: Array<{ start: number; end: number; part: number }> = [];
+    const itemsPerSlice = Math.floor(totalItems / n);
+    const remainder = totalItems % n;
+    
+    let currentStart = 0;
+    for (let i = 0; i < n; i++) {
+        // Distribute remainder items across first slices
+        const currentEnd = currentStart + itemsPerSlice + (i < remainder ? 1 : 0);
+        slices.push({
+            start: currentStart,
+            end: currentEnd,
+            part: i + 1
+        });
+        currentStart = currentEnd;
+    }
+    
+    return slices;
+}
+
 setup.describe.serial("Setup initial data and users ", { tag: ['@init'] }, () => {
 
     setup("Init Data ", { tag: ['@data'] }, async ({ request }) => {
@@ -12,31 +35,30 @@ setup.describe.serial("Setup initial data and users ", { tag: ['@init'] }, () =>
         console.log("URL seeded:" + Session.URL);
     });
 
-    // Initialize items in two parts, to avoid timeout errors
-    setup("Init items 1 of 2", { tag: ['@data'] }, async ({ request }) => {
-        await Initializer.InitData({ Scenario: { Admin: { 
-            Items: 
-            {
-                    Items: ScenarioItems.slice(0, ScenarioItems.length / 2),
-            }
-        }}  });
-    });
+    // Initialize items in three parts, to avoid timeout errors
+    const totalItems = ScenarioItems.length;
+    const numberOfSlices = 3;
+    const itemSlices = createItemSlices(numberOfSlices, totalItems);
 
-    // Initialize items in two parts, to avoid timeout errors
-    setup("Init items 2 of 2", { tag: ['@data'] }, async ({ request }) => {
-        await Initializer.InitData({ Scenario: { Admin: { 
-            Items: {
-                Items: ScenarioItems.slice(ScenarioItems.length / 2, ScenarioItems.length),
-            }
-        }} 
-    });  
-    });
+    for (const slice of itemSlices) {
+        setup(`Init items ${slice.part} of ${numberOfSlices}`, { tag: ['@data'] }, async ({ request }) => {
+            await Initializer.InitData({ 
+                Scenario: { 
+                    Admin: { 
+                        Items: {
+                            Items: ScenarioItems.slice(slice.start, slice.end)
+                        }
+                    }
+                }
+            });
+        });
+    }
     
     // Initialize item promotion
     setup("Init item promotion", { tag: ['@data'] }, async ({ request }) => {
-        await Initializer.InitData(
-            {
-                Scenario: { Admin: {
+        await Initializer.InitData({
+            Scenario: {
+                Admin: {
                     Items: {
                         Promotions: ScenarioPromotions
                     }

@@ -32,15 +32,11 @@ export class Reports {
         
     }
 
-    public static parseCurrency(val: string): number {
-         return parseFloat(val.replace(/[^0-9.-]+/g, "")) || 0;
-     }
-
     public async Click(): Promise<void> {
         // await this._page.waitForTimeout(1000);
         await this._page.getByRole('link', {name: 'Reports'}).click();
     }
-
-     
-
+    public static parseCurrency(val: string): number {
+        return parseFloat(val.replace(/[^0-9.-]+/g, "")) || 0;
+    }
 }

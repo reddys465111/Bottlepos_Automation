@@ -61,7 +61,18 @@ export class Sales  {
      */
     public async Click(): Promise <void>{
         if(IsMobile()){
-            await this._locator.locator('[aria-label="Toggle menu"]').click();
+            // Only try to click the toggle menu if it exists and is visible
+            const toggleMenu = this._locator.locator('[aria-label="Toggle menu"]');
+            try {
+                // Check if the element exists before attempting to click
+                if (await toggleMenu.count() > 0) {
+                    // Use a short timeout to avoid hanging if the element isn't visible
+                    await toggleMenu.click({ timeout: 3000 });
+                }
+            } catch (error) {
+                // If toggle menu fails, continue - it might not be needed on this viewport
+                
+            }
         }
         await this._locator.getByRole('link', {name: 'Sales'}).click();
         await this.transactions.Table.WaitUntilVisible();

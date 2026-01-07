@@ -39,7 +39,7 @@ test.describe("Scenarios related to loyalty points", { tag: ['@loyalty', '@smoke
    
   });
 
-  test('[C1439] Verify customer earns loyalty points after transaction', { tag: ['@loyaltypoints', '@customer'] }, async () => {
+ test('[C1439] Verify customer earns loyalty points after transaction', { tag: ['@loyaltypoints', '@customer'] }, async () => {
     // Login to the POS application
     await POS.Login.In();
     await POS.Settings.Click();
@@ -49,7 +49,6 @@ test.describe("Scenarios related to loyalty points", { tag: ['@loyalty', '@smoke
     await POS.Register.Customer.SelectCustomer({customer: CUSTOMER.WITH_LOYALTY_POINTS.Mobile});
     expect(await POS.Dialog.Customerinfo.IsVisible(), 'Customer info dialog is not visible').toBe(true);
     const oldPoints = await POS.Dialog.Customerinfo.Points.getText();
-    await POS.waitForTimeout(2000);
     // Close the customer info dialog
     await POS.Dialog.Customerinfo.Close();
     // Add the item
@@ -58,17 +57,13 @@ test.describe("Scenarios related to loyalty points", { tag: ['@loyalty', '@smoke
     await POS.Register.PayButton.Click();
     await POS.Dialog.Checkout.ClickCashPaymentButton({index: 1});
     await POS.Dialog.CheckoutComplete.No.Click();
-    await POS.waitForTimeout(1000);
     await POS.Settings.Click();
     await POS.Settings.General.RefreshRemoteData.Click();
     await POS.Dialog.ReloadData.Yes.Click();
-    await POS.waitForTimeout(2000);
     await POS.Register.Click();
     // Select the customer mobile number again to verify updated points
-     await POS.Register.Customer.SelectCustomer({customer: CUSTOMER.WITH_LOYALTY_POINTS.Mobile});
+    await POS.Register.Customer.SelectCustomer({customer: CUSTOMER.WITH_LOYALTY_POINTS.Mobile});
     const newPoints = await POS.Dialog.Customerinfo.Points.getText();
-    await POS.waitForTimeout(2000);
-    console.log(`Old Points: ${oldPoints}, New Points: ${newPoints}`);
     expect(Number(newPoints), 'Points are not correct').toBe(Number(oldPoints) + Number(ITEMS.NO_AGE_VERIFICATION.PRICE));
   });
 

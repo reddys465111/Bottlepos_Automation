@@ -28,7 +28,7 @@ test.describe("Scenarios related to Refund", { tag: ['@cash', '@refund', '@smoke
     //Change item qty to negative 1 (-1)
     await POS.Register.ItemLines.EditQty({row:1, qty:-1});
     const change=await POS.Register.Total.getText();
-    console.log(change);
+   
     //Click on the pay button to checkout
     await POS.Register.PayButton.Click();
     expect(await POS.Dialog.Checkout.CashTotal.getText()).toEqual(change);

@@ -5,7 +5,7 @@ import { Checkbox } from "../../../../../objects/checkbox";
 import { Dropdown } from "../../../../../objects/dropdown";
 import { LabelField } from "../../../../../objects/labelField";
 
-export class Tab_General extends BaseObject{
+export class Tab_General extends BaseObject {
 
     public UseOnScreenKeypad: Checkbox;
     public ShowFixedKeypad: Checkbox;
@@ -38,7 +38,7 @@ export class Tab_General extends BaseObject{
     public RetryFailedTransactions: Button;
     public RestartPaxMachine: Button;
     public CloseBatchPAXMachine: Button;
-    constructor(locator: Locator){
+    constructor(locator: Locator) {
         super(locator);
 
         this.UseOnScreenKeypad = new Checkbox(this._locator.getByLabel('Use On-Screen Keypad'));
@@ -68,11 +68,13 @@ export class Tab_General extends BaseObject{
         this.BackupOfflineSales = new Button(this._locator.locator('#backup_btn'));
         this.ResetLocalConfig = new Button(this._locator.locator('[title="Reset Local Config"]'));
         this.ClearLocalData = new Button(this._locator.locator('[title="Clear Local Data"]'));
-        this.RefreshRemoteData = new Button(this._locator.locator('//button[.//div[normalize-space(text())=\'Refresh Remote Data\']]'));
+        this.RefreshRemoteData = new Button(this._locator.getByRole('button', { name: 'Refresh Remote Data' }));
+
+
         this.RemoveDeviceRegistration = new Button(this._locator.locator('[title="Remove Device Registration"]'));
         this.RetryFailedTransactions = new Button(this._locator.locator('[title="Retry Failed Transactions"]'));
         this.RestartPaxMachine = new Button(this._locator.locator('#resetpaxbtn'));
         this.CloseBatchPAXMachine = new Button(this._locator.locator('#closebatchpaxbtn'));
-        
+
     }
 }

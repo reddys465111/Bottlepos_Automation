@@ -1,8 +1,6 @@
 import { Locator } from "@playwright/test";
 import { Processing } from "../objects/processing";
 
-
-
 export type RowQuery<T> = {
     rowColumn: T | number,
     rowValue: string
@@ -124,9 +122,6 @@ export class BaseTable<T extends string> {
         const colIndex: number = await this.GetColumnIndex({ colTitle: option.getValueFrom });
         const cellLocator = rowLocator.locator(`td:nth-of-type(${colIndex})`);
 
-        //await cellLocator.waitFor({ state: 'attached', timeout: 12000 });
-        // Wait for cell or inner content to be visible
-        // SAFETY: Check if cell has any inner elements before waiting
         const innerElements = cellLocator.locator("*");
         if (await innerElements.count() > 0) {
             // Wait for the first visible child only if it exists
@@ -134,28 +129,25 @@ export class BaseTable<T extends string> {
             try {
                 await firstInner.waitFor({ state: 'visible', timeout: 8000 });
             } catch {
-                // Do not fail — fallback to reading text
+
             }
         }
-        // If no inner elements → continue without waiting
 
-
-
-        // CASE 1: If cell contains a visible input → use inputValue()
+        // CASE 1: If html contains a visible input → use inputValue()
         const visibleInput = cellLocator.locator('input:not([type="hidden"])');
         if (await visibleInput.count() > 0) {
             await visibleInput.first().waitFor({ state: 'visible', timeout: 5000 });
             return (await visibleInput.first().inputValue()).trim();
         }
 
-        // CASE 2: If cell contains hidden input → use attribute "value"
+        // CASE 2: If html contains hidden input → use attribute "value"
         const hiddenInput = cellLocator.locator('input[type="hidden"]');
         if (await hiddenInput.count() > 0) {
             const val = await hiddenInput.first().getAttribute('value');
             if (val) return val.trim();
         }
 
-        // CASE 3: If cell contains span-like content → fallback to text
+        // CASE 3: If html contains span-like content → fallback to text
         const textContent = (await cellLocator.innerText()).trim();
         return textContent;
     }
@@ -168,8 +160,14 @@ export class BaseTable<T extends string> {
      */
     public async RowExists(...rowQuery: RowQuery<T>[]): Promise<boolean> {
         const row = await this.GetRow(...rowQuery);
-        const count = await row.count();
-        return count > 0;
+
+        try {
+            // wait until at row is present
+            await row.first().waitFor({ timeout: 5000 });
+            return true;
+        } catch {
+            return false;
+        }
     }
 
     /**
@@ -212,13 +210,9 @@ export class BaseTable<T extends string> {
             throw new Error("No 'tfoot' or 'tbody' elements found in the DOM.");
         }
 
-        // console.log(`Number of 'tfoot' elements found: ${footersPresent}`);
-        // console.log(`Number of 'tbody' elements found: ${bodiesPresent}`);
 
         const sectionRows = this._locator.locator(`tfoot th:has-text("${sectionTitle}") ~ tr, tbody th:has-text("${sectionTitle}") ~ tr`);
         const rows = await sectionRows.all();
-
-        // console.log(`Number of rows found for section "${sectionTitle}": ${rows.length}`);
 
         const data: Array<{ [key in T]?: string }> = [];
 
@@ -228,13 +222,13 @@ export class BaseTable<T extends string> {
 
             for (let i = 0; i < cells.length; i++) {
                 const cellValue = await cells[i].innerText();
-                const columnTitle = await this.GetColumnTitle(i + 1); // assuming columns start from 1
+                const columnTitle = await this.GetColumnTitle(i + 1);
                 rowData[columnTitle as T] = cellValue;
             }
             data.push(rowData);
         }
         if (data.length === 0) {
-            // console.log(`No data found for section "${sectionTitle}".`);
+
         }
         return data;
     }
@@ -297,55 +291,39 @@ export class BaseTable<T extends string> {
     // Sort the table by a specific column index
   */
     public async SortBytableColumn(options: {
-    columnIndex: number;
-    sortOrder?: 'ascending' | 'descending';
-    strict?: boolean; // ✅ NEW (optional)
-}): Promise<boolean | void> {
+        columnIndex: number;
+        sortOrder?: 'ascending' | 'descending';
+        strict?: boolean;
+    }): Promise<boolean | void> {
 
-    const targetOrder: 'ascending' | 'descending' =
-        options.sortOrder ?? 'ascending';
+        const target = options.sortOrder ?? 'ascending';
+        const strict = options.strict === true;
 
-    const strict = options.strict === true;
+        const tableId = await this._locator.getAttribute('id');
+        if (!tableId) return strict ? false : undefined;
 
-    const tableId = await this._locator.getAttribute('id');
-    if (!tableId) {
-        return strict ? false : undefined;
+        // 🔹 Works for scroll + normal tables
+        const header = this._locator.page().locator(
+            `th[aria-controls="${tableId}"]:nth-child(${options.columnIndex})`
+        );
+
+        const getOrder = async (): Promise<'ascending' | 'descending' | null> => {
+            if (!(await header.count())) return null;
+            const cls = (await header.first().getAttribute('class')) ?? '';
+            if (cls.includes('sorting_asc')) return 'ascending';
+            if (cls.includes('sorting_desc')) return 'descending';
+            return null;
+        };
+
+        // 🔹 Max 2 clicks (DataTables behavior)
+        for (let i = 0; i < 2 && (await getOrder()) !== target; i++) {
+            if (!(await header.count())) break;
+            await header.first().scrollIntoViewIfNeeded();
+            await header.first().click({ force: true });
+        }
+
+        return strict ? (await getOrder()) === target : undefined;
     }
-
-    const header = this._locator.page().locator(
-        `.dataTables_scrollHead th[aria-controls="${tableId}"]:nth-of-type(${options.columnIndex})`
-    );
-
-    try {
-        await header.waitFor({ state: 'visible', timeout: 15000 });
-    } catch {
-        return strict ? false : undefined;
-    }
-
-    const getCurrentOrder = async (): Promise<'ascending' | 'descending' | null> => {
-        const cls = (await header.getAttribute('class')) ?? '';
-        if (cls.includes('sorting_asc')) return 'ascending';
-        if (cls.includes('sorting_desc')) return 'descending';
-        return null;
-    };
-
-    let currentOrder = await getCurrentOrder();
-
-    // ✅ Try max 2 clicks — no waiting
-    for (let i = 0; i < 2 && currentOrder !== targetOrder; i++) {
-        await header.click();
-        await this._locator.page().waitForTimeout(200);
-        currentOrder = await getCurrentOrder();
-    }
-
-    if (!strict) {
-        return;
-    }
-
-    // ✅ STRICT MODE RESULT
-    return currentOrder === targetOrder;
-}
-
 
 
 }

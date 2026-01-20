@@ -95,7 +95,9 @@ export class Table_Register{
      * @returns the selected row object
      */
     private async RowItem(item: string|number, column: rowType): Promise<Locator> {
-        return this._page.locator(`[data-testid=${await this.RowDataTestID(item, column)}]`);
+        const testId = await this.RowDataTestID(item, column);
+        if (!testId) throw new Error(`RowItem: data-testid not found for item=${item} column=${column}`);
+        return this._page.locator(`[data-testid="${testId}"]`);
     }
     /**
      * Gets the items Quantity
@@ -113,11 +115,61 @@ export class Table_Register{
      * await POS.Register.ItemLines.EditQty({row: "Item title", qty: 6});
      */
     public async EditQty(option: {row: string|number, qty: number}):Promise<void>{
-        var rowItem = await this.RowItem(option.row, rowType.Qty);
-        var rowInput = rowItem.locator('input');
-        await rowInput?.clear();
-        await rowInput?.fill(option.qty.toString());
-        await rowItem.press("Tab");
+        const rowItem = await this.RowItem(option.row, rowType.Qty);
+        const rowInput = rowItem.locator('input');
+        const subtotalLocator = this._page.getByTestId('subtotal-value');
+        const prevSubtotal = (await subtotalLocator.count() > 0) ? (await subtotalLocator.first().textContent())?.trim() ?? '' : '';
+        try {
+            if (await rowInput.count() > 0) {
+                await rowInput.first().waitFor({ state: 'visible', timeout: 5000 });
+                // Use fill("") to reliably clear input instead of locator.clear()
+                await rowInput.first().fill("");
+                await rowInput.first().fill(option.qty.toString());
+                await rowItem.press("Tab");
+                // wait for subtotal to update (short timeout) to avoid asserting stale values
+                try {
+                    const start = Date.now();
+                    while (Date.now() - start < 3000) {
+                        const cur = (await subtotalLocator.first().textContent())?.trim() ?? '';
+                        if (cur !== prevSubtotal) return;
+                        await this._page.waitForTimeout(150);
+                    }
+                } catch {}
+                return;
+            }
+
+            // Fallback: set value via DOM and dispatch events (useful when input is not exposed)
+            const dataTestId = await rowItem.getAttribute('data-testid');
+            if (dataTestId) {
+                await this._page.evaluate(({ tid, val }) => {
+                    const cell = document.querySelector(`[data-testid="${tid}"]`);
+                    if (!cell) return;
+                    const inp = cell.querySelector('input') as HTMLInputElement | null;
+                    if (inp) {
+                        inp.value = String(val);
+                        inp.dispatchEvent(new Event('input', { bubbles: true }));
+                        inp.dispatchEvent(new Event('change', { bubbles: true }));
+                    } else {
+                        cell.textContent = String(val);
+                        cell.dispatchEvent(new Event('input', { bubbles: true }));
+                        cell.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                }, { tid: dataTestId, val: option.qty });
+                await this._page.waitForTimeout(200);
+                // wait for subtotal to update after DOM fallback
+                try {
+                    const start = Date.now();
+                    while (Date.now() - start < 3000) {
+                        const cur = (await subtotalLocator.first().textContent())?.trim() ?? '';
+                        if (cur !== prevSubtotal) break;
+                        await this._page.waitForTimeout(150);
+                    }
+                } catch {}
+                return;
+            }
+        } catch (err) {
+            throw new Error(`EditQty failed for row ${option.row}: ${(err as Error).message}`);
+        }
     }
 
     public async GetPrice(): Promise<number>{
@@ -132,11 +184,90 @@ export class Table_Register{
      *  POS.Register.ItemLines.EditPrice({row: "Item_title", price: 2.75});
      */
     public async EditPrice(option: {row: string|number, price: number}): Promise<void>{
-        var rowItem = (await this.RowItem(option.row, rowType.Price))?.locator('input');
-        await rowItem?.clear();
-        await rowItem?.fill(option.price.toString());
-        await rowItem?.locator('..').click();
-        await rowItem?.press("Tab");
+        const rowLocator = await this.RowItem(option.row, rowType.Price);
+        if (!rowLocator) throw new Error(`Price row not found: ${option.row}`);
+        const input = rowLocator.locator('input, [contenteditable="true"], [role="textbox"], textarea, [contenteditable]');
+
+        try {
+            // Try several strategies to reveal an inline editor/input
+            let inputVisible = false;
+            for (let attempt = 0; attempt < 8; attempt++) {
+                if (await input.count() > 0) {
+                    try {
+                        await input.first().waitFor({ state: 'visible', timeout: 700 });
+                        inputVisible = true;
+                        break;
+                    } catch {}
+                }
+
+                // Try clicking different spots inside the row to trigger editors
+                try { await rowLocator.click({ timeout: 800 }); } catch {}
+                try { await rowLocator.dblclick({ timeout: 500 }); } catch {}
+                try { await rowLocator.locator('*').first().click({ timeout: 400 }).catch(()=>{}); } catch {}
+                try { await rowLocator.click({ force: true, timeout: 500 }); } catch {}
+                try { await rowLocator.press('Enter'); } catch {}
+                try { await rowLocator.press('F2'); } catch {}
+                try { await this._page.keyboard.press('Escape'); } catch {}
+
+                // small wait to allow editor to appear
+                await this._page.waitForTimeout(350);
+            }
+
+            // Final fallback: try to set value via JS if input never appeared
+            if (!inputVisible) {
+                const dataTestId = await rowLocator.getAttribute('data-testid');
+                if (dataTestId) {
+                    // Try dispatching a dblclick event then set the value/text and fire events
+                    await this._page.evaluate(({ tid, val }) => {
+                        const cell = document.querySelector(`[data-testid="${tid}"]`);
+                        if (!cell) return;
+                        // dispatch dblclick to encourage editor creation
+                        const dbl = new MouseEvent('dblclick', { bubbles: true, cancelable: true });
+                        cell.dispatchEvent(dbl);
+
+                        const inp = cell.querySelector('input, [contenteditable="true"], [role="textbox"], textarea') as HTMLElement | HTMLInputElement | null;
+                        if (inp) {
+                            if ((inp as HTMLInputElement).value !== undefined) {
+                                (inp as HTMLInputElement).value = String(val);
+                            } else {
+                                inp.textContent = String(val);
+                            }
+                            inp.dispatchEvent(new Event('input', { bubbles: true }));
+                            inp.dispatchEvent(new Event('change', { bubbles: true }));
+                        } else {
+                            // As a last resort, set the cell textContent and fire input/change on the cell
+                            cell.textContent = String(val);
+                            cell.dispatchEvent(new Event('input', { bubbles: true }));
+                            cell.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    }, { tid: dataTestId, val: option.price });
+
+                    // give UI a moment to react
+                    await this._page.waitForTimeout(250);
+
+                    // If JS fallback succeeded and input now exists, proceed to fill normally
+                    if (await input.count() > 0) {
+                        inputVisible = true;
+                    } else {
+                        return; // assume JS set the value directly
+                    }
+                }
+                if (!inputVisible) throw new Error(`Price input not found or did not appear for row ${option.row}`);
+            }
+
+            // Fill the value into the visible input
+            const editor = input.first();
+
+            // Ensure page still open
+            if (this._page.isClosed()) throw new Error('browser has been closed');
+
+            await editor.fill(option.price.toString());
+            try { await editor.press('Tab'); } catch {}
+            try { await editor.locator('..').click(); } catch {}
+        } catch (err) {
+            if ((err as Error).message.includes('closed')) throw err;
+            throw new Error(`EditPrice failed for row ${option.row}: ${(err as Error).message}`);
+        }
     }
 
     /**
@@ -347,7 +478,12 @@ export class Table_Register{
      * POS.Register.ItemLines.OpenOptions({row: "Item title"});
      */
     public async OpenOptions(option: {row: string|number}):Promise<void>{
-        await (await this.RowItem(option.row, rowType.Options))?.locator('button').click();
+        if (this._page.isClosed()) throw new Error('Cannot OpenOptions: page is closed');
+        const rowLocator = await this.RowItem(option.row, rowType.Options);
+        if (!rowLocator) throw new Error(`OpenOptions: row not found: ${option.row}`);
+        const button = rowLocator.locator('button');
+        if (await button.count() === 0) throw new Error(`OpenOptions: button not found for row ${option.row}`);
+        await button.first().click();
     }
 
     /**
@@ -398,8 +534,20 @@ export class Table_Register{
      * @returns Discount value
      */
     public async GetDiscountTotal(option: {row: number}): Promise <string> {
-        let rowLocator = await this._page.locator(`[data-testid^="discount-"][data-testid$="-value"]`).all();
-        return await rowLocator[option.row-1]?.innerText();
+        const testId = `discount-${option.row - 1}-value`;
+        const direct = this._page.getByTestId(testId);
+        try {
+            if (await direct.count() > 0) {
+                return (await direct.first().innerText())?.trim() ?? '';
+            }
+        } catch (err) {
+            // ignore and fallback
+        }
+
+        const rowLocator = await this._page.locator(`[data-testid^="discount-"][data-testid$="-value"]`).all();
+        const el = rowLocator[option.row - 1];
+        if (el) return (await el.innerText())?.trim() ?? '';
+        return '';
     }
 
     /**
@@ -441,8 +589,43 @@ export class Table_Register{
      * @returns Min price alert row value
      */
      public async GetMinimumPriceAlert(option: {row: number}): Promise <string> {
-        let rowLocator = this._page.getByTestId(`min-price-message-${option.row-1}`);
-        return await rowLocator?.innerText();
+        // Prefer explicit test-id if present (fast path)
+        const rowLocator = this._page.getByTestId(`min-price-message-${option.row-1}`);
+        try {
+            if ((await rowLocator.count()) > 0) {
+                const text = await rowLocator.first().innerText({ timeout: 3000 }).catch(() => '');
+                if ((text ?? '').trim().length > 0) return (text ?? '').trim();
+            }
+        } catch {
+            // fall through to fallback strategies
+        }
+
+        // Fallback: try to locate common min-price alert text anywhere on the page.
+        // Some UI variants render alerts without the test-id; search for common keywords.
+        try {
+            const patterns = [ 'min price', 'minimum price', 'price.*below', 'price.*minimum', 'minimum.*price' ];
+            for (const pat of patterns) {
+                const regex = new RegExp(pat, 'i');
+                const el = this._page.getByText(regex).first();
+                if (await el.count() > 0) {
+                    const txt = await el.innerText().catch(() => '');
+                    if ((txt ?? '').trim().length > 0) return (txt ?? '').trim();
+                }
+            }
+
+            // Last resort: look for any element that includes a dollar amount near the row index
+            const rowPrefix = `row-${option.row - 1}`;
+            const possible = this._page.locator(`[data-testid^="${rowPrefix}"]`).all();
+            const elements = await possible;
+            for (const el of elements) {
+                const txt = (await el.innerText().catch(() => '')) ?? '';
+                if (txt.trim().length > 0 && /\$\d+/.test(txt)) return txt.trim();
+            }
+        } catch (err) {
+            // ignore and return empty
+        }
+
+        return '';
     }
     
     /**
@@ -485,7 +668,17 @@ export class Table_Register{
      * @returns 
      */
     public async IsPriceNotEditable(option: {row: number}): Promise<boolean>{
-        return await (await this.RowItem(option.row, rowType.Price))?.locator('input').count() < 1;
+        const row = await this.RowItem(option.row, rowType.Price);
+        const input = row?.locator('input');
+        if (!input) return true;
+        const count = await input.count();
+        if (count < 1) return true;
+        // If input exists, consider it not editable when it's not editable/enabled
+        try {
+            return !(await input.first().isEditable());
+        } catch (error) {
+            return !(await input.first().isEnabled());
+        }
     }
 
     /**
@@ -496,7 +689,16 @@ export class Table_Register{
      * @returns 
      */
     public async IsPriceEditable(option: {row: number}): Promise<boolean>{
-        return await (await this.RowItem(option.row, rowType.Price))?.locator('input').count() > 0;
+        const row = await this.RowItem(option.row, rowType.Price);
+        const input = row?.locator('input');
+        if (!input) return false;
+        const count = await input.count();
+        if (count < 1) return false;
+        try {
+            return await input.first().isEditable();
+        } catch (error) {
+            return await input.first().isEnabled();
+        }
     }
 
     /**

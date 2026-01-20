@@ -6,33 +6,27 @@
   "scripts": {
     "playwright:install": "npm install && npx playwright install && pip install trcli",
     "playwright:init": "npx playwright test tests/ --config playwright.config.ts --grep @init --grep-invert @profiles",
-    
     "playwright:smoke-parallel": "npx playwright test tests/ --config playwright.parallel.config.ts --grep @smoke --grep-invert \"@init|@nonparallelizable\"",
     "playwright:smoke-nonparallel": "npx playwright test tests/ --config playwright.nonparallel.config.ts --grep @smoke --grep @nonparallelizable --grep-invert @init",
     "playwright:smoke": "npm run playwright:smoke-parallel ; npm run playwright:smoke-nonparallel ; npx playwright show-report",
-    
     "playwright:regression-parallel": "npx playwright test tests/ --config playwright.parallel.config.ts --grep @regression --grep-invert \"@init|@nonparallelizable\"",
     "playwright:regression-nonparallel": "npx playwright test tests/ --config playwright.nonparallel.config.ts --grep @regression --grep @nonparallelizable --grep-invert @init",
     "playwright:regression": "npm run playwright:regression-parallel ; npm run playwright:regression-nonparallel ; npx playwright show-report",
-
     "playwright:debug": "npx playwright test tests/ --config playwright.config.ts --grep @debug --debug",
     "playwright:run-single": "npx playwright test tests/ --config playwright.config.ts --grep @run-single --headed",
-
-    
     "playwright:parallel": "npx playwright test tests/ --config playwright.parallel.config.ts --grep-invert \"@init|@nonparallelizable\" ",
     "playwright:nonparallel": "npx playwright test tests/ --config playwright.nonparallel.config.ts --grep @nonparallelizable --grep-invert @init ",
     "playwright:run-hybrid": "npm run playwright:parallel; npm run playwright:nonparallel",
     "playwright:run": "npm run playwright:run-hybrid",
     "playwright:consolidate-reports": "node scripts/consolidate-reports.js",
     "playwright:show-report": "npm run playwright:consolidate-reports && open test-results/test-summary.html"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
-    "@playwright/test": "^1.45.1",
+    "@playwright/test": "^1.57.0",
     "@types/node": "^20.11.30"
   },
   "dependencies": {

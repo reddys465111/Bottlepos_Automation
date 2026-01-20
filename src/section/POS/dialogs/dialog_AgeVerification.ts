@@ -23,14 +23,40 @@ export class Dialog_AgeVerification extends BaseDialog {
     }
     
     public async AlcoholVerifyAge() : Promise <number>{
-        let beforeage = (await this.AlcoholCutoff.getText()).split(':')[1].trim();
-        let currentDate = GetCurrentDate();
-        return GetAge(currentDate, beforeage);
+        try {
+            await this._locator.waitFor({ state: 'visible', timeout: 3000 });
+        } catch {
+            return NaN;
+        }
+
+        const text = (await this.AlcoholCutoff.getText()) ?? '';
+        const afterColon = text.includes(':') ? text.split(':')[1].trim() : text.trim();
+        const dateRegex = /\d{1,2}\/\d{1,2}\/\d{4}/;
+        const numRegex = /(\d{1,3})/;
+        if (dateRegex.test(afterColon)) {
+            const currentDate = GetCurrentDate();
+            return GetAge(currentDate, afterColon);
+        }
+        const numMatch = afterColon.match(numRegex);
+        return numMatch ? Number(numMatch[1]) : NaN;
     }
 
     public async TobaccoVerifyAge() : Promise <number>{
-        let beforeage = (await this.TobaccoCutoff.getText()).split(':')[1].trim();
-        let currentDate = GetCurrentDate();
-        return GetAge(currentDate, beforeage);
+        try {
+            await this._locator.waitFor({ state: 'visible', timeout: 3000 });
+        } catch {
+            return NaN;
+        }
+
+        const text = (await this.TobaccoCutoff.getText()) ?? '';
+        const afterColon = text.includes(':') ? text.split(':')[1].trim() : text.trim();
+        const dateRegex = /\d{1,2}\/\d{1,2}\/\d{4}/;
+        const numRegex = /(\d{1,3})/;
+        if (dateRegex.test(afterColon)) {
+            const currentDate = GetCurrentDate();
+            return GetAge(currentDate, afterColon);
+        }
+        const numMatch = afterColon.match(numRegex);
+        return numMatch ? Number(numMatch[1]) : NaN;
     }
 }

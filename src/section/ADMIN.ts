@@ -21,6 +21,8 @@ import { Admin_Recieve } from "./ADMIN/pages/Items/admin_Receive";
 import { Admin_Order } from "./ADMIN/pages/Items/admin_Order";
 import { Expense } from "./ADMIN/pages/accounting/expense";
 import { Admin_Inventory } from "./ADMIN/pages/Items/admin_Inventory";
+import { Admin_Categories } from "./ADMIN/pages/Items/admin_Categories";
+
 
 export class AdminPortal {
     public Menu!: Menu;
@@ -43,6 +45,7 @@ export class AdminPortal {
     public Loader!: Loader;
     public Expense!: Expense
     public Inventory!: Admin_Inventory;
+    public Category!: Admin_Categories;
 
     public Settings!: {
         AccountingSettings: AccountingSettings;
@@ -78,6 +81,7 @@ export class AdminPortal {
         this.Expense = new Expense(page);
         this.FakeData = new FakeData(page);
         this.Inventory = new Admin_Inventory(page);
+        this.Category = new Admin_Categories(page);
         this.Settings = {
             AccountingSettings: new AccountingSettings(page),
             GeneralSettings:new GeneralSettings(page)

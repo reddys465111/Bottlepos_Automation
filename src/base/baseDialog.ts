@@ -12,9 +12,10 @@ export class BaseDialog{
         this._page = page;
         this._dialogTitle = title;
         if (title) {
-            this._locator = page.getByTestId(`${title.replaceAll(' ', '-')}-modal`);
+            const testId = `${title.replaceAll(' ', '-')}-modal`;
+            this._locator = page.getByTestId(new RegExp(testId, 'i'));
         } else {
-            this._locator = page.getByTestId(/.*-modal$/);
+            this._locator = page.getByTestId(/.*-modal$/i);
         }
     }
      /**
@@ -22,7 +23,15 @@ export class BaseDialog{
      * @returns true if the alert dialog is visible
      */
      public async IsVisible(): Promise<boolean>{
-        return await this._locator.isVisible();
+        try {
+            if (this._page?.isClosed && this._page.isClosed()) return false;
+            return await this._locator.isVisible();
+        } catch (e: any) {
+            if (e && typeof e.message === 'string' && e.message.includes('Target page, context or browser has been closed')) {
+                return false;
+            }
+            throw e;
+        }
 
     }
 
@@ -31,7 +40,15 @@ export class BaseDialog{
      * @returns true if the alert dialog is not visible
      */
     public async IsNotVisible(): Promise<boolean> {
-        return await this._locator.isHidden();
+        try {
+            if (this._page?.isClosed && this._page.isClosed()) return true;
+            return await this._locator.isHidden();
+        } catch (e: any) {
+            if (e && typeof e.message === 'string' && e.message.includes('Target page, context or browser has been closed')) {
+                return true;
+            }
+            throw e;
+        }
     }
     
     /**

@@ -14,13 +14,25 @@ export class Table_ViewPerInvoice extends Legacy_BaseTable<Titles> {
  
  public async Edit(...rowQuery: RowQuery<Titles>[]): Promise<void> {
   const rowLocator: Locator = await this.GetRow(...rowQuery);
-  await rowLocator.locator(".action-buttons a.blue").first().click();  
+  await rowLocator.locator(".action-buttons a.blue").first().click();
 
-  // FIX: Wait for any VISIBLE dialog content (no strict mode error)
-  await this._locator.page()
-    .locator("div.ui-dialog-content:visible")
-    .first()
-    .waitFor({ state: 'visible', timeout: 15000 });
+  const page = this._locator.page();
+  const dialogSelector = 'div.ui-dialog-content';
+
+  // Wait for dialog to be attached, then wait for it to be visible.
+  // Use a short attached wait first to avoid long timeouts when dialog isn't created.
+  await page.waitForSelector(dialogSelector, { state: 'attached', timeout: 10000 }).catch(() => {});
+
+  const dialog = page.locator(dialogSelector).first();
+  try {
+    await dialog.waitFor({ state: 'visible', timeout: 10000 });
+  } catch (e) {
+    // Fallback: some dialogs use a wrapper; check for any visible dialog wrapper.
+    const wrapperVisible = await page.locator('div.ui-dialog:visible').first().isVisible().catch(() => false);
+    if (!wrapperVisible) {
+      throw e;
+    }
+  }
 }
 
 

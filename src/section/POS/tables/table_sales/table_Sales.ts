@@ -36,6 +36,12 @@ export class Table_Sales extends BaseTable<ColumnTitles>{
         const columnIndex = await this.GetColumnIndex({colTitle: "Status"});
         let viewLocator = rowLocator!.locator('td:nth-of-type('+columnIndex+') ~ td');
         await viewLocator.click();
+        // Wait for the Transaction Details dialog to appear 
+        try {
+            await this._locator.page().locator('[data-testid="Transaction-Details-modal"]').waitFor({ state: 'visible', timeout: 10000 });
+        } catch (err) {
+            throw new Error('Transaction Details dialog did not appear after clicking view transaction: ' + err);
+        }
     }
     
     public async DeleteTransectionDetail(option: optionProps<ColumnTitles>): Promise<void>{

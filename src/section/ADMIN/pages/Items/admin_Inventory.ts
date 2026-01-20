@@ -5,8 +5,6 @@ import { TextField } from "../../../../objects/textField";
 import { Table_Inventory } from "../../tables/table_Inventory";
 import { Dropdown } from "../../../../objects/dropdown";
 
-
-
 export class Admin_Inventory {
      public _page: Page;
         public Home: Button;
@@ -17,7 +15,6 @@ export class Admin_Inventory {
         public ShowEntries: Dropdown;
         
         public Table: Table_Inventory;
-
         constructor(page: Page){
             this._page = page;
             const locator = this._page.locator("#maincontent");

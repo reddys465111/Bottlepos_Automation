@@ -5,8 +5,9 @@ import { Button } from "../../../objects/button";
 import { Checkbox } from "../../../objects/checkbox";
 import { Dropdown } from "../../../objects/dropdown";
 import { TextField } from "../../../objects/textField";
+import { Legacy_BaseDialog } from "../../../base/legacy/legacy_BaseDialog";
 
-export class Dialog_AddCategory extends BaseDialog {
+export class Dialog_AddCategory extends Legacy_BaseDialog {
     
     
     public CategoryGroup :  {
@@ -28,7 +29,7 @@ export class Dialog_AddCategory extends BaseDialog {
 
     
     constructor(page: Page){ 
-        super(page, "Add Category");
+        super(page,page.locator('[role="dialog"][aria-describedby="addcatdialog"]') );
       
         this.CategoryGroup = {
             Select: new Dropdown(this._locator.locator('#categorygrp')),

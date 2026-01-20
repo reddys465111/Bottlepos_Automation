@@ -18,9 +18,17 @@ export class Settings {
     }
 
     public async Click(): Promise<void> {
-        if(IsMobile()){
-            await this._page.locator('[aria-label="Toggle menu"]').waitFor({ state: 'visible', timeout: 10000 });
-            await this._page.locator('[aria-label="Toggle menu"]').click({ timeout: 10000 });
+        if (IsMobile()) {
+            const toggle = this._page.locator('[aria-label="Toggle menu"]');
+            try {
+                if ((await toggle.count()) > 0) {
+                    if (await toggle.isVisible()) {
+                        await toggle.click({ timeout: 10000 });
+                    }
+                }
+            } catch (err) {
+                
+            }
         }
         await this._page.getByRole('link', {name: 'Settings'}).click();
       

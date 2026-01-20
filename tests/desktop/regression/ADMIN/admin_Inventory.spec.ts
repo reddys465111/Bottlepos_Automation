@@ -42,7 +42,7 @@ test.describe('Admin Section - Inventory', { tag: ['@regression', '@inventory', 
         expect(Number(quantity)).toBe(Number(qtyvalue));
 
     });
-    test('[C8368] Verify that the search barcan find the appropriate item(s) to manage inventory', { tag: ['@Admin', '@inventory'] }, async ({ }) => {
+    test('[C8368] Verify that the search  find the appropriate item(s) to manage inventory', { tag: ['@Admin', '@inventory'] }, async ({ }) => {
         // Step 1 : Login to the Admin Portal
         await ADMIN.Login.In();
         // Step 2: Navigate to Inventory Section
@@ -121,6 +121,7 @@ test.describe('Admin Section - Inventory', { tag: ['@regression', '@inventory', 
         await ADMIN.Dialog.TransferStock.Qty.setText({ value: transferQty });
         //Step 8 Click on Update Button
         await ADMIN.Dialog.TransferStock.Update.Click();
+        expect(await ADMIN.Dialog.Error.IsVisible()).toBeTruthy();
     });
 
     test('[C8374] Verify that my locations show in Transfer Stock are displayed in the dropdown', { tag: ['@Admin', '@inventory'] }, async ({ }) => {
@@ -165,7 +166,7 @@ test.describe('Admin Section - Inventory', { tag: ['@regression', '@inventory', 
     });
 
     test('[C8377] Verify transfer an item from one location to another allows to manage inventory between locations', { tag: ['@Admin', '@inventory'] }, async ({ }) => {
-         //Step 1 : :Login to Admin Portal
+        //Step 1 : :Login to Admin Portal
         await ADMIN.Login.In();
         //Step 2: Navigate to Inventory page
         await ADMIN.Menu.Inventory.GoTo();
@@ -183,8 +184,9 @@ test.describe('Admin Section - Inventory', { tag: ['@regression', '@inventory', 
         await ADMIN.Dialog.TransferStock.Qty.setText({ value: transferQty });
         //Step 8: Click the Update button
         await ADMIN.Dialog.TransferStock.Update.Click();
-        await ADMIN.waitForTimeout(6000);
-       
+        //Step:9 Validate the Error dialog shows another location not exist
+        expect(await ADMIN.Dialog.Error.IsVisible()).toBeTruthy();
+
     });
 
 });

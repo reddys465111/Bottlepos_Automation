@@ -189,17 +189,32 @@ this.InventroryStats = {
   }
 
   public async SelectRank(rank: string): Promise<void> {
+    // Capture the current first popular item title so we can wait for it to change
+    const titleLocator = this._locator.locator("#popularitems tr td:first-child b").first();
+    let previousTitle = "";
+    try {
+      previousTitle = (await titleLocator.innerText()) || "";
+    } catch {}
+
     await this.RankDropdown.Open.click();
     await this.RankDropdown.Option(rank).click();
-     // Wait for the first row to be visible
-     await this.PopularItems.Rows.first().waitFor({
-       state: "visible",
-       timeout: 5000,
-     });
-   
-     // Add an additional wait to ensure the data has been fetched and updated
-     // This prevents race conditions where old data is still displayed
-     await this._body.page().waitForTimeout(500);
+
+    // Poll until the first title changes (or timeout) to ensure the table was refreshed
+    const page = this._body.page();
+    const timeout = 3000;
+    const start = Date.now();
+    while (Date.now() - start < timeout) {
+      try {
+        const current = (await titleLocator.innerText()) || "";
+        if (current !== previousTitle) {
+          return;
+        }
+      } catch {}
+      await page.waitForTimeout(200);
+    }
+
+    // Fallback: ensure at least the rows are visible
+    await this.PopularItems.Rows.first().waitFor({ state: "visible", timeout: 2000 });
   }
 
   public async SelectDateRange(label: string): Promise<void> {

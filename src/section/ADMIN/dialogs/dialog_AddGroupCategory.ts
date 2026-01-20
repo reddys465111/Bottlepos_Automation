@@ -1,11 +1,11 @@
 import { Page } from "@playwright/test";
-import { BaseDialog } from "../../../base/baseDialog";
 import { Button } from "../../../objects/button";
 import { Checkbox } from "../../../objects/checkbox";
 import { TextField } from "../../../objects/textField";
+import { Legacy_BaseDialog } from "../../../base/legacy/legacy_BaseDialog";
 
 
-export class Dialog_AddGroupCategory extends BaseDialog {
+export class Dialog_AddGroupCategory extends Legacy_BaseDialog {
     
     public Name : TextField;
     public DoNotShowToWebstore: Checkbox; 

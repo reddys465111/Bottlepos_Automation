@@ -3,7 +3,6 @@ import { Legacy_BaseDialog } from "../../../base/legacy/legacy_BaseDialog";
 import { Button } from "../../../objects/button";
 import { TextField } from "../../../objects/textField";
 
-
 export class Dialog_InventoryEditStock extends Legacy_BaseDialog {
     public Quantity: TextField;
     public Update  : Button;

@@ -144,5 +144,13 @@ export class Legacy_Login {
         if (options?.validateForm) {
             expect(await POS.Login.FormNotVisible(), 'The login form is still visible').toBeTruthy();
         }
+        
+        // Try to wait for the Logout button to become visible to ensure login completed.
+        // This is bounded and wrapped in try/catch to avoid breaking flows that show other dialogs.
+        try {
+            await this._page.getByRole('button', { name: 'Logout' }).waitFor({ state: 'visible', timeout: 10000 });
+        } catch (err) {
+            // Ignore: in some scenarios a different dialog or flow appears after login.
+        }
     }
 }

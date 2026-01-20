@@ -5,7 +5,6 @@ import { TextField } from "../../../objects/textField";
 
 
 export class Dialog_InventoryStockHistory extends Legacy_BaseDialog {
-
   public close: Button
 
   public Detail: {

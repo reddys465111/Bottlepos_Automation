@@ -1,5 +1,4 @@
 import { Locator, Page } from "@playwright/test";
-
 import { Dialog_AddGroupCategory } from "./dialog_AddGroupCategory";
 import { Table_ManageGroupCategory } from "../pages/reports/Tables/tables_ManageGroupCategory";
 import { BaseDialog } from "../../../base/baseDialog";
@@ -7,8 +6,9 @@ import { Button } from "../../../objects/button";
 import { Dropdown } from "../../../objects/dropdown";
 import { TextField } from "../../../objects/textField";
 import { Table_Pagination } from "../tables/table_Pagination";
+import { Legacy_BaseDialog } from "../../../base/legacy/legacy_BaseDialog";
 
-export class Dialog_ManageCategoryGroup extends BaseDialog {
+export class Dialog_ManageCategoryGroup extends Legacy_BaseDialog {
     
     public Add : Button;
 

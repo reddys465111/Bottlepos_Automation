@@ -233,7 +233,16 @@ export const Offline = async (enable: boolean) => {
  * @returns {Promise<boolean>} True if the POS is offline, false otherwise
  */
 export const isOffline = async (): Promise<boolean> => {
-    return await Initializer.GetPage().getByTestId('status-indicator-text').innerHTML() === 'POS is Offline';
+    const locator = Initializer.GetPage().getByTestId('status-indicator-text');
+    const timeout = 15000;
+    const poll = 500;
+    const start = Date.now();
+    while (Date.now() - start < timeout) {
+        const txt = (await locator.textContent())?.trim() ?? '';
+        if (txt === 'POS is Offline') return true;
+        await Initializer.GetPage().waitForTimeout(poll);
+    }
+    return false;
 }
 
 /**
@@ -241,7 +250,16 @@ export const isOffline = async (): Promise<boolean> => {
  * @returns {Promise<boolean>} True if the POS is online, false otherwise
  */
 export const isOnline = async (): Promise<boolean> => {
-    return await Initializer.GetPage().getByTestId('status-indicator-text').innerHTML() === 'POS is Online';
+    const locator = Initializer.GetPage().getByTestId('status-indicator-text');
+    const timeout = 15000;
+    const poll = 500;
+    const start = Date.now();
+    while (Date.now() - start < timeout) {
+        const txt = (await locator.textContent())?.trim() ?? '';
+        if (txt === 'POS is Online') return true;
+        await Initializer.GetPage().waitForTimeout(poll);
+    }
+    return false;
 }
 
 

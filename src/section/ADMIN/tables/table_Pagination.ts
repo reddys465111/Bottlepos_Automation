@@ -1,4 +1,4 @@
-import { Locator } from "@playwright/test";
+import { Locator,Page } from "@playwright/test";
 
 export class Table_Pagination {
     public _locator: Locator;

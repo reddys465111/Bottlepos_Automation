@@ -11,7 +11,6 @@ export class Dialog_InventoryTransferStock extends Legacy_BaseDialog {
     public Update: Button;
     public Cancel: Button;
    
-
     constructor(page: Page) {
         super(page, "Transfer Stock");
         this.TransferTo = new Dropdown(this._locator.locator('#tstocknewlocid'));

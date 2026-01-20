@@ -52,7 +52,9 @@ import { Dialog_EditExpense } from "./dialog_EditExpense";
 import { Dialog_InventoryEditStock } from "./dialog_InventoryEditStock";
 import { Dialog_InventoryStockHistory } from "./dialog_InventoryStockHistory";
 import { Dialog_InventoryTransferStock } from "./dialog_InventoryTransferStock";
-
+import { Dialog_AddCategory } from "./dailog_AddCategory";
+import { Dialog_AddGroupCategory } from "./dialog_AddGroupCategory";
+import { Dialog_ManageCategoryGroup } from "./dialog_ManageCategoryGroup";
 
 
 export class Dialog {
@@ -121,6 +123,9 @@ export class Dialog {
     public EditStock!:Dialog_InventoryEditStock;
     public InventoryStockHistory!:Dialog_InventoryStockHistory;
     public TransferStock!:Dialog_InventoryTransferStock;
+    public Addcategory!:Dialog_AddCategory ;
+    public AddGroupCategory!:Dialog_AddGroupCategory;
+    public ManageGroupCategory!:Dialog_ManageCategoryGroup
 
 
 
@@ -191,5 +196,8 @@ export class Dialog {
         this.EditStock=new Dialog_InventoryEditStock(page);
         this.InventoryStockHistory=new Dialog_InventoryStockHistory(page);
         this.TransferStock=new Dialog_InventoryTransferStock(page);
+        this.Addcategory=new Dialog_AddCategory(page);
+        this.AddGroupCategory=new Dialog_AddGroupCategory(page);
+        this.ManageGroupCategory=new Dialog_ManageCategoryGroup(page);
      }
 }

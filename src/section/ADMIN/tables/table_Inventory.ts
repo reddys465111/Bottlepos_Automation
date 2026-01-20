@@ -27,7 +27,7 @@ export class Table_Inventory extends BaseTable<titles> {
         const page = rowLocator.page();
         
         if (page && page.isClosed()) {
-            throw new Error('Target page, context or browser has been closed');
+            throw new Error();
         }
         
         await rowLocator.locator(".ace.dt-select-cb").waitFor();
@@ -36,7 +36,7 @@ export class Table_Inventory extends BaseTable<titles> {
             await rowLocator.locator(".ace.dt-select-cb").hover();
         } catch (err) {
             if (page && page.isClosed()) {
-                throw new Error('Target page, context or browser has been closed during hover');
+                throw new Error();
             }
             throw err;
         }
@@ -45,7 +45,7 @@ export class Table_Inventory extends BaseTable<titles> {
             await rowLocator.locator(".ace.dt-select-cb").click();
         } catch (err) {
             if (page && page.isClosed()) {
-                throw new Error('Target page, context or browser has been closed during click');
+                throw new Error();
             }
             throw err;
         }

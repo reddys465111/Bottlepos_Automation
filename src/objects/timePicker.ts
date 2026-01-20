@@ -76,10 +76,21 @@ export class TimePicker extends BaseObject {
      * @param period - 'AM' or 'PM'
      */
     public async setTime(hour: string, minute?: string, period?: 'AM' | 'PM'): Promise<void> {
+        const parsedHour = parseInt(hour, 10);
+        if (Number.isNaN(parsedHour)) throw new Error(`Invalid hour value: ${hour}`);
+
+        // Resolve period if not provided (treat 12-23 as PM)
+        let resolvedPeriod: 'AM' | 'PM' | undefined = period;
+        if (!resolvedPeriod) resolvedPeriod = parsedHour >= 12 ? 'PM' : 'AM';
+
+        // Normalize to 12-hour clock (1-12)
+        let hour12 = parsedHour % 12;
+        if (hour12 === 0) hour12 = 12;
+
         await this.open();
-        await this.selectHour(hour);
+        await this.selectHour(hour12.toString());
         minute && await this.selectMinute(minute);
-        period && await this.selectPeriod(period);
+        resolvedPeriod && await this.selectPeriod(resolvedPeriod);
         await this.done();
     }
  
@@ -90,12 +101,11 @@ export class TimePicker extends BaseObject {
      * @param date - The date object containing the time
      */
     public async setTimeFromDate(date: Date): Promise<void> {
-        await this.open();
-        const hour = date.getHours() % 12 || 12;
+        const hour = date.getHours();
+        const hour12 = hour % 12 || 12;
         const minute = Math.floor(date.getMinutes() / 5) * 5; // Round to nearest 5
-        const period = date.getHours() >= 12 ? 'PM' : 'AM';
+        const period = hour >= 12 ? 'PM' : 'AM';
         await this.setTime(hour.toString(), minute.toString(), period);
-        await this.done();
     }
  
     /**

@@ -66,13 +66,17 @@ export class BaseObject{
     /**
      * @returns True if the object/element is clickable
      */
-    public async IsClickable(): Promise<boolean>{
-        return await this._locator.isEnabled();
+    public async IsClickable(timeout: number = 5000): Promise<boolean>{
+        try{
+            return await this._locator.isEnabled({ timeout });
+        } catch (err) {
+            return false;
+        }
     }
     /**
      * Perfom a click in the current object
      */
-    public async Click(option?: { timeout?: number, beforeEvent?: Function | void, afterEvent?: Function | void, force?: boolean; }): Promise<void> {
+    public async Click(option?: { timeout?: number, beforeEvent?: Function | void, afterEvent?: Function | void, force?: boolean, optional?: boolean; }): Promise<void> {
     const before = option?.beforeEvent ?? this._beforeEvent ?? undefined;
     const after = option?.afterEvent ?? this._afterEvent ?? undefined;
     // Before event
@@ -88,15 +92,19 @@ export class BaseObject{
     const waitTimeout = option?.timeout ?? 10000;
     try {
         await this._locator.waitFor({ state: 'visible', timeout: waitTimeout });
-    } catch (err) {
+        } catch (err) {
         // Check again if page was closed during wait
         if (page && page.isClosed()) {
             throw new Error('Target page, context or browser has been closed during wait');
         }
         // If force requested, continue and attempt to click regardless; otherwise surface a clearer error.
-        if (!(option?.force)) {
-            throw new Error(`Locator not visible after ${waitTimeout}ms: ${err}`);
-        }
+            if (!(option?.force)) {
+                // If caller marked this click as optional, silently return instead of throwing.
+                if (option?.optional) {
+                    return;
+                }
+                throw new Error(`Locator not visible after ${waitTimeout}ms: ${err}`);
+            }
     }
     try {
         await this._locator.hover({ trial: true });

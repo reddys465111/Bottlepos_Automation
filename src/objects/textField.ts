@@ -11,17 +11,32 @@ export class TextField extends BaseObject{
     /**
      * Insert a text value into the textfield
      * @param options: contains 3 parameters: value, press, and sequential.
-     * value is the text requested to be inserted in the textfield
-     * press, is an optional parameter to determine if is needed to press a key after inserting the value
-     * sequential, is an optional parameter to determine if text should be typed character by character (true) or filled instantly (false, default)
      * @example .setText({value: "text_value"});
      * .setText({value: "text_value", press: KEY.ENTER});
      * .setText({value: "text_value", sequential: true});
      */
     public async setText(option: {value: string, press?: KEY, sequential?: boolean}):Promise<void>{
-        // Clear the field first
-        await this._locator.clear();
-        
+        // Ensure page is open before interacting
+        try {
+            const page = this._locator.page();
+            if (page && page.isClosed()) {
+                throw new Error();
+            }
+        } catch (err) {
+            throw err;
+        }
+
+        // Clear the field first using the class helper (uses fill(""))
+        try {
+            await this.clear();
+        } catch (err) {
+            // Surface a clearer message when page/context is closed
+            if ((err as Error).message.includes('browser has been closed')) {
+                throw new Error('');
+            }
+            throw err;
+        }
+
         // Choose between sequential typing or fill based on parameter
         if (option.sequential) {
             // Type text character by character
@@ -30,7 +45,7 @@ export class TextField extends BaseObject{
             // Use fill for instant text input (default behavior)
             await this._locator.fill(option.value);
         }
-        
+
         if(option.press){
             switch (option.press) {
                 case 'Enter':
@@ -41,6 +56,10 @@ export class TextField extends BaseObject{
     }
 
     public async clear(): Promise<void> {
+        const page = this._locator.page();
+        if (page && page.isClosed()) {
+            throw new Error();
+        }
         await this._locator.fill(""); // reliably clears input
     }
    
@@ -51,7 +70,10 @@ export class TextField extends BaseObject{
      * @returns {string} return the content of the textfield 
      */
     public async getText(): Promise<string>{
-
+        const page = this._locator.page();
+        if (page && page.isClosed()) {
+            throw new Error();
+        }
         return await this._locator.inputValue();
     }
 }

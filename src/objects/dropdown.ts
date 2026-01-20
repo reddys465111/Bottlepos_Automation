@@ -15,16 +15,25 @@ export class Dropdown extends BaseObject{
      * .SelectOption({byIndex: 1});
      */
     public async SelectOption(option: {byIndex?: number, byText?: string}): Promise<void>{
-        if(option.byIndex){
-           await this._locator.selectOption({ index: option.byIndex - 1 });
- 
-        }
-        else if(option.byText){
-              const optionLabel = option.byText.trim();
-            await this._locator.selectOption(optionLabel);
-        }else {
-            await this._locator.click();
-            await this._locator.locator('option:nth-of-type(1)').click();
+        try{
+            if(option.byIndex){
+                await this._locator.waitFor({ state: 'visible', timeout: 5000 });
+                await this._locator.selectOption({ index: option.byIndex - 1 });
+
+            }
+            else if(option.byText){
+                const optionLabel = option.byText.trim();
+                await this._locator.waitFor({ state: 'visible', timeout: 5000 });
+                await this._locator.selectOption({ label: optionLabel });
+            }else {
+                await this._locator.waitFor({ state: 'visible', timeout: 5000 });
+                await this._locator.click();
+                await this._locator.locator('option:nth-of-type(1)').click();
+            }
+        }catch(err){
+            // Re-throw with more context for easier debugging
+            const message = err instanceof Error ? err.message : String(err);
+            throw new Error(`Dropdown.SelectOption failed for locator ${this._locator}: ${message}`);
         }
     }
 

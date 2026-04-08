@@ -6,35 +6,25 @@
   "scripts": {
     "playwright:install": "npm install && npx playwright install && pip install trcli",
     "playwright:init": "npx playwright test tests/ --config playwright.config.ts --grep @init --grep-invert @profiles",
-           
     "playwright:api": "npx playwright test tests/ --config playwright.parallel.config.ts --grep @api ",
-
-    
     "playwright:smoke-parallel": "npx playwright test tests/ --config playwright.parallel.config.ts --grep @smoke --grep-invert \"@init|@nonparallelizable|@noID\"",
     "playwright:smoke-nonparallel": "npx playwright test tests/ --config playwright.nonparallel.config.ts --grep \"(?=.*@smoke)(?=.*@nonparallelizable)\" --grep-invert \"@init|@noID\"",
     "playwright:smoke": "npm run playwright:smoke-parallel ; npm run playwright:smoke-nonparallel",
-    
     "playwright:regression-parallel": "npx playwright test tests/ --config playwright.parallel.config.ts --grep @regression --grep-invert \"@init|@nonparallelizable|@noID\"",
     "playwright:regression-nonparallel": "npx playwright test tests/ --config playwright.nonparallel.config.ts --grep \"(?=.*@regression)(?=.*@nonparallelizable)\" --grep-invert \"@init|@noID\"",
     "playwright:regression": "npm run playwright:regression-parallel ; npm run playwright:regression-nonparallel",
-
     "playwright:debug": "npx playwright test tests/ --config playwright.config.ts --grep @debug --debug",
     "playwright:run-single": "npx playwright test tests/ --config playwright.config.ts --grep @run-single --headed",
-
     "playwright:parallel": "mkdir -p test-results/parallel && npx playwright test tests/ --config playwright.parallel.config.ts --grep-invert \"@init|@nonparallelizable|@noID\"",
     "playwright:nonparallel": "mkdir -p test-results/nonparallel && npx playwright test tests/ --config playwright.nonparallel.config.ts --grep \"(?=.*@nonparallelizable)\" --grep-invert \"@init|@noID\"",
     "playwright:run-hybrid": "npm run playwright:parallel ; npm run playwright:nonparallel",
     "playwright:run": "npm run playwright:run-hybrid",
-    
     "playwright:consolidate-reports": "node scripts/consolidate-reports.js",
     "playwright:run-and-upload": "npm run playwright:run && npm run playwright:upload-testrail",
-
     "playwright:upload-testrail": "npm run playwright:consolidate-reports && node reporting.js",
-
     "playwright:show-report": "npm run playwright:consolidate-reports && open test-results/test-summary.html",
     "playwright:show-report-nonparallel": "npx playwright show-report reports/nonparallel-html",
     "playwright:show-report-parallel": "npx playwright show-report reports/parallel-html"
-
   },
   "keywords": [],
   "author": "",
@@ -42,7 +32,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.45.1",
-    "@types/node": "^20.11.30"
+    "@types/node": "^20.19.39"
   },
   "dependencies": {
     "@types/moment": "^2.13.0",

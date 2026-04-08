@@ -8,5 +8,6 @@
         "forceConsistentCasingInFileNames": true, // Enforce consistent casing in file names
         "strict": true, // Enable strict type checking
         "skipLibCheck": true, // Skip type checking for library declarations
+         "types": ["node"], // Include type definitions for Node.js
     }
 }

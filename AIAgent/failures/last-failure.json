@@ -1,0 +1,6 @@
+{
+  "type": "SELECTOR_NOT_VISIBLE",
+  "message": "Command failed: npx playwright test",
+  "testPath": "ALL",
+  "time": "2026-02-26T12:18:46.591Z"
+}

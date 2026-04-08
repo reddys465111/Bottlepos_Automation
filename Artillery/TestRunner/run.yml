@@ -1,0 +1,73 @@
+config:
+  target: "http://localhost:8000"
+
+  phases:
+    - duration: 60
+      arrivalRate: 2
+
+    - duration: 120
+      arrivalRate: 2
+      rampTo: 15
+
+    - duration: 180
+      arrivalRate: 15
+
+    - duration: 60
+      arrivalRate: 30
+
+    - duration: 120
+      arrivalRate: 30
+      rampTo: 5
+
+    - pause: 30
+
+  payload:
+    path: "../utils/users.csv"
+    fields:
+      - username
+      - password
+    skipHeader: true
+
+  # Custom  files to process responses assertions and perform validations
+  processor: "../API/processor.js"
+
+scenarios:
+  - name: LOGIN + CREATE ITEM+ GET ITEMS
+    flow:
+      # -------- LOGIN----------
+      - post:
+          url: "/api/auth"
+          headers:
+            Content-Type: "application/x-www-form-urlencoded"
+            Accept: "application/json"
+          body: >
+            data={"username":"{{ username }}","password":"{{ password }}"}
+          capture:
+            - header: "set-cookie"
+              as: "sessionCookie"
+          afterResponse: "validateLogin"
+      - log: "Logged in-PHPSessionID={{ sessionCookie }}"
+      - function: "createItem"
+
+      # ------CREATE ITEM API--------
+      - post:
+          url: "/api/items/add"
+          headers:
+            Content-Type: "application/x-www-form-urlencoded"
+            Cookie: "{{ sessionCookie }}"
+          body: "{{ itemString }}"
+          afterResponse: "validateCreateItem"
+      - log: "Item created-PHPSessionID={{ sessionCookie }}"
+
+      #-------- GET ITEMS-----------
+      - get:
+          url: "/api/items/get"
+          headers:
+            Cookie: "{{ sessionCookie }}"
+          capture:
+            - json: "$.data[*].name"
+              as: "itemname"
+          afterResponse: "validateGetItems"
+     
+      - log: "Get items-PHPSessionID={{ sessionCookie }}"
+  

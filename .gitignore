@@ -1,0 +1,9 @@
+npm inode_modules
+test-results
+dist
+.env    
+.vscode
+.DS_Store   
+reports/
+.last-run.json
+/src/utils/environmentSessions.ts

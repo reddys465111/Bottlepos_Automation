@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
 test.afterEach(async ({ page }, testInfo) => {
     await Initializer.Finalize(page, testInfo);
 });
-test.describe.only('POS General Settings', { tag: ['@POS', '@SettingsTab', '@regression'] }, () => {
+test.describe('POS General Settings', { tag: ['@POS', '@SettingsTab', '@regression'] }, () => {
 
     test('[C9078] General: Verify "Use On-screen Keypad" can be Enabled', { tag: ['@POS', '@EnableKeyboard', '@regression'] }, async () => {
         //Login to the  POS Application

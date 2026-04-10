@@ -37,7 +37,7 @@ test.afterEach(async ({ page }, testInfo) => {
     await Initializer.Finalize(page, testInfo);
 });
 
-test.describe.only("Gift Card Test Cases", { tag: ['@GiftCards', '@regression'] }, () => {
+test.describe("Gift Card Test Cases", { tag: ['@GiftCards', '@regression'] }, () => {
 
     test('[C5587]  select the Activate Gift Card button to sell gift cards to customers', { tag: ['@ActivateGiftCard', '@register'] }, async ({ }) => {
         //Login to POS
@@ -273,7 +273,7 @@ test.describe.only("Gift Card Test Cases", { tag: ['@GiftCards', '@regression'] 
         expect(InvalidAlert).toContain("Gift card with code " + GiftCardID + " doesn't exist. Please use another gift card");
     });
 
-    test.only('[C5606]  Enter custom amounts for Gift Card payment to be able to take partial payments from a Gift Card', { tag: ['@GiftCardPayment', '@register'] }, async () => {
+    test('[C5606]  Enter custom amounts for Gift Card payment to be able to take partial payments from a Gift Card', { tag: ['@GiftCardPayment', '@register'] }, async () => {
         const GiftCardID = `GIFT-${await POS.FakeData.getZipcode()}-465`;
         //  Activate GiftCard With Mock API
         await injectActivateGiftCard({ code: GiftCardID.toString(), initial_balance: 2000, expires_at: null });

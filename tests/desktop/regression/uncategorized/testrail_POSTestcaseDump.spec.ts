@@ -190,7 +190,7 @@ test.describe("TestRail POS Test Cases", { tag: ['@uncategorized', '@regression'
         //Click the Admin button and login using the valid  user credentials.
         await POS.Admin.Click();
         await ADMIN.Menu.Realtime.GoTo();
-        expect(await ADMIN.Realtime.getHeader(), 'Error: Realtime header should contain Realtime').toContain('Realtime');
+        expect(await ADMIN.Realtime.LatestTransactions, 'Error: Realtime header should contain Realtime').toContain('Realtime');
     });
 
     test('[C1427] Verify if the sales or refund or cancelled transactions receipt can be printed', { tag: ['@sales', '@refund', '@cancelled'] }, async ({}) => {

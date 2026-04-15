@@ -2,8 +2,8 @@
   "name": "artilleryproject",
   "version": "1.0.0",
   "scripts": {
-    "test": "artillery run tests/login-test.yml",
-    "report": "artillery run tests/login-test.yml --output report.json && artillery report report.json"
+    "test": "artillery run Testrunner/run.yml",
+    "report": "artillery run Testrunner/run.yml --output report.json && artillery report report.json"
   },
   "devDependencies": {
     "artillery": "^2.0.0"

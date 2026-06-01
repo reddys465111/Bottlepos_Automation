@@ -56,7 +56,11 @@ export class Dialog_TransactionDetail extends Legacy_BaseDialog {
         Click: () => Promise<void>;
     }
     public details: {
-         
+        subtotal: LabelField;
+        tax: LabelField;
+        discount: LabelField;
+        servicecharges: LabelField;
+        rounding: LabelField;
         Click: () => Promise<void>;
     }
     public items: {
@@ -117,11 +121,17 @@ export class Dialog_TransactionDetail extends Legacy_BaseDialog {
         this.History = new Button(this._locator.getByRole("button", { name: "History" }));
 
         // DETAILS
-        this.details = {
-            Click: async () => {
-                await this._locator.locator('a[href="#transdetails"]').click();
-            }
-        };
+       this.details = {
+    subtotal: new LabelField(this._locator.locator('#transsubtotal')),
+    tax: new LabelField(this._locator.locator('#transtax span')),
+    discount: new LabelField(this._locator.locator('#transdiscount')),
+    servicecharges: new LabelField(this._locator.locator('#transservice')),
+    rounding: new LabelField(this._locator.locator('#transroundingval')),
+
+    Click: async () => {
+        await this._locator.locator('a[href="#transdetails"]').click();
+    }
+};
 
         // ITEMS
         this.items = {

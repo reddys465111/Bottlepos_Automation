@@ -42,7 +42,7 @@ export interface EntityPOSSettings {
     SaleOptions?: { 
         AllowChangingStoredItemPrices?: 'When Price is Blank or 0'|'Always',  //blanck, always
         AllowChangingStoredItemTax?: 'Yes'|'No', //always, no
-        CashRounding?: 'None'|'5¢'|'10¢', //0, 5, 10
+        CashRounding?: '0'|'5'|'10', //None, 5, 10
 
         DoNotSaleBelowCost?:    "None"| "Alert"| "Not Allowed" //none, alert, not_allowed
         AllowNegativeItemPrices?: boolean,

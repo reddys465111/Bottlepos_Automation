@@ -1,3 +1,5 @@
+import { execSync } from "child_process";
+import { Button } from "../../../../objects/button";
 import { DayReport } from "./day_Report";
 import { RegisterReport } from "./register_Report";
 import { SellerReport } from "./seller_Rerport";
@@ -20,6 +22,7 @@ export class Reports {
     public SellerReport: SellerReport;
     public RegisterReport: RegisterReport;
     public DayReport: DayReport;
+    public CloseRegister: Button;
 
     constructor(page: Page){
         this._page = page;
@@ -28,10 +31,8 @@ export class Reports {
         this.SellerReport = new SellerReport(page);
         this.RegisterReport = new RegisterReport(page);
         this.DayReport = new DayReport(page);
-
-        
+        this.CloseRegister = new Button(this._page.getByRole('button', { name: 'Close Register' }));  
     }
-
     public async Click(): Promise<void> {
         // await this._page.waitForTimeout(1000);
         await this._page.getByRole('link', {name: 'Reports'}).click();
@@ -39,4 +40,23 @@ export class Reports {
     public static parseCurrency(val: string): number {
         return parseFloat(val.replace(/[^0-9.-]+/g, "")) || 0;
     }
+ //This Function used to close the report view and print dialog popup window
+
+async CloseReportPreview(action?: () => Promise<void>): Promise<void> {
+  try {
+    // Trigger print preview if action provided
+    if (action) {
+      await action();
+    }
+    await this._page.waitForTimeout(2500);
+    // Send  Alt+F4 in Pwoershell to close the print preview dialog
+    execSync(
+      `powershell -command "(New-Object -ComObject WScript.Shell).SendKeys('%{F4}')"`
+    );
+    await this._page.waitForTimeout(1000);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    throw new Error(`CloseReportPreview failed: ${message}`);
+  }
+}
 }

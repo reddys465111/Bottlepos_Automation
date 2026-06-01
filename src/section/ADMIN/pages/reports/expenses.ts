@@ -18,9 +18,10 @@ export class Expenses {
         this._locator = locator;
         this.Range = new Dropdown(this._locator.locator('#custom_daterangepicker')); 
         this.Filter = new Dropdown(this._locator.locator('#expenseSelect'));
-        this.Search = new TextField(this._locator.locator("input.form-control.input-sm[aria-controls='item-sales-report']"));
+        this.Search = new TextField(this._locator.locator("input.form-control.input-sm[aria-controls='expense-report']"));
         this.ShowEntries = new Dropdown(this._locator.locator("select[name='expense-report_length'][aria-controls='expense-report'].form-control.input-sm"));
         this.ShowingEntries = new Table_Pagination(this._locator.locator('#expense-report_paginate'));
         this.Table = new Table_Expenses(this._locator.locator("table#expense-report"));
     }
+    
 }

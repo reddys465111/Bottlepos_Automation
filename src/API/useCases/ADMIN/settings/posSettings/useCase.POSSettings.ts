@@ -27,6 +27,10 @@ export const POSSettings_Edit = async (entitySettings: EntityPOSSettings, interf
     const allowChangingStoredItemPrices = entitySettings.SaleOptions?.AllowChangingStoredItemPrices == 'Always' ? 'always' : 'blank';
     payload.priceedit = allowChangingStoredItemPrices ?? interfaceSettings.priceedit;
 
+    // Cash rounding
+     const CashRounding = entitySettings.SaleOptions?.CashRounding == '0' ? '5' : '10';
+    payload.cashrounding = CashRounding ?? interfaceSettings.cashrounding;
+    
     const doNotSaleBelowCost = entitySettings.SaleOptions?.DoNotSaleBelowCost == 'Alert' ? 'alert' : (entitySettings.SaleOptions?.DoNotSaleBelowCost == 'Not Allowed' ? 'not_allowed' : 'none');
     payload.sale_below_cost = doNotSaleBelowCost ?? interfaceSettings.sale_below_cost;
     // other options

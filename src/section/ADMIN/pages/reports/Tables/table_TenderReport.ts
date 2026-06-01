@@ -10,5 +10,13 @@ export class Table_TenderReport extends BaseTable<titles>{
   
     }
 
+    // Get total number of rows in the table
+    async getTableRowCount(): Promise<number> {
+        const info = this._locator.page().locator('#takings-report_info');
+        const rows = this._locator.page().locator('#takings-report tbody tr');
+
+        await info.waitFor({ state: 'visible' });
+        return await rows.count();
+    }
 
 }

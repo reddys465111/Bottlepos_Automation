@@ -2,6 +2,7 @@ import { Locator } from "@playwright/test";
 import { Dropdown } from "../../../../objects/dropdown";
 import { TextField } from "../../../../objects/textField";
 import { Table_Pagination } from "../../tables/table_Pagination";
+import { Table_ComparePeriod } from "./Tables/table_ComparePeriod";
 
 
 export class ComparePeriod {
@@ -14,7 +15,7 @@ export class ComparePeriod {
     public Search: TextField;
     public ShowEntries: Dropdown;
     public ShowingEntries: Table_Pagination;
-    // public Table: Table_ComparePeriod;
+     public Table: Table_ComparePeriod;
     public _locator: Locator;
     
     constructor(locator: Locator){
@@ -27,6 +28,6 @@ export class ComparePeriod {
         this.Search = new TextField(this._locator.locator("div#summary-report_filter input[aria-controls='summary-report']"));
         this.ShowEntries = new Dropdown(this._locator.locator("select[name='summary-report_length'][aria-controls='summary-report'].form-control.input-sm"));
         this.ShowingEntries = new Table_Pagination(this._locator.locator('#summary-report_paginate'));
-        // this.Table = new Table_ComparePeriod(this._locator.locator('table#summary-report'));
+         this.Table = new Table_ComparePeriod(this._locator.locator('table#summary-report'));
     }
 }

@@ -18,7 +18,7 @@ export class CurrentStock {
     constructor(locator: Locator){
         this._locator = locator;
         this.Filter = new Dropdown(this._locator.locator('#currentstockselect'));
-        this.Search = new TextField(this._locator.locator("#current-stock-report_filter input[aria-controls='current-stock-report"));
+        this.Search = new TextField(this._locator.locator("#current-stock-report_filter input[aria-controls='current-stock-report']"));
         this.ShowEntries = new Dropdown(this._locator.locator("#current-stock-report_length select[aria-controls='current-stock-report']"));
         this.ShowingEntries = new Table_Pagination(this._locator.locator('#current-stock-report_paginate'));
         this.Table = new Table_CurrentStock(this._locator.locator('table#current-stock-report'));

@@ -105,6 +105,8 @@ public async Exists(timeout = 10000): Promise<boolean> {
     }
  
     const waitTimeout = option?.timeout ?? 10_000;
+    // BEFORE trial click — ADD THIS BLOCK
+    await this._locator.waitFor({ state: 'visible',timeout: waitTimeout});
  
     // ---------- ACTIONABILITY CHECK  ----------
     try {

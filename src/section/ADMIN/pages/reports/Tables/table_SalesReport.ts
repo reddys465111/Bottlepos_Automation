@@ -9,6 +9,17 @@ export class Table_SalesReport extends BaseTable<titles>{
         super(locator)
   
     }
+     async getTableRowCount(): Promise<number> {
+        const info = this._locator.page().locator('#item-sales-report_info');
+        const rows = this._locator.page().locator('#item-sales-report tbody tr');
+
+        // Wait for any DataTables processing to complete
+        const processingElements = await this.Processing.all();
+        await Promise.all(processingElements.map(el => el.waitFor({ state: 'hidden', timeout: 10000 }).catch(() => {})));
+
+        await info.waitFor({ state: 'visible', timeout: 15000 });
+        return await rows.count();
+    }
 
 
 }

@@ -28,11 +28,27 @@ export class Legacy_BaseDialog{
      * @returns true if the alert dialog is visible
      */
      public async IsVisible(): Promise<boolean>{
-        return await this._locator.isVisible({timeout: 12000});
+        try {
+            if (this._page?.isClosed && this._page.isClosed()) return false;
+            return await this._locator.isVisible({timeout: 8000});
+        } catch (e: any) {
+            if (e && typeof e.message === 'string' && e.message.includes('Target page, context or browser has been closed')) {
+                return false;
+            }
+            throw e;
+        }
     }
 
     public async IsNotVisible(): Promise<boolean> {
-        return await this._locator.isHidden({timeout: 12000});
+        try {
+            if (this._page?.isClosed && this._page.isClosed()) return true;
+            return await this._locator.isHidden({timeout: 8000});
+        } catch (e: any) {
+            if (e && typeof e.message === 'string' && e.message.includes('Target page, context or browser has been closed')) {
+                return true;
+            }
+            throw e;
+        }
     }
     public async GetMessage(): Promise<string> {
         return await this._locator.locator('.empty-price-text').innerText();
@@ -41,8 +57,8 @@ export class Legacy_BaseDialog{
     public async GetModalContent(): Promise<string> {
         return await this._locator.locator('.ui-dialog-content').textContent() ?? '';
     }
-    public async WaitForVisible(): Promise<void> {
-        await this._locator.waitFor({state: 'visible'});
+    public async WaitForVisible(options?: { timeout?: number }): Promise<void> {
+        await this._locator.waitFor({state: 'visible', timeout: options?.timeout ?? 12000});
     }
     public async WaitForHidden(): Promise<void> {
         await this._locator.waitFor({state: 'hidden'});

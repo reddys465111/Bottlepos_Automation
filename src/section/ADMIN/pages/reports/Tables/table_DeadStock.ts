@@ -10,6 +10,12 @@ export class Table_DeadStock extends BaseTable<titles>{
         super(locator)
   
     }
+     // Get total number of rows in the table
+  async getTableRowCount(): Promise<number> {
+  const info = this._locator.page().locator('#dead-stock-report_info');
+  const rows = this._locator.page().locator('#dead-stock-report tbody tr');
+  return await rows.count();
+}
 
 
 }

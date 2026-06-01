@@ -6,3 +6,4 @@ dist
 .DS_Store   
 .last-run.json
 /src/utils/environmentSessions.ts
+reports/parallel-html/data

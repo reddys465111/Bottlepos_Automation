@@ -9,4 +9,11 @@ export class Table_OverStock extends BaseTable<titles>{
         super(locator)
     }
 
+      // Get total number of rows in the table
+  async getTableRowCount(): Promise<number> {
+  const info = this._locator.page().locator('#over-stock-report_info');
+  const rows = this._locator.page().locator('#over-stock-report tbody tr');
+  return await rows.count();
+}
+
 }

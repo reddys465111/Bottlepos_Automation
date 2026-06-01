@@ -12,10 +12,14 @@ export type optionProps<T> = {
 
 export class BaseTable<T extends string> {
     public _locator: Locator;
+        Processing!: Locator;
+   
 
     constructor(locator: Locator) {
-        this._locator = locator;
-    }
+    this._locator = locator;
+    this.Processing = locator .page().locator('.processing, .dataTables_processing');
+}
+    
      /**
      * Find the tables and wait until it's visible
      */
@@ -23,6 +27,9 @@ export class BaseTable<T extends string> {
      public async WaitUntilVisible(timeout: number = 12000): Promise<void> {
         await this._locator.waitFor({ state: 'visible', timeout });
     }
+    public async IsVisible(): Promise<boolean> {
+    return await this._locator.isVisible();
+}
  
     protected get page() {
         return this._locator.page();
@@ -161,6 +168,10 @@ export class BaseTable<T extends string> {
      * @returns 
      */
     public async RowExists(...rowQuery: RowQuery<T>[]): Promise<boolean> {
+        // Wait for any processing to finish before checking rows
+        const processingElements = await this.Processing.all();
+        await Promise.all(processingElements.map(el => el.waitFor({ state: 'hidden', timeout: 5000 })));
+
         const row = await this.GetRow(...rowQuery);
 
         try {
@@ -327,6 +338,15 @@ export class BaseTable<T extends string> {
             try {
                 await this.page.waitForLoadState('domcontentloaded', { timeout: 3000 });
             } catch {}
+
+            // Wait for the table to be updated after sorting
+            // This ensures DataTable has processed the sort and updated the rows
+            try {
+                await this._locator.locator('tbody tr').first().waitFor({ state: 'visible', timeout: 5000 });
+            } catch {}
+
+            // Add a small delay to allow DOM to fully render
+            await this.page.evaluate(() => new Promise(resolve => setTimeout(resolve, 500)));
         }
 
         return strict ? (await getOrder()) === target : undefined;
@@ -358,6 +378,38 @@ export class BaseTable<T extends string> {
         const n = Number(value.replace(/[^\d.-]/g, ""));
         return isNaN(n) ? 0 : n;
     }
+    
+    public async WaitForLoaded(): Promise<void> {
+    const processingElements = await this.Processing.all();
+    await Promise.all(processingElements.map(el => el.waitFor({ state: 'hidden' })));
+    await this._locator.waitFor({ state: 'visible' });
+}
+//  Navigate all paginated tables until the End
+public async goToNextPageUntilEnd(): Promise<boolean> {
+    let pageVisited = 0;
+
+    const tableId = await this._locator.getAttribute('id');
+    if (!tableId) return false;
+
+    const nextButton = this.page.locator(`#${tableId}_next`);
+
+    while (pageVisited < 50 && await this.IsVisible()) {
+
+        const className = (await nextButton.getAttribute('class')) ?? '';
+
+        // If only one page exists OR reached last page
+        if (className.includes('disabled')) {
+            return true;
+        }
+
+        await nextButton.click({ force: true });
+        await this.WaitForLoaded();
+
+        pageVisited++;
+    }
+
+    return pageVisited > 0;
+}
 }
  
  

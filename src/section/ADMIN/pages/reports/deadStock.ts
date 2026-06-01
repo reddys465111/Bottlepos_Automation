@@ -16,7 +16,8 @@ export class DeadStock {
 
     constructor(locator: Locator){
         this._locator = locator;
-        this.Filter = new Dropdown(this._locator.locator('#differenceSelect'));
+        // Target the first select element (the Filter combobox) - it appears before ShowEntries
+        this.Filter = new Dropdown(this._locator.locator('select').first());
         this.Range = new Dropdown(this._locator.locator("input#custom_daterangepicker"));
         this.Search = new TextField(this._locator.locator("div#dead-stock-report_filter input[aria-controls='dead-stock-report']"));
         this.ShowEntries = new Dropdown(this._locator.locator("select[name='dead-stock-report_length'][aria-controls='dead-stock-report'].form-control.input-sm"));

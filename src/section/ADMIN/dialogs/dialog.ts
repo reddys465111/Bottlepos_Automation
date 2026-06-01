@@ -55,6 +55,10 @@ import { Dialog_InventoryTransferStock } from "./dialog_InventoryTransferStock";
 import { Dialog_AddCategory } from "./dailog_AddCategory";
 import { Dialog_AddGroupCategory } from "./dialog_AddGroupCategory";
 import { Dialog_ManageCategoryGroup } from "./dialog_ManageCategoryGroup";
+import { Dialog_ReportAdvanceSearch } from "./dialog_ReportAdvanceSearch";
+import { Dialog_EditSupplier } from "./dialog_EditSupplier";
+import { Dialog_SupplierItemList } from "./dialog_SupplierItemList";
+
 
 
 export class Dialog {
@@ -126,6 +130,9 @@ export class Dialog {
     public Addcategory!:Dialog_AddCategory ;
     public AddGroupCategory!:Dialog_AddGroupCategory;
     public ManageGroupCategory!:Dialog_ManageCategoryGroup
+    public reportAdvanceSearch!:Dialog_ReportAdvanceSearch;
+    public EditSupplier!: Dialog_EditSupplier;
+    public SupplierItemList!: Dialog_SupplierItemList;
 
 
 
@@ -199,5 +206,8 @@ export class Dialog {
         this.Addcategory=new Dialog_AddCategory(page);
         this.AddGroupCategory=new Dialog_AddGroupCategory(page);
         this.ManageGroupCategory=new Dialog_ManageCategoryGroup(page);
+        this.reportAdvanceSearch=new Dialog_ReportAdvanceSearch(page);
+        this.EditSupplier=new Dialog_EditSupplier(page);
+        this.SupplierItemList=new Dialog_SupplierItemList(page);
      }
 }

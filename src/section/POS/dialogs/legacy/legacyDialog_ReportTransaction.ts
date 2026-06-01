@@ -1,4 +1,4 @@
-import { type Page } from "@playwright/test";
+import { type Page,expect } from "@playwright/test";
 import { Legacy_BaseDialog } from "../../../../base/legacy/legacy_BaseDialog";
 import { Button } from "../../../../objects/button";
 import { Legacy_BaseTable } from "../../../../base/legacy/legacy_BaseTable";
@@ -36,4 +36,30 @@ export class LegacyDialog_ReportTransaction extends Legacy_BaseDialog {
             await this._page.waitForTimeout(2500);
         });
     }
+    /**
+ * Wait until dialog and table are fully loaded
+ */
+public async WaitForLoaded(): Promise<void> {
+    await expect(this._locator).toBeVisible();
+    await expect(this._locator.locator('#transaction_datatable')).toBeVisible();
+    await expect(this._locator.locator('#transaction_datatable tbody tr').first()).toBeVisible();
+}
+
+/**
+ * Navigate through all pages until last page
+ */
+public async goToNextPageUntilEnd(): Promise<boolean> {
+    let pageVisited = 0;
+    const nextButton = this._locator.locator('#transaction_datatable_next');
+
+    while (pageVisited < 50 && await this.IsVisible()) {
+        if (await nextButton.getAttribute('class')?.then(c => c?.includes('disabled'))) break;
+
+        await nextButton.locator('a').click();
+        await this.WaitForLoaded();
+        pageVisited++;
+    }
+
+    return pageVisited > 0;
+}
 }

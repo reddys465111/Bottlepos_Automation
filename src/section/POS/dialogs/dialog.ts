@@ -46,6 +46,7 @@ import { Dialog_ScanGiftCard } from "./dialog_ScanGifcard";
 import { Dialog_CheckGiftCardBalance } from "./dialog_CheckGiftCardBalance";
 import { Dialog_GiftCardBalance } from "./dialog_GiftCardBalance";
 import { Dialog_RedeemGiftCardAmount } from "./dialog_RedeemGiftCardAmount";
+import { Dialog_ReportDialog } from "./dialog_ReportDialog";
 
 
 
@@ -100,6 +101,7 @@ export class Dialog {
     public CheckGiftCardBalance: Dialog_CheckGiftCardBalance;
     public GiftCardBalance: Dialog_GiftCardBalance;
     public RedeemGiftCardAmount: Dialog_RedeemGiftCardAmount;
+    public ReportDialog: Dialog_ReportDialog;
     
 
 
@@ -145,6 +147,7 @@ export class Dialog {
         this.CheckGiftCardBalance = new Dialog_CheckGiftCardBalance(this._page);
         this.GiftCardBalance = new Dialog_GiftCardBalance(this._page);
         this.RedeemGiftCardAmount = new Dialog_RedeemGiftCardAmount(this._page);
+        this.ReportDialog = new Dialog_ReportDialog(this._page);
 
 
         /* LEGACY DIALOGS */

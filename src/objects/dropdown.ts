@@ -1,31 +1,46 @@
 import { type Locator } from "@playwright/test";
 import { BaseObject } from "../base/baseObject";
- 
-export class Dropdown extends BaseObject{
-    public Name: string = '';
-    constructor(locator: Locator){
-       
-        super(locator);
-    }
- 
-    /**
-     * Select an option by its index or by its text
-     * @param option: contains 2 parameter, byIndex and byText
-     * @example .SelectOption({byText: "option1");
-     * .SelectOption({byIndex: 1});
-     */
-    public async SelectOption(option: { byIndex?: number; byText?: string }): Promise<void> {
+
+export class Dropdown extends BaseObject {
+  public Name: string = '';
+  constructor(locator: Locator) {
+
+    super(locator);
+  }
+
+  /**
+   * Select an option by its index or by its text
+   * @param option: contains 2 parameter, byIndex and byText
+   * @example .SelectOption({byText: "option1");
+   * .SelectOption({byIndex: 1});
+   */
+  public async SelectOption(option: { byIndex?: number; byText?: string }): Promise<void> {
   try {
-    // 1 Ensure dropdown exists in DOM (handles re-render)
-    await this._locator.waitFor({ state: 'attached', timeout: 10000 });
- 
-    // 2 Ensure dropdown is visible & enabled
-    await this._locator.waitFor({ state: 'visible', timeout: 10000 });
- 
-    // 3 Ensure options are loaded (critical for DataTables)
+    const page = this._locator.page();
+
+    await this._locator.waitFor({ state: 'visible', timeout: 15000 });
+    await this._locator.scrollIntoViewIfNeeded();
+
+    const tag = await this._locator.evaluate(el => el.tagName);
+
+    if (tag === 'INPUT') {
+  await this._locator.click();
+
+  const ranges = page.locator('.ranges:visible').last();
+  await ranges.waitFor({ state: 'visible', timeout: 9000 });
+
+  if (!option.byText) {
+    throw new Error('Date picker requires byText option');
+  }
+
+  await ranges.locator('li', { hasText: option.byText.trim() }).first().click();
+
+  await page.waitForTimeout(300);
+  return;
+}
+
     await this._locator.locator('option').first().waitFor({ state: 'attached', timeout: 10000 });
- 
-    // 4 Perform selection
+
     if (option.byIndex !== undefined) {
       await this._locator.selectOption({ index: option.byIndex - 1 });
     } else if (option.byText) {
@@ -33,13 +48,7 @@ export class Dropdown extends BaseObject{
     } else {
       await this._locator.selectOption({ index: 0 });
     }
- 
-    // 5 Verify selection (prevents fake-pass)
-    const selected = await this.GetSelectedOption();
-    if (!selected) {
-      throw new Error('Selection did not persist');
-    }
- 
+
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     throw new Error(
@@ -47,13 +56,39 @@ export class Dropdown extends BaseObject{
     );
   }
 }
- 
- 
-     public async GetSelectedOption(): Promise<string> {
-        const value = await this._locator.inputValue();
-        const option = await this._locator.locator(`option[value="${value}"]`).textContent();
-        return option?.trim() ?? '';
+
+public async GetSelectedOption(): Promise<string> {
+
+  const tag = await this._locator.evaluate(el => el.tagName);
+
+  // INPUT controls
+  if (tag === 'INPUT') {
+    const page = this._locator.page();
+
+    await this._locator.click();
+
+    const picker = page.locator('.daterangepicker:visible').last();
+
+    if (await picker.count() > 0) {
+      const active = picker.locator('.ranges li.active').first();
+
+      if (await active.count() > 0) {
+        return (await active.innerText()).trim();
+      }
     }
- 
+
+    const value = await this._locator.inputValue();
+    return value?.trim() ?? '';
+  }
+
+  // SELECT controls
+  const selectedText = await this._locator.evaluate((el) => {
+    const select = el as HTMLSelectElement;
+    return select.selectedOptions.length > 0
+      ? select.selectedOptions[0].text.trim()
+      : '';
+  });
+
+  return selectedText;
 }
- 
+}

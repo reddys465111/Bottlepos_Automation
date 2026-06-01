@@ -29,8 +29,7 @@ export class Summary {
         this._locator=locator
         this.Stores = new Dropdown(this._locator.locator('#linkedstoreselect'));
         this.Range = new Dropdown(this._locator.locator('#custom_daterangepicker'));
-        this.Shift = new Dropdown(this._locator.locator('#userstaffshiftsselect'));
-        //this.AdvanceSearch = new Button(this._locator.locator('#sale_advance_search'));
+        this.Shift = new Dropdown(page.locator('#userstaffshiftsselect'));
         this.AdvanceSearch = new Button(page.locator('#sale_advance_search'));
         this.clearSearch = new Button(page.locator('#sale_advance_search_cross'));
         this.Search = new TextField(this._locator.locator('#summary-report_filter'));
@@ -42,5 +41,16 @@ export class Summary {
         
 
     }
+
+    public async WaitForLoaded(): Promise<void> {
+        await this.Processing.waitForHidden();
+        await this._locator.waitFor({ state: 'visible' });
+    }
+    async IsStoreDropdownVisible() {
+   return await this.Stores.IsVisible();
+}
+async IsShiftDropdownVisible() {
+   return (await this.Shift.IsVisible()) && (await this.Shift.IsClickable());
+}
     
 }

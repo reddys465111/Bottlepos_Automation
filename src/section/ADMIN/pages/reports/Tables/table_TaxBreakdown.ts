@@ -80,5 +80,11 @@ export class Table_TaxBreakdown extends BaseTable<titles> {
 
         return data;
     }
+      // Get total number of rows in the table
+  async getTableRowCount(): Promise<number> {
+  const info = this._locator.page().locator('#tax-report_info');
+  const rows = this._locator.page().locator('#tax-report tbody tr');
+  return await rows.count();
 
+  }
 }

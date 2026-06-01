@@ -25,7 +25,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 1 : 0,
   /* Stop test execution after 20% of smoke tests fail (15 out of 73) */
-  maxFailures: 15,
+  maxFailures: 150,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter:[ 
     ['list'],

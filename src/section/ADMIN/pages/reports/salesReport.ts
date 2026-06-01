@@ -15,20 +15,72 @@ export class SalesReport {
     public ShowingEntries: Table_Pagination;
     public Table: Table_SalesReport;
     public _locator: Locator;
+    public _page: Page;
     public AdvanceSearch: Button;
-    public Dialog_AdvanceSearch : Dialog_AdvanceSearch;
-    public ColumnVisibility : Button;
+    public ClearSearch: Button;
+    public Dialog_AdvanceSearch: Dialog_AdvanceSearch;
+    public ColumnVisibility: Button;
 
-    constructor(page: Page, locator: Locator){
+    constructor(page: Page, locator: Locator) {
+        this._page = page;
         this._locator = locator;
-        this.Range = new Dropdown(this._locator.locator('#custom_daterangepicker')); 
-        this.Filter = new Dropdown(this._locator.locator('#salesgroupselect'));
+        this.Range = new Dropdown(page.locator('#custom_daterangepicker'));
+        this.Filter = new Dropdown(page.locator('#salesgroupselect'));
         this.Search = new TextField(this._locator.locator("input.form-control.input-sm[aria-controls='item-sales-report']"));
         this.ShowEntries = new Dropdown(this._locator.locator("select[name='item-sales-report_length'][aria-controls='item-sales-report'].form-control.input-sm"));
         this.ShowingEntries = new Table_Pagination(this._locator.locator('#item-sales-report_paginate'));
-        this.Table = new Table_SalesReport(this._locator.locator('table#takings-report'));
-        this.AdvanceSearch = new Button(this._locator.locator('#sale_advance_search'));
-        this.Dialog_AdvanceSearch = new Dialog_AdvanceSearch(page);
-        this.ColumnVisibility = new Button(this._locator.locator("div.dt-buttons > button.dt-button.buttons-collection[aria-controls='item-sales-report']"));     
+        this.Table = new Table_SalesReport(this._locator.locator('#item-sales-report'));
+        this.AdvanceSearch = new Button(this._page.locator('#sale_advance_search'));
+        this.ClearSearch = new Button(this._page.locator('#sale_advance_search_cross'));
+        this.Dialog_AdvanceSearch = new Dialog_AdvanceSearch(this._page);
+        this.ColumnVisibility = new Button(this._locator.locator("div.dt-buttons > button.dt-button.buttons-collection[aria-controls='item-sales-report']"));
+    }
+    public async VerifyColumnVisibilityOptions(optionName?: string): Promise<boolean> {
+
+        const expectedOptions = [
+            'CustomerName',
+            'ItemName',
+            'Stockcode',
+            'Sold',
+            'Category',
+            'Supplier',
+            'StockLevel',
+            'Price',
+            'Cost',
+            'Profit',
+            'Margin',
+            'Markup',
+            'Discounts',
+            'salesTax',
+            'BottleDeposit',
+            'totalSales',
+            'refundedTax',
+            'totalRefunded',
+            'balanceTax'
+        ];
+
+        for (const option of expectedOptions) {
+
+            const locator = this._page.locator(
+                '.dt-button-collection button span',
+                { hasText: option }
+            );
+
+            if (await locator.count() === 0) {
+                throw new Error(`Option "${option}" not found in Column Visibility dropdown.`);
+            }
+        }
+
+        // Click dynamic button if passed
+        if (optionName) {
+            const button = this._page.locator(
+                '.dt-button-collection button span',
+                { hasText: optionName }
+            );
+
+            await button.click();
+        }
+
+        return true;
     }
 }

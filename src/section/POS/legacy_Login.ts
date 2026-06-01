@@ -138,7 +138,11 @@ export class Legacy_Login {
         await POS.Login.UserName.setText({ value: (options?.user ?? Session.User).trim() });
         await POS.Login.Password.setText({ value: (options?.password ?? Session.Password).trim() });
         await POS.Login.LoginButton.Click();
-        await POS.Dialog.Legacy_InitialDeviceSetup.WaitForVisible();
+        try {
+            await POS.Dialog.Legacy_InitialDeviceSetup.WaitForVisible({timeout: 5000});
+        } catch (e) {
+            // Dialog not appearing, perhaps already set up
+        }
         if (await POS.Dialog.Legacy_InitialDeviceSetup.IsVisible() && (options?.reloadURL !== undefined || options?.reloadURL !== false)) {
 
             // if (await POS.Dialog.Legacy_InitialDeviceSetup.ExistingDevice.IsVisible()) {
